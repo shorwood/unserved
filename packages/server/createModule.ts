@@ -85,10 +85,7 @@ export class ModuleBase {
    * @returns The module instance.
    */
   getModule<T extends Constructor>(module: T): InstanceType<T> {
-    const result = this.getApplication().modules.find(m => m instanceof module)
-    if (!result) throw new Error('Module not found')
-    if (result.isInitialized === false) throw new Error('Module not initialized')
-    return result as InstanceType<T>
+    return this.getApplication().getModule(module)
   }
 
   /**
