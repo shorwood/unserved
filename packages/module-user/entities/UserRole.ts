@@ -1,6 +1,10 @@
 import { Column, Entity } from 'typeorm'
 import { Metadata, transformerJson } from '@unserve/server'
 
+/**
+ * The user role object returned to the client. It is used to send the user role data to
+ * the client without exposing sensitive information.
+ */
 export interface UserRoleObject {
   id: string
   name: string
@@ -37,8 +41,8 @@ export class UserRole extends Metadata {
    *
    * @example 'Administrator of the application'
    */
-  @Column('text', { nullable: true })
-    description?: string
+  @Column('text', { default: '' })
+    description: string
 
   /**
    * Permissions of the role. It is a string that contains a list of permissions separated
