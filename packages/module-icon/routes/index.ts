@@ -1,0 +1,6 @@
+export * from './iconCollectionDelete'
+export * from './iconCollectionGet'
+export * from './iconCollectionImport'
+export * from './iconCollectionSearch'
+export * from './iconGet'
+export * from './iconSearch'
