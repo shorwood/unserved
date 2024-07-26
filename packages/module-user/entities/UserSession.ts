@@ -18,9 +18,9 @@ export class UserSession extends Metadata {
    *
    * @example User { ... }
    */
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, user => user.sessions, { onDelete: 'CASCADE' })
   @JoinColumn()
-    user: User
+    user?: User
 
   /**
    * The address of the session. It is used to bind the session to a specific device.
@@ -47,5 +47,5 @@ export class UserSession extends Metadata {
    * @example '2022-12-31T23:59:59.999Z'
    */
   @Column('varchar', { transformer: transformerDate, length: 255 })
-    expiresAt: Date = new Date(Date.now() + 60 * 60 * 1000)
+    expiresAt: Date
 }
