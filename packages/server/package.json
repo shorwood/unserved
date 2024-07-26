@@ -1,0 +1,86 @@
+{
+  "name": "@unserve/server",
+  "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
+  "sideEffects": false,
+  "author": "Stanley Horwood <stanley@hsjm.io>",
+  "bugs": "https://github.com/shorwood/unserve/issues",
+  "homepage": "https://github.com/shorwood/unserve#readme",
+  "repository": {
+    "directory": "packages/server",
+    "type": "git",
+    "url": "git@github.com:shorwood/unserve.git"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./Metadata": {
+      "require": "./dist/Metadata.cjs",
+      "types": "./dist/Metadata.d.ts",
+      "import": "./dist/Metadata.js"
+    },
+    "./createApplication": {
+      "require": "./dist/createApplication.cjs",
+      "types": "./dist/createApplication.d.ts",
+      "import": "./dist/createApplication.js"
+    },
+    "./createEventHandler": {
+      "require": "./dist/createEventHandler.cjs",
+      "types": "./dist/createEventHandler.d.ts",
+      "import": "./dist/createEventHandler.js"
+    },
+    "./createEventStream": {
+      "require": "./dist/createEventStream.cjs",
+      "types": "./dist/createEventStream.d.ts",
+      "import": "./dist/createEventStream.js"
+    },
+    "./createModule": {
+      "require": "./dist/createModule.cjs",
+      "types": "./dist/createModule.d.ts",
+      "import": "./dist/createModule.js"
+    },
+    "./createRoute": {
+      "require": "./dist/createRoute.cjs",
+      "types": "./dist/createRoute.d.ts",
+      "import": "./dist/createRoute.js"
+    },
+    "./transformerDate": {
+      "require": "./dist/transformerDate.cjs",
+      "types": "./dist/transformerDate.d.ts",
+      "import": "./dist/transformerDate.js"
+    },
+    "./transformerJson": {
+      "require": "./dist/transformerJson.cjs",
+      "types": "./dist/transformerJson.d.ts",
+      "import": "./dist/transformerJson.js"
+    },
+    "./types": {
+      "require": "./dist/types.cjs",
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    ".": {
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "dependencies": {
+    "@types/node": "20.14.12",
+    "@unshared/decorators": "0.0.14",
+    "@unshared/functions": "0.0.14",
+    "@unshared/string": "0.0.14",
+    "@unshared/types": "0.0.14",
+    "crossws": "0.2.4",
+    "h3": "1.12.0",
+    "reflect-metadata": "0.2.2",
+    "typeorm": "0.3.20"
+  }
+}
