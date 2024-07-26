@@ -1,0 +1,41 @@
+{
+  "name": "@unserve/module-contact",
+  "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
+  "sideEffects": false,
+  "author": "Stanley Horwood <stanley@hsjm.io>",
+  "bugs": "https://github.com/shorwood/unserve/issues",
+  "homepage": "https://github.com/shorwood/unserve#readme",
+  "repository": {
+    "directory": "packages/module-contact",
+    "type": "git",
+    "url": "git@github.com:shorwood/unserve.git"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "dependencies": {
+    "@unserve/module-location": "workspace:*",
+    "@unserve/module-storage": "workspace:*",
+    "@unserve/module-user": "workspace:*",
+    "@unserve/server": "workspace:*",
+    "@unshared/functions": "0.0.14",
+    "@unshared/string": "0.0.14",
+    "@unshared/validation": "0.0.14",
+    "h3": "1.12.0",
+    "typeorm": "0.3.20"
+  }
+}
