@@ -12,7 +12,6 @@ export function userGet(this: ModuleUser) {
       }),
       query: createSchema({
         withRoles: [[assertUndefined], [assertString, parseBoolean]],
-        withProfile: [[assertUndefined], [assertString, parseBoolean]],
       }),
     },
     async({ event, parameters, query }) => {
@@ -23,7 +22,6 @@ export function userGet(this: ModuleUser) {
       // --- Destructure the query.
       const {
         withRoles = false,
-        withProfile = false,
       } = query
 
       // --- Fetch the user.
@@ -33,7 +31,6 @@ export function userGet(this: ModuleUser) {
         where: { id },
         relations: {
           roles: withRoles,
-          profile: withProfile,
         },
       })
 
