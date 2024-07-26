@@ -1,0 +1,71 @@
+{
+  "name": "@unserve/client",
+  "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
+  "sideEffects": false,
+  "author": "Stanley Horwood <stanley@hsjm.io>",
+  "bugs": "https://github.com/shorwood/unserve/issues",
+  "homepage": "https://github.com/shorwood/unserve#readme",
+  "repository": {
+    "directory": "packages/client",
+    "type": "git",
+    "url": "git@github.com:shorwood/unserve.git"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./connect": {
+      "require": "./dist/connect.cjs",
+      "types": "./dist/connect.d.ts",
+      "import": "./dist/connect.js"
+    },
+    "./createClient": {
+      "require": "./dist/createClient.cjs",
+      "types": "./dist/createClient.d.ts",
+      "import": "./dist/createClient.js"
+    },
+    "./handleResponse": {
+      "require": "./dist/handleResponse.cjs",
+      "types": "./dist/handleResponse.d.ts",
+      "import": "./dist/handleResponse.js"
+    },
+    "./handleResponseStream": {
+      "require": "./dist/handleResponseStream.cjs",
+      "types": "./dist/handleResponseStream.d.ts",
+      "import": "./dist/handleResponseStream.js"
+    },
+    "./request": {
+      "require": "./dist/request.cjs",
+      "types": "./dist/request.d.ts",
+      "import": "./dist/request.js"
+    },
+    "./resolveRequestInit": {
+      "require": "./dist/resolveRequestInit.cjs",
+      "types": "./dist/resolveRequestInit.d.ts",
+      "import": "./dist/resolveRequestInit.js"
+    },
+    "./types": {
+      "require": "./dist/types.cjs",
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    ".": {
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "dependencies": {
+    "@types/node": "20.14.12",
+    "@unserve/server": "workspace:*",
+    "@unshared/functions": "0.0.14",
+    "@unshared/types": "0.0.14"
+  }
+}
