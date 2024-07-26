@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable sonarjs/cognitive-complexity */
 import { RequestOptions } from './request'
 
@@ -13,14 +14,14 @@ export function resolveRequestInit(name: string, options: RequestOptions) {
   const { data, baseUrl, ...requestInit } = options
 
   // --- Extract the path and method from the name.
-  const [method, path] = name.split(' ')
-  if (!path) throw new Error('Could not extract the path from the route name.')
-  if (!method) throw new Error('Could not extract the method from the route name.')
-  if (!baseUrl) throw new Error('The base URL is required to resolve the request URL.')
+  const match = name.match(/^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS) (\/.+)$/)
+  if (!match) throw new Error('Could not resolve the path and method from the route name.')
+  if (!baseUrl) throw new Error('Could not resolve the `RequestInit` object: the `baseUrl` is missing.')
+  const [, method, path] = match
 
   // --- Fill the path with the data.
   const url = new URL(path, baseUrl)
-  const init: RequestInit = { ...requestInit }
+  const init: RequestInit = { ...requestInit, method }
 
   // --- If the method has a parameter, fill the path with the data.
   const parameters = path.match(/:(\w+)/g)
@@ -102,7 +103,81 @@ export function resolveRequestInit(name: string, options: RequestOptions) {
 if (import.meta.vitest) {
   test('should parse the method and path from the route name', () => {
     const result = resolveRequestInit('GET /api/product', { baseUrl: 'https://api.example.com' })
-    expect(result.url.href).toBe('https://api.example.com/api/product/1')
+    expect(result.url.href).toBe('https://api.example.com/api/product')
     expect(result.init.method).toBe('GET')
+  })
+
+  test('should parse the method and replace the path parameters with the data', () => {
+    const result = resolveRequestInit('GET /api/product/:id', { baseUrl: 'https://api.example.com', data: { id: 123 } })
+    expect(result.url.href).toBe('https://api.example.com/api/product/123')
+    expect(result.init.method).toBe('GET')
+  })
+
+  test('should append query parameters to the URL from the data', () => {
+    const result = resolveRequestInit('GET /api/product', { baseUrl: 'https://api.example.com', data: { id: 123 } })
+    expect(result.url.href).toBe('https://api.example.com/api/product?id=123')
+    expect(result.init.method).toBe('GET')
+  })
+
+  test('should not append query parameters to the URL if a data property is null', () => {
+    // eslint-disable-next-line unicorn/no-null
+    const result = resolveRequestInit('GET /api/product', { baseUrl: 'https://api.example.com', data: { id: null } })
+    expect(result.url.href).toBe('https://api.example.com/api/product')
+    expect(result.init.method).toBe('GET')
+  })
+
+  test('should not append query parameters to the URL if a data property is undefined', () => {
+    const result = resolveRequestInit('GET /api/product', { baseUrl: 'https://api.example.com', data: { id: undefined } })
+    expect(result.url.href).toBe('https://api.example.com/api/product')
+    expect(result.init.method).toBe('GET')
+  })
+
+  test.each(['POST', 'PUT', 'PATCH'])('should fill the body with the data and set the content type to JSON when method is %s', (method) => {
+    const result = resolveRequestInit(`${method} /api/product`, { baseUrl: 'https://api.example.com', data: { id: 123 } })
+    expect(result.url.href).toBe('https://api.example.com/api/product')
+    expect(result.init.method).toBe(method)
+    expect(result.init.body).toBe('{"id":123}')
+    expect(result.init.headers).toStrictEqual({ 'Content-Type': 'application/json' })
+  })
+
+  test('should fill the body with a FormData object when the data contains a File object', () => {
+    const file = new File(['Hello, World!'], 'hello.txt')
+    const result = resolveRequestInit('POST /api/product', { baseUrl: 'https://api.example.com', data: { file } })
+    expect(result.url.href).toBe('https://api.example.com/api/product')
+    expect(result.init.method).toBe('POST')
+    expect(result.init.body).toBeInstanceOf(FormData)
+  })
+
+  test('should pass the stream directly to the body when the data is a Blob', () => {
+    const file = new File(['Hello, World!'], 'hello.txt')
+    // @ts-expect-error: The `data` property accepts Blob objects.
+    const result = resolveRequestInit('POST /api/product', { baseUrl: 'https://api.example.com', data: file })
+    expect(result.url.href).toBe('https://api.example.com/api/product')
+    expect(result.init.method).toBe('POST')
+    // eslint-disable-next-line n/no-unsupported-features/node-builtins
+    expect(result.init.body).toBeInstanceOf(ReadableStream)
+    expect(result.init.headers).toStrictEqual({ 'Content-Type': 'application/octet-stream' })
+  })
+
+  test('should merge the options with the `RequestInit` object', () => {
+    const result = resolveRequestInit('GET /api/product', { baseUrl: 'https://api.example.com', headers: { 'X-Test': 'Hello, World!' } })
+    expect(result.url.href).toBe('https://api.example.com/api/product')
+    expect(result.init.method).toBe('GET')
+    expect(result.init.headers).toStrictEqual({ 'X-Test': 'Hello, World!' })
+  })
+
+  test('should throw when the path cannot be extracted from the route name', () => {
+    const shouldThrow = () => resolveRequestInit('GET', { baseUrl: 'https://api.example.com' })
+    expect(shouldThrow).toThrow('Could not resolve the path and method from the route name.')
+  })
+
+  test('should throw when the method cannot be extracted from the route name', () => {
+    const shouldThrow = () => resolveRequestInit('/api/product', { baseUrl: 'https://api.example.com' })
+    expect(shouldThrow).toThrow('Could not resolve the path and method from the route name.')
+  })
+
+  test('should throw when the baseUrl is missing', () => {
+    const shouldThrow = () => resolveRequestInit('GET /api/product', {})
+    expect(shouldThrow).toThrow('Could not resolve the `RequestInit` object: the `baseUrl` is missing.')
   })
 }
