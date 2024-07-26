@@ -35,5 +35,8 @@
     "@unshared/validation": "0.0.14",
     "h3": "1.12.0",
     "typeorm": "0.3.20"
+  },
+  "devDependencies": {
+    "sqlite3": "5.1.7"
   }
 }
