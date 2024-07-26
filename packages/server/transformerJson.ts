@@ -44,7 +44,7 @@ if (import.meta.vitest) {
     it('should transform a JSON object to a JSON string', () => {
       const json = { key: 'value' }
       const result = transformerJson.to(json)
-      expect(result).toMatchObject({ key: 'value' })
+      expect(result).toMatchObject('{"key":"value"}')
     })
 
     it('should return null when the value is undefined', () => {
