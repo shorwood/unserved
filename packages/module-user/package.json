@@ -30,9 +30,9 @@
   "dependencies": {
     "@unserve/module-contact": "workspace:*",
     "@unserve/server": "workspace:*",
-    "@unshared/functions": "0.0.14",
-    "@unshared/string": "0.0.14",
-    "@unshared/validation": "0.0.14",
+    "@unshared/functions": "0.0.15",
+    "@unshared/string": "0.0.15",
+    "@unshared/validation": "0.0.15",
     "h3": "1.12.0",
     "typeorm": "0.3.20"
   },
