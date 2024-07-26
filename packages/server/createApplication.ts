@@ -157,7 +157,8 @@ export class Application<T extends ModuleLike = ModuleLike> {
    *
    * @returns The router of the application.
    */
-  get router() {
+  @Once()
+  createRouter() {
     const router = createRouter()
     const eventHandlers = [] as Array<[string, string, EventHandler]>
 
@@ -197,7 +198,8 @@ export class Application<T extends ModuleLike = ModuleLike> {
    */
   @Once()
   createApp() {
-    return createApp().use(this.router)
+    const router = this.createRouter()
+    return createApp().use(router)
   }
 
   /**
