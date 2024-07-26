@@ -1,6 +1,14 @@
 import { EventHandler, defineEventHandler, defineWebSocketHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody } from 'h3'
 import { Route, RouteHandler, RouteOptions, WSRouteHandlers, WSRouteOptions } from './createRoute'
 
+/**
+ * Given a route, create an event handler that can be used to handle a specific
+ * HTTP request. The event handler reads the body, query, and parameters of the
+ * request, validates them, and then calls the handler with the context.
+ *
+ * @param route The route to create the event handler for.
+ * @returns The event handler that can be used to handle the request.
+ */
 function createHttpEventHandler<T extends Route<RouteOptions, RouteHandler>>(route: T): EventHandler {
   return defineEventHandler(async(event) => {
 
@@ -30,6 +38,14 @@ function createHttpEventHandler<T extends Route<RouteOptions, RouteHandler>>(rou
   })
 }
 
+/**
+ * Given a route, create an event handler that can be used to handle a specific
+ * WebSocket request. The event handler reads the message, and then calls the
+ * handler with the context.
+ *
+ * @param route The route to create the event handler for.
+ * @returns The event handler that can be used to handle the request.
+ */
 function createWsEventHandler<T extends Route<WSRouteOptions, WSRouteHandlers>>(route: T): EventHandler {
   return defineWebSocketHandler({
     open(peer) {
@@ -62,10 +78,25 @@ function createWsEventHandler<T extends Route<WSRouteOptions, WSRouteHandlers>>(
   })
 }
 
+/**
+ * Check if the given route is an HTTP route.
+ *
+ * @param route The route to check.
+ * @returns `true` if the route is an HTTP route, `false` otherwise.
+ */
 function isHttpRoute(route: Route): route is Route<RouteOptions, RouteHandler> {
   return 'callback' in route
 }
 
+/**
+ * Given a route, create an event handler that can be used to handle a specific
+ * HTTP request. The event handler reads the body, query, and parameters of the
+ * request, validates them, and then calls the handler with the context.
+ *
+ * @param route The route to create the event handler for.
+ * @returns The event handler that can be used to handle the request.
+ * @example createEventHandler({ method: 'GET', path: '/users', callback: () => [] })
+ */
 export function createEventHandler<T extends Route>(route: T): EventHandler {
   return isHttpRoute(route) ? createHttpEventHandler(route) : createWsEventHandler(route)
 }
