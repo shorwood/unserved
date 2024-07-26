@@ -1,6 +1,5 @@
 import { randomBytes } from 'node:crypto'
 import { ModuleBase } from '@unserve/server'
-import { ModuleContact } from '@unserve/module-contact'
 import { ERRORS, PERMISSIONS, a11n, createSession, createToken, decryptToken, resolvePermissions, resolveRoles } from './utils'
 import * as ROUTES from './routes'
 import * as ENTITIES from './entities'
@@ -26,7 +25,6 @@ export class ModuleUser extends ModuleBase {
   routes = ROUTES
   entities = ENTITIES
   permissions = PERMISSIONS
-  dependencies = [ModuleContact]
 
   constructor(options: ModuleUserOptions = {}) {
     super()
