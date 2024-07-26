@@ -1,0 +1,73 @@
+{
+  "name": "@unserve/monorepo",
+  "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": true,
+  "author": "Stanley Horwood <stanley@hsjm.io>",
+  "homepage": "https://github.com/shorwood/unserve#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/shorwood/unserve.git"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowAny": [
+        "eslint",
+        "typescript",
+        "meow"
+      ]
+    }
+  },
+  "scripts": {
+    "dev": "uncli build --watch true",
+    "build": "uncli build",
+    "lint": "DEBUG=eslint:eslint eslint --cache",
+    "lint:ci": "eslint --cache --ignore-pattern examples",
+    "lint:fix": "DEBUG=eslint:eslint eslint --fix --cache",
+    "test": "vitest --watch",
+    "test:ci": "vitest --run --coverage",
+    "test:ui": "vitest --ui",
+    "test:types": "vitest --typecheck",
+    "test:coverage": "vitest --coverage",
+    "commit": "uncli commit",
+    "commit:lint": "commitlint --edit",
+    "publish:ci": "uncli publish",
+    "release": "uncli release",
+    "preinstall": "node ./forcePnpm.js",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@commitlint/config-pnpm-scopes": "19.1.0",
+    "@types/node": "20.14.12",
+    "@unshared/eslint-config": "0.0.14",
+    "@unshared/scripts": "link:../unshared/packages/scripts",
+    "@vitest/coverage-v8": "1.6.0",
+    "@vitest/ui": "1.6.0",
+    "@vitest/utils": "1.6.0",
+    "commitlint": "19.3.0",
+    "eslint": "9.4.0",
+    "happy-dom": "14.12.0",
+    "husky": "9.0.11",
+    "memfs": "4.8.2",
+    "tsx": "4.11.2",
+    "typescript": "5.4.5",
+    "vitest": "1.6.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-pnpm-scopes"
+    ],
+    "rules": {
+      "body-max-length": [
+        2,
+        "always",
+        "Infinity"
+      ]
+    }
+  }
+}
