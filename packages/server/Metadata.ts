@@ -1,4 +1,5 @@
 import { BaseEntity, BeforeSoftRemove, BeforeUpdate, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import 'reflect-metadata'
 import { UUID, randomUUID } from 'node:crypto'
 import { MaybePromise } from '@unshared/types'
 import { transformerDate } from './transformerDate'
