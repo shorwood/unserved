@@ -1,7 +1,6 @@
 import { createDecipheriv, createHash } from 'node:crypto'
 import { assertStringUuid } from '@unshared/validation'
 import { toPredicate } from '@unshared/functions'
-import { createToken } from './createToken'
 import { ModuleUser } from '../index'
 import { UserSession } from '../entities'
 
@@ -23,15 +22,19 @@ export function decryptToken(this: ModuleUser, token: string) {
   const key = createHash('sha256').update(this.userSessionSecret).digest()
   const id = createDecipheriv(this.userSessionTokenCypher, key, iv).update(token, 'hex', 'utf8').toString()
   const isUuid = toPredicate(assertStringUuid)(id)
-  if (!isUuid) throw this.errors.USER_SESSION_NOT_FOUND
+  if (!isUuid) throw this.errors.USER_SESSION_NOT_FOUND()
   return id
 }
 
 /* v8 ignore start */
 if (import.meta.vitest) {
+  const { createToken } = await import('./createToken')
+  const { ModuleUser } = await import('../index')
+  const { H3Error } = await import('h3')
+
   test('should decrypt the token using the secret key', () => {
     const moduleUser = new ModuleUser({ userSessionSecret: 'secret' })
-    const userSession = UserSession.create({ id: '00000000-0000-0000-0000-000000000000' })
+    const userSession = { id: '00000000-0000-0000-0000-000000000000' } as unknown as UserSession
     const token = createToken.call(moduleUser, userSession)
     const id = decryptToken.call(moduleUser, token)
     expect(id).toBe('00000000-0000-0000-0000-000000000000')
@@ -39,8 +42,9 @@ if (import.meta.vitest) {
 
   test('should throw an error if the token is invalid', () => {
     const moduleUser = new ModuleUser({ userSessionSecret: 'secret' })
-    const token = 'invalid'
+    const token = 'd260483b5ffb66'
     const shouldThrow = () => decryptToken.call(moduleUser, token)
+    expect(shouldThrow).toThrow(H3Error)
     expect(shouldThrow).toThrow('User session was not found')
   })
 }
