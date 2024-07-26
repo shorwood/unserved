@@ -132,7 +132,7 @@ if (import.meta.vitest) {
     expect(result.init.method).toBe('GET')
   })
 
-  test.each(['POST', 'PUT', 'PATCH'])('should fill the body with the data and set the content type to JSON when method is %s', (method) => {
+  test.each(['POST', 'PUT', 'PATCH'])('should fill the body with the data and set the content type to JSON when method is %s', (method: string) => {
     const result = resolveRequestInit(`${method} /api/product`, { baseUrl: 'https://api.example.com', data: { id: 123 } })
     expect(result.url.href).toBe('https://api.example.com/api/product')
     expect(result.init.method).toBe(method)
