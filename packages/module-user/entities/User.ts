@@ -1,17 +1,20 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToOne } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import { UUID } from 'node:crypto'
 import { Metadata, transformerJson } from '@unserve/server'
-import { ContactPerson, ContactPersonObject } from '@unserve/module-contact/entities'
+import { UserSession } from './UserSession'
 import { UserRole, UserRoleObject } from './UserRole'
-import { PasswordOptions, createPassword } from '../utils/createPassword'
+import { PasswordOptions, createPassword } from '../utils'
 
+/**
+ * The user object returned to the client. It is used to send the user data to the client
+ * without exposing sensitive information.
+ */
 export interface UserObject {
   id?: UUID
   username: string
   createdAt: string
   updatedAt: string
   roles?: UserRoleObject[]
-  profile?: ContactPersonObject
 }
 
 /**
@@ -73,15 +76,6 @@ export class User extends Metadata {
     totpOptions?: PasswordOptions
 
   /**
-   * A reference to the `ContactPerson` entity. It is used to store the contact information
-   * of the user. It can be the name, email, phone number, etc.
-   *
-   * @example ContactPerson { ... }
-   */
-  @OneToOne(() => ContactPerson, contactPerson => contactPerson.user)
-    profile?: ContactPerson
-
-  /**
    * Role(s) of the user. It is used to determine what the user can do in the application.
    * For example, a customer can only view the products and place orders. An employee can
    * view the products, place orders, and manage the inventory. An administrator can do
@@ -92,6 +86,15 @@ export class User extends Metadata {
   @JoinTable({ name: 'User_Roles' })
   @ManyToMany(() => UserRole)
     roles?: UserRole[]
+
+  /**
+   * The list of sessions associated with the user. It is used to determine the devices
+   * and browsers that the user is using to access the application.
+   *
+   * @example [UserSession { ... }]
+   */
+  @OneToMany(() => UserSession, session => session.user)
+    sessions?: UserSession[]
 
   /**
    * @returns The permissions of the user. It is a combination of all the permissions
@@ -149,73 +152,99 @@ export class User extends Metadata {
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),
       roles: this.roles?.map(role => role.serialize()),
-      profile: this.profile?.serialize(),
     }
   }
 }
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* v8 ignore start */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 if (import.meta.vitest) {
   const { DataSource } = await import('typeorm')
+  const { UserRole } = await import('./UserRole')
+  const { UserSession } = await import('./UserSession')
+  const { EXP_UUID } = await import('@unshared/validation')
 
-  interface Context {
-    dataSource: InstanceType<typeof DataSource>
-    User: typeof User
-    UserRole: typeof UserRole
-  }
-
-  // eslint-disable-next-line vitest/no-done-callback
-  beforeEach<Context>(async(context: Context) => {
-    vi.useFakeTimers()
-    const dataSource = new DataSource({
-      type: 'sqlite',
-      database: ':memory:',
-      entities: [User, UserRole],
-      synchronize: true,
-    })
+  beforeEach(async() => {
+    const dataSource = new DataSource({ type: 'sqlite', database: ':memory:', entities: [User, UserRole, UserSession] })
     await dataSource.initialize()
-    context.dataSource = dataSource
-    context.User = User
-    context.UserRole = UserRole
+    vi.useFakeTimers()
   })
 
-  describe('entity', () => {
-    it('should create a new user', () => {
-      const user = new User()
-      expect(user).toMatchObject({
-        id: expect.stringMatching(/[\da-f-]{36}/),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      })
+  test('should create a new user', () => {
+    const user = User.create()
+    expect(user).toMatchObject({
+      id: expect.stringMatching(/[\da-f-]{36}/),
+      createdAt: expect.any(Date),
+      updatedAt: expect.any(Date),
     })
+  })
 
-    it('should hash and set the password of the user', async() => {
-      const user = new User()
-      await user.setPassword('password')
-      expect(user.password).toBeTypeOf('string')
-    })
+  test('should hash and set the password of the user', async() => {
+    const user = new User()
+    await user.setPassword('password')
+    expect(user.password).toBeTypeOf('string')
+  })
 
-    it('should hash and store the options used to hash the password', async() => {
-      const user = new User()
-      await user.setPassword('password')
-      expect(user.passwordOptions).toMatchObject({
-        N: 16384,
-        r: 8,
-        p: 1,
-        algorithm: 'scrypt',
-        encoding: 'hex',
-        keylen: 32,
-        maxmem: 67108864,
-        salt: expect.stringMatching(/[\da-f]{64}/),
-      })
+  test('should hash and store the options used to hash the password', async() => {
+    const user = new User()
+    await user.setPassword('password')
+    expect(user.password).toBeTypeOf('string')
+    expect(user.passwordOptions).toStrictEqual({
+      N: 16384,
+      r: 8,
+      p: 1,
+      algorithm: 'scrypt',
+      encoding: 'hex',
+      keylen: 32,
+      maxmem: 67108864,
+      salt: expect.stringMatching(/[\da-f]{64}/),
     })
+  })
 
-    it('should check if the password is correct', async() => {
-      const user = new User()
-      await user.setPassword('password')
-      const result = await user.checkPassword('password')
-      expect(result).toBeTruthy()
+  test('should check if the password is correct', async() => {
+    const user = new User()
+    await user.setPassword('password')
+    const result = await user.checkPassword('password')
+    expect(result).toBeTruthy()
+  })
+
+  test('should return serialized user data', () => {
+    const user = User.create({
+      username: 'user',
+      roles: [UserRole.create({
+        name: 'role',
+        description: 'role-description',
+        permissions: ['role-permission'],
+      })],
     })
+    const result = user.serialize()
+    expect(result).toStrictEqual({
+      id: expect.stringMatching(EXP_UUID),
+      createdAt: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      updatedAt: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      username: 'user',
+      roles: [{
+        id: expect.stringMatching(EXP_UUID),
+        name: 'role',
+        description: 'role-description',
+        permissions: ['role-permission'],
+        updatedAt: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+        createdAt: expect.stringMatching(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/),
+      }],
+    })
+  })
+
+  test('should check if the user has the permission', () => {
+    const user = User.create({ roles: [UserRole.create({ permissions: ['role-permission'] })] })
+    const result = user.hasPermission('role-permission')
+    expect(result).toBeTruthy()
+  })
+
+  test('should collect all the permissions of the user', () => {
+    const user = User.create({ roles: [
+      UserRole.create({ permissions: ['role-permission'] }),
+      UserRole.create({ permissions: ['role-permission-2'] }),
+    ] })
+    expect(user.permissions).toStrictEqual(['role-permission', 'role-permission-2'])
   })
 }
