@@ -37,14 +37,13 @@ export type InferOptions<T extends ApplicationOrModule> =
     : {}>>
 
 /**
- * Get a union of all the entities of the given modules. If the module is a constructor,
- * it will return the entities of the instance type.
+ * Given an application or module, infer the map of entities in the module or application.
  *
- * @template T The module class or constructor.
- * @example type Entities<typeof ModuleUser | ModuleStorage> // => User | UserRole | Asset | ...
+ * @template T The application or module to infer the entities from.
+ * @example InferEntities<typeof ModuleUser | ModuleStorage> // => User | UserRole | Asset | ...
  */
 export type InferEntities<T extends ApplicationOrModule> =
-  UnionMerge<ModuleInstance<T>['entities']>
+  UnionMerge<ModuleInstance<T> extends { entities: infer Entities } ? Entities : []>
 
 /**
  * Infer the the module of the application.
