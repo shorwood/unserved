@@ -3,7 +3,8 @@ import { parseBoolean } from '@unshared/string'
 import { createRoute } from '@unserve/server'
 import { ModuleUser } from '@unserve/module-user'
 import { IconCollectionMetadata } from '../utils'
-import { IconCollectionObject, ModuleIcon } from '..'
+import { ModuleIcon } from '../index'
+import { IconCollectionObject } from '../entities'
 
 export function iconCollectionGet(this: ModuleIcon) {
   return createRoute(

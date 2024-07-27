@@ -1,4 +1,4 @@
-import { toKebabCase } from '@unshared/string/toKebabCase'
+import { toKebabCase } from '@unshared/string'
 import { ModuleContent } from '../index'
 import { ContentTag } from '../entities'
 

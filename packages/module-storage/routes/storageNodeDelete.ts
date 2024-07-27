@@ -4,7 +4,8 @@ import { assertString, assertStringUuid, assertUndefined, createArrayParser, cre
 import { parseBoolean, split } from '@unshared/string'
 import { createRoute } from '@unserve/server'
 import { ModuleUser } from '@unserve/module-user'
-import { ModuleStorage, StorageFile, StorageFolder } from '..'
+import { ModuleStorage } from '../index'
+import { StorageFile, StorageFolder } from '../entities'
 
 export function assetDelete(this: ModuleStorage) {
   return createRoute(

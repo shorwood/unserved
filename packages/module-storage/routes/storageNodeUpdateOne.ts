@@ -2,7 +2,8 @@ import { assertString, assertStringUuid, assertUndefined, createSchema } from '@
 import { parseBoolean } from '@unshared/string'
 import { createRoute } from '@unserve/server'
 import { ModuleUser } from '@unserve/module-user'
-import { ModuleStorage, StorageFile, StorageFolder } from '..'
+import { ModuleStorage } from '../index'
+import { StorageFile, StorageFolder } from '../entities'
 
 export function storageNodeUpdateOne(this: ModuleStorage) {
   return createRoute(

@@ -1,6 +1,6 @@
 import { StoragePurgeResult } from '@unserve/module-storage'
 import { DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
-import { ModuleStorageS3 } from '..'
+import { ModuleStorageS3 } from '../index'
 
 export async function purge(this: ModuleStorageS3): Promise<StoragePurgeResult> {
   const { storageS3bucketName: Bucket } = this
