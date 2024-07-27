@@ -1,14 +1,20 @@
 {
   "name": "@unserve/module-storage-s3",
-  "dependencies": {
-    "@aws-sdk/client-s3": "3.620.0",
-    "@unserve/module-storage": "workspace:*",
-    "@unserve/server": "workspace:*",
-    "@unshared/string": "0.0.15"
-  },
-  "version": "0.0.1",
   "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
   "sideEffects": false,
+  "author": "Stanley Horwood <stanley@hsjm.io>",
+  "bugs": "https://github.com/shorwood/unserve/issues",
+  "homepage": "https://github.com/shorwood/unserve#readme",
+  "repository": {
+    "directory": "packages/module-storage-s3",
+    "type": "git",
+    "url": "git@github.com:shorwood/unserve.git"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -21,16 +27,10 @@
     "README.md",
     "LICENSE.md"
   ],
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "license": "MIT",
-  "author": "Stanley Horwood <stanley@hsjm.io>",
-  "bugs": "https://github.com/shorwood/unserve/issues",
-  "homepage": "https://github.com/shorwood/unserve#readme",
-  "repository": {
-    "directory": "packages/module-storage-s3",
-    "type": "git",
-    "url": "git@github.com:shorwood/unserve.git"
+  "dependencies": {
+    "@aws-sdk/client-s3": "3.620.0",
+    "@unserve/module-storage": "workspace:*",
+    "@unserve/server": "workspace:*",
+    "@unshared/string": "0.0.15"
   }
 }

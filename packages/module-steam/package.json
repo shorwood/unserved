@@ -14,6 +14,7 @@
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "require": "./dist/index.cjs",
@@ -33,6 +34,5 @@
     "@unshared/validation": "0.0.15",
     "h3": "1.12.0",
     "nbbcjs": "1.1.2"
-  },
-  "types": "./dist/index.d.ts"
+  }
 }
