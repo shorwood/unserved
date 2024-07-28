@@ -43,7 +43,7 @@ export class ContactPerson extends Metadata {
    * It allows the person to login to the application and perform actions.
    */
   @JoinColumn()
-  @OneToOne(() => User, user => user.profile, { cascade: true, nullable: true })
+  @OneToOne(() => User, { cascade: true, nullable: true })
     user?: User
 
   /** @returns The serializable object of the person. */
