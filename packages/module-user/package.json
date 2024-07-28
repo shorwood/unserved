@@ -28,7 +28,6 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "@unserved/module-contact": "workspace:*",
     "@unserved/server": "workspace:*",
     "@unshared/functions": "0.0.15",
     "@unshared/string": "0.0.15",

@@ -347,9 +347,6 @@ importers:
 
   packages/module-user:
     dependencies:
-      '@unserved/module-contact':
-        specifier: workspace:*
-        version: link:../module-contact
       '@unserved/server':
         specifier: workspace:*
         version: link:../server
