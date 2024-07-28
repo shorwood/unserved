@@ -152,7 +152,7 @@ if (import.meta.vitest) {
   test('should create a route with the given name and callback', () => {
     const callback = () => 'Hello, World!'
     const result = createRoute({ name: 'GET /api/user/:id' }, callback)
-    expect(result).toStrictEqual({ name: 'GET /api/user/:id', callback, [SYMBOL_ROUTE]: true })
+    expect(result).toStrictEqual({ name: 'GET /api/user/:id', callback })
     expectTypeOf(result).toEqualTypeOf<{ name: 'GET /api/user/:id'; callback: () => string }>()
   })
 }
