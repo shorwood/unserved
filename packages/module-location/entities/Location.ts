@@ -1,5 +1,5 @@
 import { Column, Entity } from 'typeorm'
-import { Metadata } from '@unserve/server'
+import { Metadata } from '@unserved/server'
 
 /**
  * An `Location` entity is used to determine the location of a profile, a user, a company,

@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, JoinTable, OneToMany, OneToOne } from 'typeorm'
 import { UUID } from 'node:crypto'
-import { Metadata, transformerJson } from '@unserve/server'
-import { StorageFile } from '@unserve/module-storage'
-import { Location, LocationObject } from '@unserve/module-location'
+import { Metadata, transformerJson } from '@unserved/server'
+import { StorageFile } from '@unserved/module-storage'
+import { Location, LocationObject } from '@unserved/module-location'
 
 /** The social media links of the company. */
 export interface ContactOrganizationSocial {

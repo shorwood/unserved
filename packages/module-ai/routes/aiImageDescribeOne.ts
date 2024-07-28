@@ -1,9 +1,9 @@
 import Sharp from 'sharp'
 import { assertStringUuid, assertUndefined, createAssertStringEnum, createParser } from '@unshared/validation'
 import { dedent } from '@unshared/string'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
-import { ModuleStorage, StorageFileObject } from '@unserve/module-storage'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleStorage, StorageFileObject } from '@unserved/module-storage'
 import { ModuleAI } from '../index'
 
 export function aiImageDescribeOne(this: ModuleAI) {

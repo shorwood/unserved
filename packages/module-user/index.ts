@@ -1,5 +1,5 @@
 import { randomBytes } from 'node:crypto'
-import { ModuleBase } from '@unserve/server'
+import { ModuleBase } from '@unserved/server'
 import { ERRORS, PERMISSIONS, a11n, createSession, createToken, decryptToken, resolvePermissions, resolveRoles } from './utils'
 import * as ROUTES from './routes'
 import * as ENTITIES from './entities'

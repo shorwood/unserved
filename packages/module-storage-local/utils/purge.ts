@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 import { readdir, rm, stat } from 'node:fs/promises'
-import { StoragePurgeResult } from '@unserve/module-storage'
+import { StoragePurgeResult } from '@unserved/module-storage'
 import { ModuleStorageLocal } from '../index'
 
 export async function purge(this: ModuleStorageLocal): Promise<StoragePurgeResult> {

@@ -1,7 +1,7 @@
 import { join } from 'node:path'
 import { rm } from 'node:fs/promises'
 import { createWriteStream } from 'node:fs'
-import { FileLike, StorageFile, fileToStream } from '@unserve/module-storage'
+import { FileLike, StorageFile, fileToStream } from '@unserved/module-storage'
 import { ModuleStorageLocal } from '../index'
 
 export async function upload(this: ModuleStorageLocal, entity: FileLike): Promise<StorageFile> {

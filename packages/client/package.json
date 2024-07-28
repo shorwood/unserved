@@ -1,16 +1,16 @@
 {
-  "name": "@unserve/client",
+  "name": "@unserved/client",
   "type": "module",
   "version": "0.0.1",
   "license": "MIT",
   "sideEffects": false,
   "author": "Stanley Horwood <stanley@hsjm.io>",
-  "bugs": "https://github.com/shorwood/unserve/issues",
-  "homepage": "https://github.com/shorwood/unserve#readme",
+  "bugs": "https://github.com/shorwood/unserved/issues",
+  "homepage": "https://github.com/shorwood/unserved#readme",
   "repository": {
     "directory": "packages/client",
     "type": "git",
-    "url": "git@github.com:shorwood/unserve.git"
+    "url": "git@github.com:shorwood/unserved.git"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -63,7 +63,7 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "@unserve/server": "workspace:*",
+    "@unserved/server": "workspace:*",
     "@unshared/functions": "0.0.15",
     "@unshared/types": "0.0.15"
   }

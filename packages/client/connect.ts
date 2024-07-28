@@ -1,5 +1,5 @@
 /* eslint-disable n/no-unsupported-features/node-builtins */
-import { ApplicationOrModule } from '@unserve/server'
+import { ApplicationOrModule } from '@unserved/server'
 import { InferPayload, InferRouteName } from './types'
 
 export interface ConnectOptions {

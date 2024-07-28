@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 import { UUID } from 'node:crypto'
-import { Metadata, ModuleBase, transformerJson } from '@unserve/server'
-import { StorageFile } from '@unserve/module-storage'
-import { Icon } from '@unserve/module-icon'
+import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { StorageFile } from '@unserved/module-storage'
+import { Icon } from '@unserved/module-icon'
 import { FormSubmission, FormSubmissionObject } from './FormSubmission'
 
 interface SerializeOptions {

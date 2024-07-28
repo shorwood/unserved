@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm'
-import { Metadata, transformerJson } from '@unserve/server'
+import { Metadata, transformerJson } from '@unserved/server'
 import { Icon } from './Icon'
 import { IconCollectionMetadata } from '../utils'
 

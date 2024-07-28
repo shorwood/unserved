@@ -1,9 +1,9 @@
 import { assertNil, assertString, assertStringNotEmpty, assertStringUuid, createArrayParser, createParser } from '@unshared/validation'
 import { toSlug } from '@unshared/string'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
-import { ModuleStorage } from '@unserve/module-storage'
-import { ModuleIcon } from '@unserve/module-icon'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleIcon } from '@unserved/module-icon'
 import { assertSections } from '../utils'
 import { ModuleContent } from '../index'
 

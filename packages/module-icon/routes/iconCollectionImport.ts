@@ -1,6 +1,6 @@
 import { assertStringNotEmpty, createParser } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
 import { IconCollectionDownload, IconCollectionMetadata } from '../utils'
 import { ModuleIcon } from '../index'
 

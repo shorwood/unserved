@@ -1,6 +1,6 @@
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import { UUID } from 'node:crypto'
-import { Metadata, transformerJson } from '@unserve/server'
+import { Metadata, transformerJson } from '@unserved/server'
 import { UserSession } from './UserSession'
 import { UserRole, UserRoleObject } from './UserRole'
 import { PasswordOptions, createPassword } from '../utils'

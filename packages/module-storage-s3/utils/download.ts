@@ -1,6 +1,6 @@
 import { ReadableStream } from 'node:stream/web'
 import { Readable } from 'node:stream'
-import { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserve/module-storage'
+import { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { ModuleStorageS3 } from '../index'
 

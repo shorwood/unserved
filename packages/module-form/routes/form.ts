@@ -1,7 +1,7 @@
 import { UUID } from 'node:crypto'
 import { EXP_UUID, assertString, assertStringNotEmpty, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
 import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleForm } from '../index'
 
 export function formGet(this: ModuleForm) {

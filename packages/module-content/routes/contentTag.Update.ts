@@ -1,6 +1,6 @@
 import { assertString, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
-import { ModuleIcon } from '@unserve/module-icon'
+import { createRoute } from '@unserved/server'
+import { ModuleIcon } from '@unserved/module-icon'
 import { ModuleContent } from '../index'
 
 export function contentTagUpdate(this: ModuleContent) {

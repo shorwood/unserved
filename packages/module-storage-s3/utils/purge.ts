@@ -1,4 +1,4 @@
-import { StoragePurgeResult } from '@unserve/module-storage'
+import { StoragePurgeResult } from '@unserved/module-storage'
 import { DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 import { ModuleStorageS3 } from '../index'
 

@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm'
 import { UUID } from 'node:crypto'
-import { Metadata } from '@unserve/server'
-import { Icon } from '@unserve/module-icon'
+import { Metadata } from '@unserved/server'
+import { Icon } from '@unserved/module-icon'
 import { ContentPage } from './ContentPage'
 import { ContentCategory } from './ContentCategory'
 

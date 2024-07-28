@@ -1,5 +1,5 @@
 import { Result, attempt } from '@unshared/functions'
-import { ApplicationOrModule } from '@unserve/server'
+import { ApplicationOrModule } from '@unserved/server'
 import { InferOutput, InferRouteName } from './types'
 import { RequestOptions, request } from './request'
 import { connect } from './connect'

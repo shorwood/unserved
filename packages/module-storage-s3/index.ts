@@ -1,4 +1,4 @@
-import { ModuleStorage } from '@unserve/module-storage'
+import { ModuleStorage } from '@unserved/module-storage'
 import { S3Client } from '@aws-sdk/client-s3'
 import { download, erase, initialize, purge, upload } from './utils'
 

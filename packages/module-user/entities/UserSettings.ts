@@ -1,5 +1,5 @@
 import { Column, Entity } from 'typeorm'
-import { Metadata } from '@unserve/server'
+import { Metadata } from '@unserved/server'
 
 /**
  * The user settings represent the global settings of the user module such as if user

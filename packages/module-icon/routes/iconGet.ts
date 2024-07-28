@@ -1,7 +1,7 @@
 import { setHeader } from 'h3'
 import { assertString, assertStringNumber, assertUndefined, createParser } from '@unshared/validation'
 import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleIcon } from '../index'
 
 export function iconGet(this: ModuleIcon) {

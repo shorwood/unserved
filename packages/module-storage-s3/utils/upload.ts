@@ -1,4 +1,4 @@
-import { FileLike, StorageFile, fileToStream } from '@unserve/module-storage'
+import { FileLike, StorageFile, fileToStream } from '@unserved/module-storage'
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
 import { ModuleStorageS3 } from '../index'
 

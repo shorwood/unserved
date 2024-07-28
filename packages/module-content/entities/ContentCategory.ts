@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { UUID } from 'node:crypto'
-import { Metadata, ModuleBase } from '@unserve/server'
-import { StorageFile } from '@unserve/module-storage'
-import { Icon } from '@unserve/module-icon'
+import { Metadata, ModuleBase } from '@unserved/server'
+import { StorageFile } from '@unserved/module-storage'
+import { Icon } from '@unserved/module-icon'
 import { ContentTag, ContentTagObject } from './ContentTag'
 import { ContentPage, ContentPageObject } from './ContentPage'
 

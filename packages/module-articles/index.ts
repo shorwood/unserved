@@ -1,6 +1,6 @@
-import { ModuleBase } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
-import { ModuleStorage } from '@unserve/module-storage'
+import { ModuleBase } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleStorage } from '@unserved/module-storage'
 import * as ENTITIES from './entities'
 
 export * from './entities'

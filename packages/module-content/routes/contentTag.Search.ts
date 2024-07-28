@@ -1,6 +1,6 @@
 import { ILike } from 'typeorm'
 import { assertString, assertUndefined, createParser } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleContent } from '../index'
 
 export function contentTagList(this: ModuleContent) {

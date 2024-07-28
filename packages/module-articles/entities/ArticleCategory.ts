@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
-import { Metadata } from '@unserve/server'
-import { StorageFile } from '@unserve/module-storage'
+import { Metadata } from '@unserved/server'
+import { StorageFile } from '@unserved/module-storage'
 import { Article } from './Article'
 
 /**

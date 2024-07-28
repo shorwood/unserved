@@ -1,5 +1,5 @@
 import { Readable } from 'node:stream'
-import { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserve/module-storage'
+import { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
 import { BlobSASPermissions } from '@azure/storage-blob'
 import { ModuleStorageAzure } from '../index'
 

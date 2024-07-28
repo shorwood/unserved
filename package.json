@@ -1,14 +1,14 @@
 {
-  "name": "@unserve/monorepo",
+  "name": "@unserved/monorepo",
   "type": "module",
   "version": "0.0.1",
   "license": "MIT",
   "private": true,
   "author": "Stanley Horwood <stanley@hsjm.io>",
-  "homepage": "https://github.com/shorwood/unserve#readme",
+  "homepage": "https://github.com/shorwood/unserved#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/shorwood/unserve.git"
+    "url": "git+ssh://git@github.com/shorwood/unserved.git"
   },
   "engines": {
     "node": ">=20.0.0",

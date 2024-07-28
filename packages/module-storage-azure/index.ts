@@ -1,4 +1,4 @@
-import { ModuleStorage } from '@unserve/module-storage'
+import { ModuleStorage } from '@unserved/module-storage'
 import { BlobServiceClient, ContainerClient } from '@azure/storage-blob'
 import { download, erase, initialize, upload } from './utils'
 

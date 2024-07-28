@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
-import { Metadata, transformerDate } from '@unserve/server'
+import { Metadata, transformerDate } from '@unserved/server'
 import { User } from './User'
 
 /**

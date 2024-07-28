@@ -1,5 +1,5 @@
 import { assertStringUuid, createSchema } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleUser } from '../index'
 
 export function userDelete(this: ModuleUser) {

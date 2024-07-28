@@ -1,6 +1,6 @@
 import { BBCode } from 'nbbcjs'
 import { assertString, createSchema } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleSteam } from '../index'
 
 const bbCodeParser = new BBCode()

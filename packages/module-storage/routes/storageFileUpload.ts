@@ -1,7 +1,7 @@
 import { assertStringUuid, assertUndefined, createArrayParser, createAssertInstance, createParser } from '@unshared/validation'
 import { toArray } from '@unshared/collection'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
 import { ModuleStorage } from '../index'
 import { StorageFile } from '../entities'
 

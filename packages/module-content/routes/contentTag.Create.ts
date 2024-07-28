@@ -1,6 +1,6 @@
 import { assertString, createParser } from '@unshared/validation'
 import { toSlug } from '@unshared/string'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleContent } from '../index'
 
 export function contentTagCreate(this: ModuleContent) {

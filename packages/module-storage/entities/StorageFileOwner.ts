@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
-import { Metadata } from '@unserve/server'
-import { User, UserObject } from '@unserve/module-user'
+import { Metadata } from '@unserved/server'
+import { User, UserObject } from '@unserved/module-user'
 import { StorageFile } from './StorageFile'
 
 /** Serialzed representation of the `StorageFolderOwner` entity. */

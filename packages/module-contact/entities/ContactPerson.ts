@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 import { UUID } from 'node:crypto'
-import { Metadata } from '@unserve/server'
-import { User, UserObject } from '@unserve/module-user'
+import { Metadata } from '@unserved/server'
+import { User, UserObject } from '@unserved/module-user'
 
 /**
  * A `ContactPerson` entity corresponds to a person or an individual. It contains the

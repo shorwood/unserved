@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
-import { Metadata, transformerDate, transformerJson } from '@unserve/server'
+import { Metadata, transformerDate, transformerJson } from '@unserved/server'
 import { ContentPage } from './ContentPage'
 import { ContentLanguage } from './ContentLanguage'
 

@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToMany } from 'typeorm'
-import { Metadata } from '@unserve/server'
+import { Metadata } from '@unserved/server'
 import { ArticleContent } from './ArticleContent'
 
 /**

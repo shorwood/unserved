@@ -1,8 +1,8 @@
 import { IsNull, Not } from 'typeorm'
 import { assertNil, assertString, assertStringEmail, assertStringEmpty, assertStringUuid, createParser } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
-import { ModuleStorage } from '@unserve/module-storage'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleStorage } from '@unserved/module-storage'
 import { assertContactSocials } from '../utils'
 import { ModuleContent } from '../index'
 

@@ -1,7 +1,7 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, Unique } from 'typeorm'
 import { join } from 'node:path'
 import { UUID } from 'node:crypto'
-import { Metadata, ModuleBase } from '@unserve/server'
+import { Metadata, ModuleBase } from '@unserved/server'
 import { StorageFolderOwnerObject } from './StorageFolderOwner'
 import { StorageFolder, StorageFolderObject } from './StorageFolder'
 import { StorageFileOwner } from './StorageFileOwner'

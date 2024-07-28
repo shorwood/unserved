@@ -1,5 +1,5 @@
 import { assertStringUuid, createParser } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleContent } from '../index'
 
 export function contentTagGet(this: ModuleContent) {

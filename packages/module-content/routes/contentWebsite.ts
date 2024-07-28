@@ -1,8 +1,8 @@
 import { IsNull, Not } from 'typeorm'
 import { assertString, assertUndefined, createSchema } from '@unshared/validation'
 import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
 import { ModuleContent } from '../index'
 
 export function contentWebsiteGet(this: ModuleContent) {

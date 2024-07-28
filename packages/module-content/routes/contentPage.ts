@@ -2,8 +2,8 @@ import { In } from 'typeorm'
 import { UUID } from 'node:crypto'
 import { EXP_UUID, assertString, assertStringNotEmpty, assertUndefined, createParser } from '@unshared/validation'
 import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
 import { ModuleContent } from '../index'
 
 export function contentPageGet(this: ModuleContent) {

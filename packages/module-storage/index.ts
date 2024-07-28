@@ -1,4 +1,4 @@
-import { ModuleBase } from '@unserve/server'
+import { ModuleBase } from '@unserved/server'
 import {
   ERRORS,
   FileLike,

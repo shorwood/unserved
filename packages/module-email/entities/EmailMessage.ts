@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany } from 'typeorm'
-import { Metadata, transformerDate } from '@unserve/server'
-import { StorageFile } from '@unserve/module-storage'
+import { Metadata, transformerDate } from '@unserved/server'
+import { StorageFile } from '@unserved/module-storage'
 import { EmailAddress } from './EmailAddress'
 
 /**

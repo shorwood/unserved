@@ -1,7 +1,7 @@
 import { assertString, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
 import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
 import { ModuleForm } from '../index'
 
 export function formSubmissionsGet(this: ModuleForm) {

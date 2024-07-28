@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
-import { Metadata, ModuleBase, transformerJson } from '@unserve/server'
-import { StorageFile } from '@unserve/module-storage'
+import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { StorageFile } from '@unserved/module-storage'
 
 interface SerializeOptions {
   withIconData?: boolean

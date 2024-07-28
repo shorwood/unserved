@@ -1,5 +1,5 @@
 import { Column, Entity } from 'typeorm'
-import { Metadata, transformerJson } from '@unserve/server'
+import { Metadata, transformerJson } from '@unserved/server'
 
 /**
  * The user role object returned to the client. It is used to send the user role data to

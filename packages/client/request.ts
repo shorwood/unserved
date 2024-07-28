@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import { IsNever, PartialStrict } from '@unshared/types'
-import type { ApplicationOrModule } from '@unserve/server'
+import type { ApplicationOrModule } from '@unserved/server'
 import { InferInput, InferOutput, InferRouteName } from './types'
 import { resolveRequestInit } from './resolveRequestInit'
 import { handleResponse } from './handleResponse'

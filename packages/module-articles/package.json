@@ -1,16 +1,16 @@
 {
-  "name": "@unserve/module-articles",
+  "name": "@unserved/module-articles",
   "type": "module",
   "version": "0.0.1",
   "license": "MIT",
   "sideEffects": false,
   "author": "Stanley Horwood <stanley@hsjm.io>",
-  "bugs": "https://github.com/shorwood/unserve/issues",
-  "homepage": "https://github.com/shorwood/unserve#readme",
+  "bugs": "https://github.com/shorwood/unserved/issues",
+  "homepage": "https://github.com/shorwood/unserved#readme",
   "repository": {
     "directory": "packages/module-articles",
     "type": "git",
-    "url": "git@github.com:shorwood/unserve.git"
+    "url": "git@github.com:shorwood/unserved.git"
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -28,9 +28,9 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "@unserve/module-storage": "workspace:*",
-    "@unserve/module-user": "workspace:*",
-    "@unserve/server": "workspace:*",
+    "@unserved/module-storage": "workspace:*",
+    "@unserved/module-user": "workspace:*",
+    "@unserved/server": "workspace:*",
     "typeorm": "0.3.20"
   }
 }

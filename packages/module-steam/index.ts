@@ -1,6 +1,6 @@
 import { join } from 'node:path'
 import { homedir } from 'node:os'
-import { ModuleBase } from '@unserve/server'
+import { ModuleBase } from '@unserved/server'
 import { ERRORS, downloadWorkshopItem, getWorkshopItemDetails, getWorkshopItems } from './utils'
 import * as ROUTES from './routes'
 

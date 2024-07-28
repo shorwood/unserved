@@ -1,4 +1,4 @@
-import { EventStreamPayload } from '@unserve/server'
+import { EventStreamPayload } from '@unserved/server'
 import { RequestOptions } from './request'
 
 /**

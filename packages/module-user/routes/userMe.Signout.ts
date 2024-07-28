@@ -1,5 +1,5 @@
 import { deleteCookie, setResponseStatus } from 'h3'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleUser } from '../index'
 
 export function userSignout(this: ModuleUser) {

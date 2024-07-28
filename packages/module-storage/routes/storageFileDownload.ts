@@ -1,6 +1,6 @@
 import { getHeader, setHeader } from 'h3'
 import { assertStringUuid, createSchema } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleStorage } from '../index'
 
 export function storageFileDownload(this: ModuleStorage) {

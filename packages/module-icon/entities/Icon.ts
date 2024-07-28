@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { UUID } from 'node:crypto'
-import { Metadata } from '@unserve/server'
+import { Metadata } from '@unserved/server'
 import { IconCollection } from './IconCollection'
 
 export interface IconObject {

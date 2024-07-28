@@ -1,6 +1,6 @@
 import { EXP_UUID, assertString, assertStringNotEmpty, assertUndefined, createSchema } from '@unshared/validation'
 import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleContact } from '../index'
 import { ContactOrganizationObject } from '../entities'
 

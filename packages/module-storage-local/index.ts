@@ -1,4 +1,4 @@
-import { ModuleStorage } from '@unserve/module-storage'
+import { ModuleStorage } from '@unserved/module-storage'
 import { download, erase, initialize, purge, upload } from './utils'
 
 export type ModuleStorageLocalOptions = Partial<Pick<

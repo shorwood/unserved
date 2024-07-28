@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany } from 'typeorm'
-import { Metadata } from '@unserve/server'
+import { Metadata } from '@unserved/server'
 import { EmailMessage } from './EmailMessage'
 
 /**

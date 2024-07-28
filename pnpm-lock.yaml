@@ -56,7 +56,7 @@ importers:
 
   packages/client:
     dependencies:
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/functions':
@@ -68,13 +68,13 @@ importers:
 
   packages/module-ai:
     dependencies:
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/module-user':
+      '@unserved/module-user':
         specifier: workspace:*
         version: link:../module-user
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/collection':
@@ -98,13 +98,13 @@ importers:
 
   packages/module-articles:
     dependencies:
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/module-user':
+      '@unserved/module-user':
         specifier: workspace:*
         version: link:../module-user
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       typeorm:
@@ -113,16 +113,16 @@ importers:
 
   packages/module-contact:
     dependencies:
-      '@unserve/module-location':
+      '@unserved/module-location':
         specifier: workspace:*
         version: link:../module-location
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/module-user':
+      '@unserved/module-user':
         specifier: workspace:*
         version: link:../module-user
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/functions':
@@ -143,16 +143,16 @@ importers:
 
   packages/module-content:
     dependencies:
-      '@unserve/module-icon':
+      '@unserved/module-icon':
         specifier: workspace:*
         version: link:../module-icon
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/module-user':
+      '@unserved/module-user':
         specifier: workspace:*
         version: link:../module-user
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/string':
@@ -170,10 +170,10 @@ importers:
 
   packages/module-email:
     dependencies:
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       typeorm:
@@ -182,16 +182,16 @@ importers:
 
   packages/module-form:
     dependencies:
-      '@unserve/module-icon':
+      '@unserved/module-icon':
         specifier: workspace:*
         version: link:../module-icon
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/module-user':
+      '@unserved/module-user':
         specifier: workspace:*
         version: link:../module-user
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/string':
@@ -209,16 +209,16 @@ importers:
 
   packages/module-health:
     dependencies:
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
 
   packages/module-icon:
     dependencies:
-      '@unserve/module-user':
+      '@unserved/module-user':
         specifier: workspace:*
         version: link:../module-user
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/string':
@@ -236,7 +236,7 @@ importers:
 
   packages/module-location:
     dependencies:
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/string':
@@ -254,7 +254,7 @@ importers:
 
   packages/module-steam:
     dependencies:
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/process':
@@ -275,10 +275,10 @@ importers:
 
   packages/module-storage:
     dependencies:
-      '@unserve/module-user':
+      '@unserved/module-user':
         specifier: workspace:*
         version: link:../module-user
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/binary':
@@ -311,10 +311,10 @@ importers:
       '@azure/storage-blob':
         specifier: 12.24.0
         version: 12.24.0
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/string':
@@ -323,10 +323,10 @@ importers:
 
   packages/module-storage-local:
     dependencies:
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
 
@@ -335,10 +335,10 @@ importers:
       '@aws-sdk/client-s3':
         specifier: 3.620.0
         version: 3.620.0
-      '@unserve/module-storage':
+      '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/string':
@@ -347,10 +347,10 @@ importers:
 
   packages/module-user:
     dependencies:
-      '@unserve/module-contact':
+      '@unserved/module-contact':
         specifier: workspace:*
         version: link:../module-contact
-      '@unserve/server':
+      '@unserved/server':
         specifier: workspace:*
         version: link:../server
       '@unshared/functions':

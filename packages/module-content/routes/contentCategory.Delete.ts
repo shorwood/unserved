@@ -1,6 +1,6 @@
 import { assertStringUuid, createParser } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
 import { ModuleContent } from '../index'
 
 export function contentCategoryDelete(this: ModuleContent) {

@@ -1,6 +1,6 @@
 import { assertStringNotEmpty, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
-import { createRoute } from '@unserve/server'
-import { ModuleUser } from '@unserve/module-user'
+import { createRoute } from '@unserved/server'
+import { ModuleUser } from '@unserved/module-user'
 import { ModuleStorage } from '../index'
 
 export function storageCreateFolder(this: ModuleStorage) {

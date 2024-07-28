@@ -1,5 +1,5 @@
 import { setResponseStatus } from 'h3'
-import { createRoute } from '@unserve/server'
+import { createRoute } from '@unserved/server'
 import { ModuleUser } from '../index'
 
 export function userMeDelete(this: ModuleUser) {
