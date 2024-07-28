@@ -73,7 +73,6 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "@types/node": "20.14.12",
     "@unshared/decorators": "0.0.15",
     "@unshared/functions": "0.0.15",
     "@unshared/process": "0.0.15",
