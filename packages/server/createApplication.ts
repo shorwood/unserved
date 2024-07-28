@@ -103,7 +103,10 @@ export class Application<T extends ModuleLike = ModuleLike> {
     this.options = {
       ...this.options,
       ...parseEnvironmentVariables('APP'),
-      dataSource: parseEnvironmentVariables('DATABASE'),
+      dataSource: {
+        ...DEFAULT_DATA_SOURCE_OPTIONS,
+        ...parseEnvironmentVariables('DATABASE'),
+      },
     }
 
     // --- Instantiate all the modules and store them in the application.
@@ -263,7 +266,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
     // --- Initialize the data source and inject the entities from the modules.
     const { dataSource = DEFAULT_DATA_SOURCE_OPTIONS } = this.options
     this.dataSource = dataSource instanceof DataSource ? dataSource : new DataSource(dataSource)
-    this.dataSource.setOptions({ entities: Object.values(this.entities) })
+    this.dataSource.setOptions({ ...this.dataSource.options, entities: Object.values(this.entities) })
     if (!this.dataSource.isInitialized) await this.dataSource.initialize()
 
     // --- Initialize all the modules.
@@ -301,5 +304,11 @@ if (import.meta.vitest) {
     const application = new Application([ModuleUser])
     const repositories = application.entities
     expect(repositories).toStrictEqual({ User, UserRole, UserSession, UserSettings })
+  })
+
+  test('should initialize a DataSource with the entities from the modules', async() => {
+    const application = new Application([ModuleUser])
+    await application.initialize()
+    expect(application.dataSource).toBeInstanceOf(DataSource)
   })
 }
