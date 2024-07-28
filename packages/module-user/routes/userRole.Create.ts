@@ -21,8 +21,8 @@ export function userRoleCreate(this: ModuleUser) {
       const { UserRole } = this.entities
       const role = UserRole.create()
       role.name = body.name
-      role.description = body.description
-      role.permissions = this.resolvePermissions(body.permissions)
+      if (body.description) role.description = body.description
+      if (body.permissions) role.permissions = this.resolvePermissions(body.permissions)
       await role.save()
 
       // --- Return the role data.
