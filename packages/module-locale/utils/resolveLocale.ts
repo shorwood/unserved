@@ -13,7 +13,7 @@ export async function resolveLocale(this: ModuleLocale, code?: string | null) {
   // --- Find the language by the ISO code.
   if (code) {
     const locale = await Locale.findOneBy({ code })
-    if (locale) throw this.errors.LOCALE_NOT_FOUND(code)
+    if (!locale) throw this.errors.LOCALE_NOT_FOUND(code)
     return locale
   }
 
