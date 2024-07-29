@@ -92,31 +92,4 @@ export const PERMISSIONS = {
     name: 'Category - Delete',
     description: 'Delete the category from the content list.',
   },
-
-  // Language
-  LANGUAGE_READ: {
-    id: 'content.read.language',
-    name: 'Language - Read',
-    description: 'Read the language data, including the name and associated pages.',
-  },
-  LANGUAGE_SEARCH: {
-    id: 'content.search.language',
-    name: 'Language - Search',
-    description: 'Search for a language using the name or associated pages.',
-  },
-  LANGUAGE_CREATE: {
-    id: 'content.create.language',
-    name: 'Language - Create',
-    description: 'Create a new language in the content list.',
-  },
-  LANGUAGE_UPDATE: {
-    id: 'content.update.language',
-    name: 'Language - Update',
-    description: 'Update the language data, including the name and associated pages.',
-  },
-  LANGUAGE_DELETE: {
-    id: 'content.delete.language',
-    name: 'Language - Delete',
-    description: 'Delete the language from the content list.',
-  },
 }

@@ -29,6 +29,7 @@
   ],
   "dependencies": {
     "@unserved/module-icon": "workspace:*",
+    "@unserved/module-locale": "workspace:*",
     "@unserved/module-storage": "workspace:*",
     "@unserved/module-user": "workspace:*",
     "@unserved/server": "workspace:*",

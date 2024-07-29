@@ -1,5 +1,4 @@
 export * from './ContentCategory'
-export * from './ContentLanguage'
 export * from './ContentPage'
 export * from './ContentPageContent'
 export * from './ContentTag'

@@ -1,8 +1,9 @@
 import { ModuleBase } from '@unserved/server'
 import { ModuleUser } from '@unserved/module-user'
 import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleLocale } from '@unserved/module-locale'
 import { ModuleIcon } from '@unserved/module-icon'
-import { ERRORS, PERMISSIONS, resolveCategory, resolveLanguage, resolveTags } from './utils'
+import { ERRORS, PERMISSIONS, resolveCategory, resolveTags } from './utils'
 import * as ROUTES from './routes'
 import * as ENTITIES from './entities'
 
@@ -18,7 +19,7 @@ export class ModuleContent extends ModuleBase {
   routes = ROUTES
   entities = ENTITIES
   permissions = PERMISSIONS
-  dependencies = [ModuleUser, ModuleStorage, ModuleIcon]
+  dependencies = [ModuleUser, ModuleStorage, ModuleLocale, ModuleIcon]
 
   /**
    * Given a list of strings, find the `ContentPageTag` entities that match the slugs.
@@ -29,16 +30,6 @@ export class ModuleContent extends ModuleBase {
    * @returns The `ContentPageTag` entities.
    */
   resolveTags = resolveTags.bind(this)
-
-  /**
-   * Given an code, find the `ContentLanguage` entity that matches the ISO code.
-   * If the language does not exist, throw an error.
-   *
-   * @param this The `ModuleContent` instance.
-   * @param code The ISO code of the language to find.
-   * @returns The `ContentLanguage` entity.
-   */
-  resolveLanguage = resolveLanguage.bind(this)
 
   /**
    * Given an UUID, find the `ContentCategory` entity that matches the UUID.

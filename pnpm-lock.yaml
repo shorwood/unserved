@@ -146,6 +146,9 @@ importers:
       '@unserved/module-icon':
         specifier: workspace:*
         version: link:../module-icon
+      '@unserved/module-locale':
+        specifier: workspace:*
+        version: link:../module-locale
       '@unserved/module-storage':
         specifier: workspace:*
         version: link:../module-storage
