@@ -15,8 +15,14 @@ import { ValueTransformer } from 'typeorm'
  * }
  */
 export const transformerDate: ValueTransformer = {
-  to(value?: Date) { return value ? value.toISOString() : null },
-  from(value?: string) { return value ? new Date(value) : undefined },
+  to(value?: Date | null): string | null {
+    if (value instanceof Date === false) return null
+    return value.toISOString()
+  },
+  from(value?: string | null): Date | undefined {
+    if (typeof value !== 'string') return undefined
+    return new Date(value)
+  },
 }
 
 /* v8 ignore start */
@@ -26,11 +32,16 @@ if (import.meta.vitest) {
       const date = new Date(0).toISOString()
       const result = transformerDate.from(date) as Date
       const expected = new Date(0)
-      expect(result).toMatchObject(expected)
+      expect(result).toStrictEqual(expected)
     })
 
     it('should return undefined when the value is null', () => {
       const result = transformerDate.from(null)
+      expect(result).toBeUndefined()
+    })
+
+    it('should return undefined when the value is not a string', () => {
+      const result = transformerDate.from(0 as unknown as string)
       expect(result).toBeUndefined()
     })
   })
@@ -45,6 +56,11 @@ if (import.meta.vitest) {
 
     it('should return null when the value is undefined', () => {
       const result = transformerDate.to(undefined)
+      expect(result).toBeNull()
+    })
+
+    it('should return null when the value is not a date', () => {
+      const result = transformerDate.to('not a date' as unknown as Date)
       expect(result).toBeNull()
     })
   })

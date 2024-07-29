@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable unicorn/no-null */
 import { ValueTransformer } from 'typeorm'
 
@@ -13,17 +12,17 @@ import { ValueTransformer } from 'typeorm'
  *    passwordOptions: PasswordOptions
  * }
  */
-export const transformerJson: ValueTransformer = {
-  to(value?: Record<string, unknown>) {
-    if (!value) return null
+export const transformerJson = {
+  to(value?: Record<string, unknown> | null): string | null {
+    if (typeof value !== 'object' || value === null) return null
     return JSON.stringify(value)
   },
-  from(value?: string) {
-    if (!value) return
+  from(value?: string | null): unknown {
+    if (typeof value !== 'string') return
     try { return JSON.parse(value) as unknown }
     catch { return }
   },
-}
+} satisfies ValueTransformer
 
 /* v8 ignore start */
 if (import.meta.vitest) {
@@ -31,7 +30,7 @@ if (import.meta.vitest) {
     it('should transform a JSON string to a JSON object', () => {
       const json = JSON.stringify({ key: 'value' })
       const result = transformerJson.from(json)
-      expect(result).toMatchObject({ key: 'value' })
+      expect(result).toStrictEqual({ key: 'value' })
     })
 
     it('should return undefined when the value is null', () => {
@@ -44,7 +43,7 @@ if (import.meta.vitest) {
     it('should transform a JSON object to a JSON string', () => {
       const json = { key: 'value' }
       const result = transformerJson.to(json)
-      expect(result).toMatchObject('{"key":"value"}')
+      expect(result).toBe('{"key":"value"}')
     })
 
     it('should return null when the value is undefined', () => {
