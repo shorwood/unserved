@@ -4,6 +4,8 @@ import { ModuleIcon } from '@unserved/module-icon'
 import { ERRORS, PERMISSIONS, importTranslations, importTranslationsToLocale, resolveLocale } from './utils'
 import * as ENTITIES from './entities'
 
+export * from './entities'
+
 /**
  * The `ModuleLocale` module provides the functionality to manage the languages of the website.
  * It allows the website owner to create multiple versions of a string in different languages
