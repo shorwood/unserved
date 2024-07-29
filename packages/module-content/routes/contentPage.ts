@@ -61,7 +61,7 @@ export function contentPageGet(this: ModuleContent) {
           tags: true,
           image: true,
           banner: true,
-          content: withContent && { language: true },
+          content: withContent && { locale: true },
           category: withCategory && {
             tags: true,
             image: true,

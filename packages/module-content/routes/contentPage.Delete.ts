@@ -13,10 +13,8 @@ export function contentPageDelete(this: ModuleContent) {
       }),
     },
     async({ event, parameters }) => {
-      const userModule = this.getModule(ModuleUser)
-
-      // --- Check if the user has the right permissions.
-      await userModule.a11n(event, { permissions: [this.permissions.PAGE_DELETE.id] })
+      const user = this.getModule(ModuleUser)
+      await user.a11n(event, { permissions: [this.permissions.PAGE_DELETE.id] })
 
       // --- Delete the website content.
       const { id } = parameters

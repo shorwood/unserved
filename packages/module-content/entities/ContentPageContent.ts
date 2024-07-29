@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
 import { Metadata, transformerDate, transformerJson } from '@unserved/server'
+import { Locale } from '@unserved/module-locale'
 import { ContentPage } from './ContentPage'
-import { ContentLanguage } from './ContentLanguage'
 
 export interface ContentPageSection {
   kind: string
@@ -64,8 +64,8 @@ export class ContentPageContent extends Metadata {
    * multilingual website.
    */
   @JoinColumn()
-  @ManyToOne(() => ContentLanguage, { nullable: true, onDelete: 'CASCADE' })
-    language?: ContentLanguage
+  @ManyToOne(() => Locale, { onDelete: 'CASCADE' })
+    locale?: Locale
 
   /**
    * A reference to the page of the website. It is used to link the version to the
@@ -74,5 +74,5 @@ export class ContentPageContent extends Metadata {
    */
   @JoinColumn()
   @OneToOne(() => ContentPage, content => content.content, { onDelete: 'CASCADE' })
-    page: ContentPage
+    page?: ContentPage
 }

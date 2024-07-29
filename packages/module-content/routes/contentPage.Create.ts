@@ -3,6 +3,7 @@ import { toSlug } from '@unshared/string'
 import { createRoute } from '@unserved/server'
 import { ModuleUser } from '@unserved/module-user'
 import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleLocale } from '@unserved/module-locale'
 import { ModuleIcon } from '@unserved/module-icon'
 import { assertSections } from '../utils'
 import { ModuleContent } from '../index'
@@ -18,19 +19,20 @@ export function contentPageCreate(this: ModuleContent) {
         tags: [[assertNil], [createArrayParser(assertStringNotEmpty)]],
         sections: [[assertNil], [assertSections]],
         description: [[assertNil], [assertString]],
-        languageCode: [[assertNil], [assertString]],
+        localeCode: [[assertNil], [assertString]],
         categoryId: [[assertNil], [assertStringUuid]],
         imageId: [[assertNil], [assertStringUuid]],
         bannerId: [[assertNil], [assertStringUuid]],
       }),
     },
     async({ event, body }) => {
-      const iconModule = this.getModule(ModuleIcon)
-      const assetModule = this.getModule(ModuleStorage)
-      const userModule = this.getModule(ModuleUser)
+      const user = this.getModule(ModuleUser)
+      const icon = this.getModule(ModuleIcon)
+      const locale = this.getModule(ModuleLocale)
+      const storage = this.getModule(ModuleStorage)
 
       // --- Check if the user has the right permissions.
-      await userModule.a11n(event, { permissions: [this.permissions.PAGE_CREATE.id] })
+      await user.a11n(event, { permissions: [this.permissions.PAGE_CREATE.id] })
 
       // --- Create the website content.
       const { ContentPage, ContentPageContent } = this.entities
@@ -39,9 +41,9 @@ export function contentPageCreate(this: ModuleContent) {
       page.name = body.name
       page.slug = toSlug(body.slug ?? body.name)
       if (body.tags !== undefined) page.tags = await this.resolveTags(body.tags)
-      if (body.icon !== undefined) page.icon = await iconModule.resolveIcon(body.icon)
-      if (body.imageId !== undefined) page.image = await assetModule.resolveFile(body.imageId)
-      if (body.bannerId !== undefined) page.banner = await assetModule.resolveFile(body.bannerId)
+      if (body.icon !== undefined) page.icon = await icon.resolveIcon(body.icon)
+      if (body.imageId !== undefined) page.image = await storage.resolveFile(body.imageId)
+      if (body.bannerId !== undefined) page.banner = await storage.resolveFile(body.bannerId)
       if (body.categoryId !== undefined) page.category = await this.resolveCategory(body.categoryId)
 
       // --- Create the website content version.
@@ -49,7 +51,7 @@ export function contentPageCreate(this: ModuleContent) {
       content.slug = page.slug
       content.sections = body.sections ?? []
       content.description = body.description ?? ''
-      content.language = await this.resolveLanguage(body.languageCode)
+      content.locale = await locale.resolveLocale(body.localeCode)
 
       // --- Save the website content.
       await page.save()

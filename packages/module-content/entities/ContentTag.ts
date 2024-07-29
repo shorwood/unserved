@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { UUID } from 'node:crypto'
 import { Metadata } from '@unserved/server'
 import { Icon } from '@unserved/module-icon'
@@ -58,8 +58,9 @@ export class ContentTag extends Metadata {
    *
    * @example [ContentPage {...}, ContentPage {...}]
    */
+  @JoinTable({ name: 'ContentTag_Pages' })
   @ManyToMany(() => ContentPage, page => page.tags)
-    pages: ContentPage[]
+    pages?: ContentPage[]
 
   /**
    * The categories of the tag. It is used to link the tag to the categories of the website and
@@ -67,8 +68,9 @@ export class ContentTag extends Metadata {
    *
    * @example [ContentPage {...}, ContentPage {...}]
    */
+  @JoinTable({ name: 'ContentTag_Categories' })
   @ManyToMany(() => ContentCategory, category => category.tags)
-    categories: ContentCategory[]
+    categories?: ContentCategory[]
 
   /**
    * @param options The options to serialize the entity with.

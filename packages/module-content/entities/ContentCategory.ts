@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { UUID } from 'node:crypto'
 import { Metadata, ModuleBase } from '@unserved/server'
 import { StorageFile } from '@unserved/module-storage'
@@ -16,7 +16,6 @@ export interface ContentCategoryObject {
   id: UUID
   name: string
   slug: string
-  path: string
   description: string
   createdAt: string
   updatedAt: string
@@ -95,9 +94,8 @@ export class ContentCategory extends Metadata {
    *
    * @example [ContentPageTag {...}, ContentPageTag {...}]
    */
-  @JoinTable({ name: 'ContentTag_ContentCategory' })
-  @ManyToMany(() => ContentTag, tag => tag.pages, { nullable: true, onDelete: 'CASCADE' })
-    tags: ContentTag[]
+  @ManyToMany(() => ContentTag, tag => tag.pages)
+    tags?: ContentTag[]
 
   /**
    * The pages of the category. It is used to display the pages of the category in the
@@ -107,14 +105,6 @@ export class ContentCategory extends Metadata {
    */
   @OneToMany(() => ContentPage, page => page.category)
     pages?: ContentPage[]
-
-  /**
-   * @returns The path of the category based on the slug.
-   * @example '/tutorials'
-   */
-  get path(): string {
-    return `/${this.slug}`
-  }
 
   /**
    * Get the URL or the SVG of the icon.
@@ -192,7 +182,6 @@ export class ContentCategory extends Metadata {
       id: this.id,
       name: this.name,
       slug: this.slug,
-      path: this.path,
       description: this.description,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),

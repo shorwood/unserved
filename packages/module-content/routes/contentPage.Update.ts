@@ -3,6 +3,7 @@ import { toSlug } from '@unshared/string'
 import { createRoute } from '@unserved/server'
 import { ModuleUser } from '@unserved/module-user'
 import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleLocale } from '@unserved/module-locale'
 import { ModuleIcon } from '@unserved/module-icon'
 import { assertSections } from '../utils'
 import { ModuleContent } from '../index'
@@ -21,19 +22,18 @@ export function contentPageUpdate(this: ModuleContent) {
         tags: [[assertNil], [createArrayParser(assertStringNotEmpty)]],
         sections: [[assertNil], [assertSections]],
         description: [[assertNil], [assertString]],
-        languageCode: [[assertNil], [assertString]],
+        localeCode: [[assertNil], [assertString]],
         categoryId: [[assertNil], [assertStringUuid]],
         imageId: [[assertNil], [assertStringUuid]],
         bannerId: [[assertNil], [assertStringUuid]],
       }),
     },
     async({ event, parameters, body }) => {
-      const iconModule = this.getModule(ModuleIcon)
-      const assetModule = this.getModule(ModuleStorage)
-      const userModule = this.getModule(ModuleUser)
-
-      // --- Check if the user has the right permissions.
-      await userModule.a11n(event, { permissions: [this.permissions.PAGE_UPDATE.id] })
+      const user = this.getModule(ModuleUser)
+      const icon = this.getModule(ModuleIcon)
+      const locale = this.getModule(ModuleLocale)
+      const storage = this.getModule(ModuleStorage)
+      await user.a11n(event, { permissions: [this.permissions.PAGE_UPDATE.id] })
 
       // --- Find the latest content of the website page and check if
       // --- it is published. If not, update the page and description
@@ -51,7 +51,7 @@ export function contentPageUpdate(this: ModuleContent) {
             banner: true,
             category: true,
             icon: { collection: true },
-            content: { language: true },
+            content: { locale: true },
           },
         })
 
@@ -68,9 +68,9 @@ export function contentPageUpdate(this: ModuleContent) {
         if (body.name) page.name = body.name
         if (body.slug) page.slug = toSlug(body.slug)
         if (body.tags !== undefined) page.tags = await this.resolveTags(body.tags)
-        if (body.icon !== undefined) page.icon = await iconModule.resolveIcon(body.icon)
-        if (body.imageId !== undefined) page.image = await assetModule.resolveFile(body.imageId)
-        if (body.bannerId !== undefined) page.banner = await assetModule.resolveFile(body.bannerId)
+        if (body.icon !== undefined) page.icon = await icon.resolveIcon(body.icon)
+        if (body.imageId !== undefined) page.image = await storage.resolveFile(body.imageId)
+        if (body.bannerId !== undefined) page.banner = await storage.resolveFile(body.bannerId)
         if (body.categoryId !== undefined) page.category = await this.resolveCategory(body.categoryId)
 
         // --- Update the website content content.
@@ -78,7 +78,7 @@ export function contentPageUpdate(this: ModuleContent) {
         content.slug = page.slug
         content.sections = body.sections ?? []
         content.description = body.description ?? content.description
-        content.language = await this.resolveLanguage(body.languageCode)
+        content.locale = await locale.resolveLocale(body.localeCode)
 
         // --- Save and return the updated website page.
         await page.save()

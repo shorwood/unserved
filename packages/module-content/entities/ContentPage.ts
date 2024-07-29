@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { UUID } from 'node:crypto'
 import { Metadata, ModuleBase } from '@unserved/server'
 import { StorageFile } from '@unserved/module-storage'
@@ -18,7 +18,6 @@ export interface ContentPageObject {
   id: UUID
   name: string
   slug: string
-  path: string
   createdAt: string
   updatedAt: string
   iconUrl?: string
@@ -28,7 +27,7 @@ export interface ContentPageObject {
   category?: ContentCategoryObject
   sections?: ContentPageSection[]
   description?: string
-  languageCode?: string
+  localeCode?: string
 }
 
 /**
@@ -65,7 +64,6 @@ export class ContentPage extends Metadata {
    *
    * @example [ContentPageTag {...}, ContentPageTag {...}]
    */
-  @JoinTable({ name: 'ContentTag_ContentPage' })
   @ManyToMany(() => ContentTag, tag => tag.pages)
     tags?: ContentTag[]
 
@@ -113,14 +111,6 @@ export class ContentPage extends Metadata {
    */
   @OneToMany(() => ContentPageContent, version => version.page, { cascade: true })
     content: ContentPageContent[]
-
-  /**
-   * @returns The path of the page on the website based on the category and the slug.
-   * @example '/tutorials/how-to-build-a-website'
-   */
-  get path(): string {
-    return this.category ? `/${this.category.slug}/${this.slug}` : `/${this.slug}`
-  }
 
   /**
    * Get the URL or the SVG of the icon.
@@ -177,7 +167,6 @@ export class ContentPage extends Metadata {
       id: this.id,
       name: this.name,
       slug: this.slug,
-      path: this.path,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),
       iconUrl: this.iconUrl(options.withIconData),
@@ -187,7 +176,7 @@ export class ContentPage extends Metadata {
       category: await this.category?.serialize(module, options),
       sections: options.withSections ? version?.sections : undefined,
       description: version?.description,
-      languageCode: version?.language?.code,
+      localeCode: version?.locale?.code,
     }
   }
 }

@@ -23,10 +23,8 @@ export function contentPageList(this: ModuleContent) {
       }),
     },
     async({ event, query }) => {
-      const userModule = this.getModule(ModuleUser)
-
-      // --- Check if the user has the right permissions.
-      await userModule.a11n(event, {
+      const user = this.getModule(ModuleUser)
+      await user.a11n(event, {
         optional: true,
         permissions: [this.permissions.PAGE_SEARCH.id],
       })
