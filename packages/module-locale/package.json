@@ -1,0 +1,39 @@
+{
+  "name": "@unserved/module-locale",
+  "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
+  "sideEffects": false,
+  "author": "Stanley Horwood <stanley@hsjm.io>",
+  "bugs": "https://github.com/shorwood/unserved/issues",
+  "homepage": "https://github.com/shorwood/unserved#readme",
+  "repository": {
+    "directory": "packages/module-locale",
+    "type": "git",
+    "url": "git@github.com:shorwood/unserved.git"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "dependencies": {
+    "@unserved/module-icon": "workspace:*",
+    "@unserved/module-user": "workspace:*",
+    "@unserved/server": "workspace:*",
+    "@unshared/string": "0.0.15",
+    "@unshared/validation": "0.0.15",
+    "h3": "1.12.0",
+    "typeorm": "0.3.20"
+  }
+}

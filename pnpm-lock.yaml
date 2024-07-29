@@ -234,6 +234,30 @@ importers:
         specifier: 0.3.20
         version: 0.3.20(sqlite3@5.1.7)
 
+  packages/module-locale:
+    dependencies:
+      '@unserved/module-icon':
+        specifier: workspace:*
+        version: link:../module-icon
+      '@unserved/module-user':
+        specifier: workspace:*
+        version: link:../module-user
+      '@unserved/server':
+        specifier: workspace:*
+        version: link:../server
+      '@unshared/string':
+        specifier: 0.0.15
+        version: 0.0.15(@types/node@22.0.0)
+      '@unshared/validation':
+        specifier: 0.0.15
+        version: 0.0.15(@types/node@22.0.0)
+      h3:
+        specifier: 1.12.0
+        version: 1.12.0
+      typeorm:
+        specifier: 0.3.20
+        version: 0.3.20(sqlite3@5.1.7)
+
   packages/module-location:
     dependencies:
       '@unserved/server':
@@ -9019,7 +9043,7 @@ snapshots:
       chalk: 4.1.2
       cli-highlight: 2.1.11
       dayjs: 1.11.12
-      debug: 4.3.5
+      debug: 4.3.6
       dotenv: 16.4.5
       glob: 10.4.5
       mkdirp: 2.1.6
