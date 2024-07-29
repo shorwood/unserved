@@ -293,7 +293,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
 
 /* v8 ignore start */
 if (import.meta.vitest) {
-  const { ModuleUser, User, UserRole, UserSession, UserSettings } = await import('../module-user/index')
+  const { ModuleUser, User, UserRole, UserGroup, UserSession, UserSettings } = await import('../module-user/index')
 
   test('should create a new application instance', () => {
     const application = new Application([])
@@ -303,7 +303,7 @@ if (import.meta.vitest) {
   test('should map of entities registered in all the modules of the application', () => {
     const application = new Application([ModuleUser])
     const repositories = application.entities
-    expect(repositories).toStrictEqual({ User, UserRole, UserSession, UserSettings })
+    expect(repositories).toStrictEqual({ User, UserRole, UserGroup, UserSession, UserSettings })
   })
 
   test('should initialize a DataSource with the entities from the modules', async() => {

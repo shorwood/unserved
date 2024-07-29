@@ -76,6 +76,14 @@ export class User extends Metadata {
     totpOptions?: PasswordOptions
 
   /**
+   * The group(s) of the user. It is used to assign roles to multiple users at once
+   * and manage the permissions of the users in the group.
+   */
+  @JoinTable({ name: 'User_Groups' })
+  @ManyToMany(() => User, user => user.groups)
+    groups?: User[]
+
+  /**
    * Role(s) of the user. It is used to determine what the user can do in the application.
    * For example, a customer can only view the products and place orders. An employee can
    * view the products, place orders, and manage the inventory. An administrator can do
@@ -101,8 +109,10 @@ export class User extends Metadata {
    * of the roles the user has. It is used to determine what the user can do in the
    * application.
    */
-  get permissions(): string[] | undefined {
-    return this.roles?.flatMap(role => role.permissions)
+  get permissions(): string[] {
+    const userPermissions = this.roles?.flatMap(role => role.permissions) ?? []
+    const groupPermissions = this.groups?.flatMap(group => group.roles?.flatMap(role => role.permissions)) ?? []
+    return [...userPermissions, ...groupPermissions].filter(Boolean).flat() as string[]
   }
 
   /**
