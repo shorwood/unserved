@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, Unique } from 'typeorm'
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
 import { Metadata } from '@unserved/server'
 import { Locale } from './Locale'
 
@@ -37,6 +37,6 @@ export class LocaleTranslation extends Metadata {
    * @example Locale { ... }
    */
   @JoinColumn()
-  @OneToMany(() => Locale, locale => locale.translations, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Locale, locale => locale.translations, { onDelete: 'CASCADE' })
     locale: Locale
 }
