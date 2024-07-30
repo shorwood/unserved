@@ -6,6 +6,8 @@ import * as ENTITIES from './entities'
 
 export * from './entities'
 
+export type ModuleLocaleOptions = Partial<Pick<ModuleLocale, 'localeTranslations'>>
+
 /**
  * The `ModuleLocale` module provides the functionality to manage the languages of the website.
  * It allows the website owner to create multiple versions of a string in different languages
@@ -17,8 +19,15 @@ export class ModuleLocale extends ModuleBase {
   permissions = PERMISSIONS
   dependencies = [ModuleUser, ModuleIcon]
 
+  constructor(options: ModuleLocaleOptions = {}) {
+    super()
+    if (options.localeTranslations) this.localeTranslations = options.localeTranslations
+  }
+
   /**
-   * The initial translations to add to the locales when the module is initialized.
+   * The initial translations to add to the locales when the module is initialized. The translations
+   * will be imported into the database when the module is initialized and the locales will be created
+   * if they do not exist.
    */
   localeTranslations: Record<string, Record<string, string>> = {}
 
