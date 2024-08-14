@@ -1,0 +1,66 @@
+{
+  "name": "@unserved/nuxt",
+  "type": "module",
+  "version": "0.0.2",
+  "license": "MIT",
+  "sideEffects": false,
+  "author": "Stanley Horwood <stanley@hsjm.io>",
+  "bugs": "https://github.com/shorwood/unserved/issues",
+  "homepage": "https://github.com/shorwood/unserved#readme",
+  "repository": {
+    "directory": "packages/nuxt",
+    "type": "git",
+    "url": "git@github.com:shorwood/unserved.git"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./nuxt": {
+      "require": "./dist/nuxt.cjs",
+      "types": "./dist/nuxt.d.ts",
+      "import": "./dist/nuxt.js"
+    },
+    "./types": {
+      "require": "./dist/types.cjs",
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./useClient": {
+      "require": "./dist/useClient.cjs",
+      "types": "./dist/useClient.d.ts",
+      "import": "./dist/useClient.js"
+    },
+    "./useRequest": {
+      "require": "./dist/useRequest.cjs",
+      "types": "./dist/useRequest.d.ts",
+      "import": "./dist/useRequest.js"
+    },
+    ".": {
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE.md"
+  ],
+  "peerDependencies": {
+    "@nuxt/kit": "3.12.0",
+    "nuxt": "3.12.0",
+    "vue": "3.4.0"
+  },
+  "dependencies": {
+    "@unserved/client": "workspace:*",
+    "@unserved/server": "workspace:*",
+    "@unshared/functions": "0.0.15",
+    "@vueuse/core": "10.11.1"
+  },
+  "devDependencies": {
+    "@nuxt/kit": "3.12.4",
+    "nuxt": "3.12.4",
+    "vue": "3.4.37"
+  }
+}
