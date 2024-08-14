@@ -56,6 +56,11 @@
       "types": "./dist/transformerJson.d.ts",
       "import": "./dist/transformerJson.js"
     },
+    "./transformerSemver": {
+      "require": "./dist/transformerSemver.cjs",
+      "types": "./dist/transformerSemver.d.ts",
+      "import": "./dist/transformerSemver.js"
+    },
     "./types": {
       "require": "./dist/types.cjs",
       "types": "./dist/types.d.ts",
