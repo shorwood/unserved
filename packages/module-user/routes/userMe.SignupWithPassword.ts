@@ -1,7 +1,7 @@
-import { setCookie } from 'h3'
-import { assertStringEmail, assertStringNotEmpty, createSchema } from '@unshared/validation'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
+import { assertStringEmail, assertStringNotEmpty, createSchema } from '@unshared/validation'
+import { setCookie } from 'h3'
 
 export function userSignupWithPassword(this: ModuleUser) {
   return createRoute(
@@ -20,7 +20,7 @@ export function userSignupWithPassword(this: ModuleUser) {
       // --- Check if the username is already taken.
       const { User } = this.entities
       const userExists = await User.findOneBy({ username })
-      if (userExists) throw this.errors.USER_EMAIL_TAKEN
+      if (userExists) throw this.errors.USER_EMAIL_TAKEN()
 
       // --- Check if the password and passwordConfirm match.
       if (body.password !== body.passwordConfirm) throw this.errors.USER_PASSWORD_MISMATCH()

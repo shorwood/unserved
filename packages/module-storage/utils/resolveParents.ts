@@ -1,6 +1,6 @@
+import type { StorageFile, StorageFolder } from '../entities'
+import type { ModuleStorage } from '../index'
 import { resolveParent } from './resolveParent'
-import { ModuleStorage } from '../index'
-import { StorageFile, StorageFolder } from '../entities'
 
 /**
  * Given an `StorageFile` or `StorageFolder` entity, query the database to find all the parents of

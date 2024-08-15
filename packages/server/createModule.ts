@@ -1,10 +1,12 @@
-import { EntityTarget, ObjectLiteral } from 'typeorm'
-import { H3Event, setHeader } from 'h3'
-import { Constructor, MaybeFunction, MaybePromise } from '@unshared/types'
-import { PermissionObject } from './types'
-import { Route } from './createRoute'
-import { EventStream, EventStreamFunction, createEventStream } from './createEventStream'
-import { Application } from './createApplication'
+import type { Constructor, MaybeFunction, MaybePromise } from '@unshared/types'
+import type { H3Event } from 'h3'
+import type { EntityTarget, ObjectLiteral } from 'typeorm'
+import type { Application } from './createApplication'
+import type { EventStream, EventStreamFunction } from './createEventStream'
+import type { Route } from './createRoute'
+import type { PermissionObject } from './types'
+import { setHeader } from 'h3'
+import { createEventStream } from './createEventStream'
 
 /**
  * A module is an isolated context that contains the entities, repositories as well as

@@ -1,7 +1,7 @@
 /* eslint-disable n/no-unsupported-features/node-builtins */
-import { FileLike } from '../utils'
-import { ModuleStorage } from '../index'
-import { StorageFile } from '../entities'
+import type { StorageFile } from '../entities'
+import type { ModuleStorage } from '../index'
+import type { FileLike } from '../utils'
 
 /**
  * Import data to the S3-Compatible bucket from a remote URL.

@@ -1,5 +1,5 @@
-import { Column, Entity } from 'typeorm'
 import { Metadata, transformerJson } from '@unserved/server'
+import { Column, Entity } from 'typeorm'
 
 /**
  * The user role object returned to the client. It is used to send the user role data to
@@ -33,7 +33,7 @@ export class UserRole extends Metadata {
    * @example 'Administrator'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * Description of the role. It is a short text that describes the role and its
@@ -42,7 +42,7 @@ export class UserRole extends Metadata {
    * @example 'Administrator of the application'
    */
   @Column('text', { default: '' })
-    description: string
+  description: string
 
   /**
    * Permissions of the role. It is a string that contains a list of permissions separated
@@ -50,7 +50,7 @@ export class UserRole extends Metadata {
    * delete the data.
    */
   @Column('text', { transformer: transformerJson, default: '[]' })
-    permissions: string[]
+  permissions: string[]
 
   /**
    * @returns The list of permissions of the role.

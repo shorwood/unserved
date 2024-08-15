@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import type { Constructor, Function, UnionMerge } from '@unshared/types'
-import { ModuleBase } from './createModule'
 import type { Application } from './createApplication'
+import { ModuleBase } from './createModule'
 
 /** A constructor of instance of a module. */
 export type ModuleLike = ModuleBase | typeof ModuleBase
@@ -34,7 +34,7 @@ export type ModuleInstance<T extends ApplicationOrModule> =
 export type InferOptions<T extends ApplicationOrModule> =
   Partial<UnionMerge<InferModule<T> extends Constructor<ModuleBase, [infer U | undefined]>
     ? { [K in Exclude<keyof U, keyof ModuleBase>]-?: Exclude<U[K], Function | undefined> }
-    : {}>>
+    : Record<string, unknown>>>
 
 /**
  * Given an application or module, infer the map of entities in the module or application.

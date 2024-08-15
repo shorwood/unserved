@@ -1,5 +1,5 @@
-import { Column, Entity } from 'typeorm'
 import { Metadata } from '@unserved/server'
+import { Column, Entity } from 'typeorm'
 
 /**
  * The user settings represent the global settings of the user module such as if user
@@ -15,7 +15,7 @@ export class UserSettings extends Metadata {
    * @example false
    */
   @Column('boolean', { default: false })
-    isRegistrationEnabled: boolean
+  isRegistrationEnabled: boolean
 
   /**
    * The minimum password length. It determines the minimum length of the user password.
@@ -24,7 +24,7 @@ export class UserSettings extends Metadata {
    * @example 1
    */
   @Column('int', { default: 1 })
-    minimumPasswordLength: number
+  minimumPasswordLength: number
 
   /**
    * The minimum password complexity. As computed by the zxcvbn algorithm, it represents
@@ -34,7 +34,7 @@ export class UserSettings extends Metadata {
    * @example 0
    */
   @Column('int', { default: 0 })
-    minimumPasswordComplexity: number
+  minimumPasswordComplexity: number
 
   /**
    * The TOTP code requirement status. It determines if the TOTP codes are required for
@@ -43,5 +43,5 @@ export class UserSettings extends Metadata {
    * @example false
    */
   @Column('boolean', { default: false })
-    isTotpRequired: boolean
+  isTotpRequired: boolean
 }

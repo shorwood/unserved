@@ -1,6 +1,6 @@
-import { StorageEraseOptions, StorageFile } from '@unserved/module-storage'
+import type { StorageEraseOptions, StorageFile } from '@unserved/module-storage'
+import type { ModuleStorageS3 } from '../index'
 import { DeleteObjectCommand } from '@aws-sdk/client-s3'
-import { ModuleStorageS3 } from '../index'
 
 export async function erase(this: ModuleStorageS3, entity: StorageFile, options: StorageEraseOptions = {}): Promise<void> {
   const { force = false, ...deleteObjectOptions } = options

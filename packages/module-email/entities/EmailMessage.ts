@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany } from 'typeorm'
-import { Metadata, transformerDate } from '@unserved/server'
 import { StorageFile } from '@unserved/module-storage'
+import { Metadata, transformerDate } from '@unserved/server'
+import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany } from 'typeorm'
 import { EmailAddress } from './EmailAddress'
 
 /**
@@ -16,7 +16,7 @@ export class EmailMessage extends Metadata {
    * when it is stored in a remote location or when it is referenced in another entity.
    */
   @Column('varchar', { length: 255, unique: true })
-    etag: string
+  etag: string
 
   /**
    * The subject of the email message.
@@ -24,7 +24,7 @@ export class EmailMessage extends Metadata {
    * @example 'Hello'
    */
   @Column('varchar', { length: 255 })
-    subject: string
+  subject: string
 
   /**
    * The body of the email message.
@@ -32,7 +32,7 @@ export class EmailMessage extends Metadata {
    * @example 'Hello, World!'
    */
   @Column('text')
-    body: string
+  body: string
 
   /**
    * Date and time when the email message was sent.
@@ -40,7 +40,7 @@ export class EmailMessage extends Metadata {
    * @example '2021-01-01T00:00:00.000Z'
    */
   @Column('varchar', { length: 255, transformer: transformerDate })
-    sentAt: Date
+  sentAt: Date
 
   /**
    * Date and time when the email message was received.
@@ -48,7 +48,7 @@ export class EmailMessage extends Metadata {
    * @example '2021-01-01T00:00:00.000Z'
    */
   @Column('varchar', { length: 255, transformer: transformerDate })
-    receivedAt: Date
+  receivedAt: Date
 
   /**
    * The attachments of the email message. It can be a file, an image, a document, etc.
@@ -56,7 +56,7 @@ export class EmailMessage extends Metadata {
    */
   @JoinTable({ name: 'EmailMessage_Attachments' })
   @OneToMany(() => StorageFile, storageFile => storageFile, { cascade: true })
-    attachments?: StorageFile[]
+  attachments?: StorageFile[]
 
   /**
    * A reference to the `EmailAddress` entity that sent the email message. It corresponds
@@ -64,14 +64,14 @@ export class EmailMessage extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => EmailAddress, email => email.sent, { cascade: true })
-    from: EmailAddress
+  from: EmailAddress
 
   /**
    * The recipients of the email message. It corresponds to the `To` field of the email.
    */
   @JoinTable({ name: 'EmailMessage_To' })
   @OneToMany(() => EmailAddress, email => email.received, { cascade: true })
-    to: EmailAddress[]
+  to: EmailAddress[]
 
   /**
    * The CC of the email message. It corresponds to the `CC` field of the email.
@@ -79,7 +79,7 @@ export class EmailMessage extends Metadata {
    */
   @JoinTable({ name: 'EmailMessage_CC' })
   @OneToMany(() => EmailAddress, email => email.received, { cascade: true })
-    cc?: EmailAddress[]
+  cc?: EmailAddress[]
 
   /**
    * The BCC of the email message. It corresponds to the `BCC` field of the email.
@@ -87,7 +87,7 @@ export class EmailMessage extends Metadata {
    */
   @JoinTable({ name: 'EmailMessage_BCC' })
   @OneToMany(() => EmailAddress, email => email.received, { cascade: true })
-    bcc?: EmailAddress[]
+  bcc?: EmailAddress[]
 
   /**
    * The reply-to of the email message. It corresponds to the `Reply-To` field of the email.
@@ -95,7 +95,7 @@ export class EmailMessage extends Metadata {
    */
   @JoinTable({ name: 'EmailMessage_ReplyTo' })
   @OneToMany(() => EmailAddress, email => email.received, { cascade: true })
-    replyTo?: EmailAddress[]
+  replyTo?: EmailAddress[]
 }
 
 /**
@@ -111,5 +111,5 @@ export class EmailConversation extends Metadata {
    * @example [EmailMessage { ... }, ... ]
    */
   @OneToMany(() => EmailMessage, emailMessage => emailMessage, { cascade: true, eager: true })
-    messages: EmailMessage[]
+  messages: EmailMessage[]
 }

@@ -1,5 +1,5 @@
-import { StorageEraseOptions, StorageFile } from '@unserved/module-storage'
-import { ModuleStorageAzure } from '../index'
+import type { StorageEraseOptions, StorageFile } from '@unserved/module-storage'
+import type { ModuleStorageAzure } from '../index'
 
 export async function erase(this: ModuleStorageAzure, entity: StorageFile, options: StorageEraseOptions = {}): Promise<void> {
   const { force = false, ...deleteObjectOptions } = options

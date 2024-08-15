@@ -1,10 +1,10 @@
-import { ModuleBase } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage } from '@unserved/module-storage'
 import { ModuleLocation } from '@unserved/module-location'
-import { ERRORS, PERMISSIONS } from './utils'
-import * as ROUTES from './routes'
+import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleBase } from '@unserved/server'
 import * as ENTITIES from './entities'
+import * as ROUTES from './routes'
+import { ERRORS, PERMISSIONS } from './utils'
 
 export * from './entities'
 

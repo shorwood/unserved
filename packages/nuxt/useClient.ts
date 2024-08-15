@@ -1,7 +1,7 @@
-import { createGlobalState } from '@vueuse/core'
-import { Server } from '@unserved/server'
-import { ApplicationOrModule } from '@unserved/server'
+import type { Server } from '@unserved/server'
+import type { ApplicationOrModule } from '@unserved/server'
 import { createClient } from '@unserved/client'
+import { createGlobalState } from '@vueuse/core'
 
 /**
  * Use the global client instance. This function will return the global client instance that is created

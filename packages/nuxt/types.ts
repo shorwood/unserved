@@ -1,4 +1,4 @@
-import { Application } from '@unserved/server'
+import type { Application } from '@unserved/server'
 
 declare module '@unserved/server' {
   interface Server {

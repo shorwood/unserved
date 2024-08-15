@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
-import { UUID } from 'node:crypto'
-import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
 import { StorageFile } from '@unserved/module-storage'
+import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { Form, FormObject } from './Form'
 
 interface SerializeOptions {
@@ -33,7 +33,7 @@ export class FormSubmission extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => Form)
-    form?: Form
+  form?: Form
 
   /**
    * The submitted content of the form.
@@ -41,7 +41,7 @@ export class FormSubmission extends Metadata {
    * @example { 'message': 'Hello, world!' }
    */
   @Column('text', { transformer: transformerJson })
-    content: Record<string, string>
+  content: Record<string, string>
 
   /**
    * The assets uploaded by the visitor who submitted the form.
@@ -50,7 +50,7 @@ export class FormSubmission extends Metadata {
    */
   @JoinTable({ name: 'FormSubmission_StorageFile' })
   @ManyToMany(() => StorageFile)
-    assets?: StorageFile[]
+  assets?: StorageFile[]
 
   /**
    * @param module The module that the entity belongs to.

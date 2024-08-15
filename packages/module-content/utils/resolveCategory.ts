@@ -1,5 +1,5 @@
-import { UUID } from 'node:crypto'
-import { ModuleContent } from '../index'
+import type { UUID } from 'node:crypto'
+import type { ModuleContent } from '../index'
 
 /**
  * Given an UUID, find the `ContentCategory` entity that matches the UUID.

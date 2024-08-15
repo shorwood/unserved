@@ -1,5 +1,5 @@
-import { UUID } from 'node:crypto'
-import { ModuleStorage } from '../index'
+import type { UUID } from 'node:crypto'
+import type { ModuleStorage } from '../index'
 
 export interface ResolveFolderOptions {
   withChildren?: boolean

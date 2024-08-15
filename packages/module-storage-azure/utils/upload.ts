@@ -1,5 +1,6 @@
-import { FileLike, StorageFile, fileToStream } from '@unserved/module-storage'
-import { ModuleStorageAzure } from '../index'
+import type { FileLike } from '@unserved/module-storage'
+import type { ModuleStorageAzure } from '../index'
+import { fileToStream, StorageFile } from '@unserved/module-storage'
 
 export async function upload(this: ModuleStorageAzure, file: FileLike): Promise<StorageFile> {
   const { storageAzureContainerName: container } = this

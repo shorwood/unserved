@@ -1,7 +1,7 @@
-import { Column, Entity, OneToMany } from 'typeorm'
 import { Metadata, transformerJson } from '@unserved/server'
-import { Icon } from './Icon'
+import { Column, Entity, OneToMany } from 'typeorm'
 import { IconCollectionMetadata } from '../utils'
+import { Icon } from './Icon'
 
 export interface IconCollectionObject extends IconCollectionMetadata {
   slug: string
@@ -22,7 +22,7 @@ export class IconCollection extends Metadata {
    * @example 'Material Design Icons'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The slug of the set. It is used to identify the set in the URL and allow the users
@@ -31,7 +31,7 @@ export class IconCollection extends Metadata {
    * @example 'mdi'
    */
   @Column('varchar', { length: 255, unique: true })
-    slug: string
+  slug: string
 
   /**
    * The width of the set. It is used to generate the SVG of the icons.
@@ -39,7 +39,7 @@ export class IconCollection extends Metadata {
    * @example 24
    */
   @Column('int')
-    width: number
+  width: number
 
   /**
    * The height of the set. It is used to generate the SVG of the icons.
@@ -47,14 +47,14 @@ export class IconCollection extends Metadata {
    * @example 24
    */
   @Column('int')
-    height: number
+  height: number
 
   /**
    * The metadata of the set. It is used to provide additional information about the set
    * such as the author, the license, the category, the height, and the palette.
    */
   @Column('text', { transformer: transformerJson })
-    metadata: IconCollectionMetadata
+  metadata: IconCollectionMetadata
 
   /**
    * The icons of the set. It is used to link the set to the icons and allow the users
@@ -63,7 +63,7 @@ export class IconCollection extends Metadata {
    * @example [Icon {...}, Icon {...}]
    */
   @OneToMany(() => Icon, icon => icon.collection, { cascade: true })
-    icons: Icon[]
+  icons: Icon[]
 
   /**
    * @returns The serialized collection object.

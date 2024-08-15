@@ -1,7 +1,7 @@
-import { join } from 'node:path'
-import { mkdir, readdir, rename, rm } from 'node:fs/promises'
+import type { ModuleSteam } from '../index'
 import { execute } from '@unshared/process'
-import { ModuleSteam } from '../index'
+import { mkdir, readdir, rename, rm } from 'node:fs/promises'
+import { join } from 'node:path'
 
 export interface DownloadWorkshopItemOptions {
   appid: string

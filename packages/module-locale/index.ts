@@ -1,8 +1,8 @@
-import { ModuleBase } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
 import { ModuleIcon } from '@unserved/module-icon'
-import { ERRORS, PERMISSIONS, importTranslations, importTranslationsToLocale, resolveLocale } from './utils'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleBase } from '@unserved/server'
 import * as ENTITIES from './entities'
+import { ERRORS, importTranslations, importTranslationsToLocale, PERMISSIONS, resolveLocale } from './utils'
 
 export * from './entities'
 

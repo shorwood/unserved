@@ -1,7 +1,7 @@
 import { ModuleBase } from '@unserved/server'
-import { geocodeForward, resolveLocation } from './utils'
-import * as ROUTES from './routes'
 import * as ENTITIES from './entities'
+import * as ROUTES from './routes'
+import { geocodeForward, resolveLocation } from './utils'
 
 export * from './entities'
 

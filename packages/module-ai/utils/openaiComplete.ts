@@ -1,7 +1,7 @@
-import { MaybeArray } from '@unshared/types'
+import type { MaybeArray } from '@unshared/types'
+import type { ModuleAI } from '../index'
+import type { OpenAI_CompletionResponse } from './types'
 import { toArray } from '@unshared/collection'
-import { OpenAI_CompletionResponse } from './types'
-import { ModuleAI } from '../index'
 
 export interface OpenaiCompleteOptions {
   model?: string

@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
-import { Metadata, transformerDate } from '@unserved/server'
 import { StorageFile } from '@unserved/module-storage'
-import { ArticleCategory } from './ArticleCategory'
+import { Metadata, transformerDate } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { Article } from './Article'
+import { ArticleCategory } from './ArticleCategory'
 
 /**
  * A blog post is a post that can be published on the website. It is used to
@@ -18,7 +18,7 @@ export class ArticleContent extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => Article, Article => Article.content)
-    post: Article
+  post: Article
 
   /**
    * Title of the post. It is used to display the post in the frontend.
@@ -26,7 +26,7 @@ export class ArticleContent extends Metadata {
    * @example 'How to create a blog with TypeScript and Node.js'
    */
   @Column('string')
-    name: string
+  name: string
 
   /**
    * Slug of the post. It is auto-generated from the name and is used to create a
@@ -36,14 +36,14 @@ export class ArticleContent extends Metadata {
    * @example 'how-to-create-a-blog-with-typescript-and-node-js'
    */
   @Column('string', { unique: true })
-    slug: string
+  slug: string
 
   /**
    * A short description of the post. It allows to summarize the content of the post in a few words
    * and provide better SEO optimization for the post.
    */
   @Column('text')
-    description: string
+  description: string
 
   /**
    * Markdown content of the post. The content is converted to HTML before being displayed in the frontend.
@@ -51,13 +51,13 @@ export class ArticleContent extends Metadata {
    * @example 'This is a **markdown** content.'
    */
   @Column('text')
-    content: string
+  content: string
 
   /**
    * The date at which the entity is published.
    */
   @Column('varchar', { transformer: transformerDate, length: 255, nullable: true })
-    publishedAt?: Date
+  publishedAt?: Date
 
   /**
    * A cover image of the post. It is used to display the post in the frontend and provide a visual
@@ -65,12 +65,12 @@ export class ArticleContent extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true })
-    image: StorageFile
+  image: StorageFile
 
   /**
    * The category of the post. It allows to group the posts by category in the frontend.
    */
   @JoinColumn()
   @ManyToOne(() => ArticleCategory, category => category.posts)
-    categories: ArticleCategory
+  categories: ArticleCategory
 }

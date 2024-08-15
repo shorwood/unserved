@@ -1,6 +1,6 @@
+import type { ModuleSteam } from '../index'
+import type { WorkshopItem, WorkshopSearchResult } from './types'
 import { toSearchParams } from '@unshared/string'
-import { WorkshopItem, WorkshopSearchResult } from './types'
-import { ModuleSteam } from '../index'
 
 export interface GetWorkshopIemsOptions {
   key: string

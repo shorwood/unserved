@@ -1,9 +1,9 @@
-import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm'
-import { join } from 'node:path'
-import { UUID } from 'node:crypto'
 import { Metadata } from '@unserved/server'
-import { StorageFolderOwner, StorageFolderOwnerObject } from './StorageFolderOwner'
+import { UUID } from 'node:crypto'
+import { join } from 'node:path'
+import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm'
 import { StorageFile, StorageFileObject } from './StorageFile'
+import { StorageFolderOwner, StorageFolderOwnerObject } from './StorageFolderOwner'
 
 /** Serialize options for the `StorageFolder` entity. */
 interface SerializeOptions {
@@ -41,7 +41,7 @@ export class StorageFolder extends Metadata {
    * folder.
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * Description of the folder. It is a short text that describes the folder and its usage.
@@ -50,7 +50,7 @@ export class StorageFolder extends Metadata {
    * @example 'A folder for storing images'
    */
   @Column('text', { default: '' })
-    description: string
+  description: string
 
   /**
    * A flag that indicates whether the folder is the root folder of the asset database. It is
@@ -58,35 +58,35 @@ export class StorageFolder extends Metadata {
    * the folder.
    */
   @Column('boolean', { unique: true, nullable: true })
-    isRoot?: boolean
+  isRoot?: boolean
 
   /**
    * The parent folder of the folder. It is used to determine the directory structure of the
    * folder.
    */
   @ManyToOne(() => StorageFolder, folder => folder.children, { nullable: true })
-    parent?: StorageFolder
+  parent?: StorageFolder
 
   /**
    * The children folders of the folder. It is used to group multiple folders together and
    * provide a directory structure for the folders.
    */
   @OneToMany(() => StorageFolder, folder => folder.parent, { cascade: true })
-    folders?: StorageFolder[]
+  folders?: StorageFolder[]
 
   /**
    * The assets that are stored in the folder. It is used to regroup multiple assets together
    * and provide a directory structure for the assets.
    */
   @OneToMany(() => StorageFile, asset => asset.parent, { cascade: true })
-    files?: StorageFile[]
+  files?: StorageFile[]
 
   /**
    * A reference to the owner of the entity. It is used to determine who has the permission to
    * read, update, or delete the entity.
    */
   @OneToMany(() => StorageFolderOwner, owner => owner.folder)
-    owners?: StorageFolderOwner[]
+  owners?: StorageFolderOwner[]
 
   /**
    * @returns The absolute path of the asset as if it was in a filesystem. It is used to

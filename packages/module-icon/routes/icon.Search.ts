@@ -1,9 +1,9 @@
-import { ILike, In } from 'typeorm'
-import { assertString, assertStringNumber, assertUndefined, createParser } from '@unshared/validation'
-import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserved/server'
+import type { ModuleIcon } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleIcon } from '../index'
+import { createRoute } from '@unserved/server'
+import { parseBoolean } from '@unshared/string'
+import { assertString, assertStringNumber, assertUndefined, createParser } from '@unshared/validation'
+import { ILike, In } from 'typeorm'
 
 export function iconSearch(this: ModuleIcon) {
   return createRoute(

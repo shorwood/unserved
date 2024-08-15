@@ -1,6 +1,6 @@
+import type { ModuleLocation } from '../index'
+import type { GeocodeForwardResult } from './types'
 import { toSearchParams } from '@unshared/string'
-import { GeocodeForwardResult } from './types'
-import { ModuleLocation } from '../index'
 
 export interface GeocodeForwardOptions {
   autocomplete?: boolean

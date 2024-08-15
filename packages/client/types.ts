@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-import type { Function, MaybePromise, PartialStrict, UnionMerge } from '@unshared/types'
 import type { ApplicationOrModule, EventStream, InferModule, RouteParser } from '@unserved/server'
+import type { Function, MaybePromise, PartialStrict, UnionMerge } from '@unshared/types'
 
 /**
  * Infer the routes of the application.

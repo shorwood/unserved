@@ -1,4 +1,4 @@
-import { ModuleBase, createRoute } from '@unserved/server'
+import { createRoute, ModuleBase } from '@unserved/server'
 
 export class ModuleHealth extends ModuleBase {
   routes = {

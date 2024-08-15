@@ -1,7 +1,7 @@
-import { assertString, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
-import { createRoute } from '@unserved/server'
+import type { ModuleContent } from '../index'
 import { ModuleIcon } from '@unserved/module-icon'
-import { ModuleContent } from '../index'
+import { createRoute } from '@unserved/server'
+import { assertString, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
 
 export function contentTagUpdate(this: ModuleContent) {
   return createRoute(

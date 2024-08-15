@@ -1,5 +1,6 @@
-import { EventHandler, defineEventHandler, defineWebSocketHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody } from 'h3'
-import { Route, RouteHandler, RouteOptions, WSRouteHandlers, WSRouteOptions } from './createRoute'
+import type { EventHandler } from 'h3'
+import type { Route, RouteHandler, RouteOptions, WSRouteHandlers, WSRouteOptions } from './createRoute'
+import { defineEventHandler, defineWebSocketHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody } from 'h3'
 
 /**
  * Given a route, create an event handler that can be used to handle a specific

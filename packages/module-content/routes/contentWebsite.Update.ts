@@ -1,10 +1,10 @@
-import { IsNull, Not } from 'typeorm'
-import { assertNil, assertString, assertStringEmail, assertStringEmpty, assertStringUuid, createParser } from '@unshared/validation'
-import { createRoute } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
+import type { ModuleContent } from '../index'
 import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleUser } from '@unserved/module-user'
+import { createRoute } from '@unserved/server'
+import { assertNil, assertString, assertStringEmail, assertStringEmpty, assertStringUuid, createParser } from '@unshared/validation'
+import { IsNull, Not } from 'typeorm'
 import { assertContactSocials } from '../utils'
-import { ModuleContent } from '../index'
 
 export function contentUpdate(this: ModuleContent) {
   return createRoute(

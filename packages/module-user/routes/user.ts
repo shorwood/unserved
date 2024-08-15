@@ -1,7 +1,7 @@
-import { assertString, assertStringUuid, assertUndefined, createSchema } from '@unshared/validation'
-import { parseBoolean } from '@unshared/string'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
+import { parseBoolean } from '@unshared/string'
+import { assertString, assertStringUuid, assertUndefined, createSchema } from '@unshared/validation'
 
 export function userGet(this: ModuleUser) {
   return createRoute(

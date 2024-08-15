@@ -1,7 +1,7 @@
-import { setResponseStatus } from 'h3'
-import { assertStringUuid, createSchema } from '@unshared/validation'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
+import { assertStringUuid, createSchema } from '@unshared/validation'
+import { setResponseStatus } from 'h3'
 
 export function userRoleDelete(this: ModuleUser) {
   return createRoute(

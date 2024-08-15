@@ -1,6 +1,6 @@
-import { UUID } from 'node:crypto'
-import { ModuleStorage } from '../index'
-import { StorageFile } from '../entities'
+import type { UUID } from 'node:crypto'
+import type { StorageFile } from '../entities'
+import type { ModuleStorage } from '../index'
 
 /**
  * Given an ID, return its `StorageFile` entity. If no ID is provided, throw an error.

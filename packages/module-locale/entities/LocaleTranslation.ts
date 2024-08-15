@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
 import { Metadata } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
 import { Locale } from './Locale'
 
 /**
@@ -18,7 +18,7 @@ export class LocaleTranslation extends Metadata {
    * @example 'home.title'
    */
   @Column('varchar', { length: 255 })
-    key: string
+  key: string
 
   /**
    * The value of the string. It is used as the default content of the string and displayed
@@ -28,7 +28,7 @@ export class LocaleTranslation extends Metadata {
    * @example 'Welcome to our website!'
    */
   @Column('text')
-    value: string
+  value: string
 
   /**
    * The language of the string. It is used to determine the language of the string and allow
@@ -38,5 +38,5 @@ export class LocaleTranslation extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => Locale, locale => locale.translations, { onDelete: 'CASCADE' })
-    locale: Locale
+  locale: Locale
 }

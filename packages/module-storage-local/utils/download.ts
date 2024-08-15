@@ -1,8 +1,8 @@
-import { join } from 'node:path'
-import { stat } from 'node:fs/promises'
+import type { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
+import type { ModuleStorageLocal } from '../index'
 import { createReadStream } from 'node:fs'
-import { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
-import { ModuleStorageLocal } from '../index'
+import { stat } from 'node:fs/promises'
+import { join } from 'node:path'
 
 export async function download(this: ModuleStorageLocal, entity: StorageFile, options: StorageDownloadOptions = {}): Promise<StorageDownloadResult> {
   const { offset = 0, size } = options

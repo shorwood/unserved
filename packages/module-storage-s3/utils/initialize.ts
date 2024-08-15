@@ -1,6 +1,6 @@
-import { dedent } from '@unshared/string'
+import type { ModuleStorageS3 } from '../index'
 import { CreateBucketCommand, ListBucketsCommand, S3Client } from '@aws-sdk/client-s3'
-import { ModuleStorageS3 } from '../index'
+import { dedent } from '@unshared/string'
 
 export async function initialize(this: ModuleStorageS3): Promise<void> {
   if (this.storageS3client instanceof S3Client) return

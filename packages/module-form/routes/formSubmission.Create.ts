@@ -1,7 +1,7 @@
-import { UUID } from 'node:crypto'
-import { EXP_UUID, assertObject, assertStringNotEmpty, createRule, createSchema } from '@unshared/validation'
+import type { UUID } from 'node:crypto'
+import type { ModuleForm } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleForm } from '../index'
+import { assertObject, assertStringNotEmpty, createRule, createSchema, EXP_UUID } from '@unshared/validation'
 
 export function formSubmissionCreate(this: ModuleForm) {
   return createRoute(

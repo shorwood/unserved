@@ -1,10 +1,10 @@
-import { In } from 'typeorm'
-import { UUID } from 'node:crypto'
-import { EXP_UUID, assertString, assertStringNotEmpty, assertUndefined, createParser } from '@unshared/validation'
-import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserved/server'
+import type { UUID } from 'node:crypto'
+import type { ModuleContent } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleContent } from '../index'
+import { createRoute } from '@unserved/server'
+import { parseBoolean } from '@unshared/string'
+import { assertString, assertStringNotEmpty, assertUndefined, createParser, EXP_UUID } from '@unshared/validation'
+import { In } from 'typeorm'
 
 export function contentPageGet(this: ModuleContent) {
   return createRoute(

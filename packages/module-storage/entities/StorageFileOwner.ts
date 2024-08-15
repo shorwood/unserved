@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
-import { Metadata } from '@unserved/server'
 import { User, UserObject } from '@unserved/module-user'
+import { Metadata } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
 import { StorageFile } from './StorageFile'
 
 /** Serialzed representation of the `StorageFolderOwner` entity. */
@@ -22,21 +22,21 @@ export class StorageFileOwner extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
-    owner: User
+  owner: User
 
   /**
    * The `StorageFile` entity that is owned by the user.
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, file => file.owners, { onDelete: 'CASCADE' })
-    file: StorageFile
+  file: StorageFile
 
   /**
    * The permission level of the user on the file. If the user has the `OWNER` permission, they
    * can read, update, and delete the file.
    */
   @Column('varchar', { length: 255 })
-    permission: 'EDIT' | 'OWNER' | 'READ'
+  permission: 'EDIT' | 'OWNER' | 'READ'
 
   /**
    * @returns The plain object representation of the entity.

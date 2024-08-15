@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-useless-undefined */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable unicorn/no-null */
-import { ValueTransformer } from 'typeorm'
+import type { ValueTransformer } from 'typeorm'
 
 /**
  * Transform the field value to a date when saving it to the database
@@ -15,11 +15,11 @@ import { ValueTransformer } from 'typeorm'
  * }
  */
 export const transformerDate: ValueTransformer = {
-  to(value?: Date | null): string | null {
+  to(value?: Date | null): null | string {
     if (value instanceof Date === false) return null
     return value.toISOString()
   },
-  from(value?: string | null): Date | undefined {
+  from(value?: null | string): Date | undefined {
     if (typeof value !== 'string') return undefined
     return new Date(value)
   },

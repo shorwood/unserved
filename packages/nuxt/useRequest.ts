@@ -1,7 +1,8 @@
-import { Ref } from 'vue'
-import { AsyncDataOptions, useAsyncData } from 'nuxt/app'
-import { ApplicationOrModule, Server } from '@unserved/server'
-import { InferInput, InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
+import type { InferInput, InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
+import type { ApplicationOrModule, Server } from '@unserved/server'
+import type { AsyncDataOptions } from 'nuxt/app'
+import type { Ref } from 'vue'
+import { useAsyncData } from 'nuxt/app'
 import { useClient } from './useClient'
 
 /** Extract the keys of an object but only if they are strings. */

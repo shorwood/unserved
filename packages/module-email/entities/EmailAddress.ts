@@ -1,5 +1,5 @@
-import { Column, Entity, OneToMany } from 'typeorm'
 import { Metadata } from '@unserved/server'
+import { Column, Entity, OneToMany } from 'typeorm'
 import { EmailMessage } from './EmailMessage'
 
 /**
@@ -16,7 +16,7 @@ export class EmailAddress extends Metadata {
    * @example 'john.doe@acme.com'
    */
   @Column('varchar', { length: 255, unique: true })
-    email: string
+  email: string
 
   /**
    * The message send by this email address.
@@ -24,7 +24,7 @@ export class EmailAddress extends Metadata {
    * @example EmailMessage { ... }
    */
   @OneToMany(() => EmailMessage, emailMessage => emailMessage.from)
-    sent?: EmailMessage[]
+  sent?: EmailMessage[]
 
   /**
    * The messages received by this email address.
@@ -32,5 +32,5 @@ export class EmailAddress extends Metadata {
    * @example [EmailMessage { ... }, ... ]
    */
   @OneToMany(() => EmailMessage, emailMessage => emailMessage.to)
-    received?: EmailMessage[]
+  received?: EmailMessage[]
 }

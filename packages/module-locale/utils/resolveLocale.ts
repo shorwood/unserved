@@ -1,4 +1,4 @@
-import { ModuleLocale } from '../index'
+import type { ModuleLocale } from '../index'
 
 /**
  * Given an code, find the `Locale` entity that matches the ISO code.
@@ -7,7 +7,7 @@ import { ModuleLocale } from '../index'
  * @param code The ISO code of the language to find.
  * @returns The `Locale` entity.
  */
-export async function resolveLocale(this: ModuleLocale, code?: string | null) {
+export async function resolveLocale(this: ModuleLocale, code?: null | string) {
   const { Locale } = this.entities
 
   // --- Find the language by the ISO code.

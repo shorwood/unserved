@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
-import { UUID } from 'node:crypto'
-import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
-import { StorageFile } from '@unserved/module-storage'
 import { Icon } from '@unserved/module-icon'
+import { StorageFile } from '@unserved/module-storage'
+import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 import { FormSubmission, FormSubmissionObject } from './FormSubmission'
 
 interface SerializeOptions {
@@ -68,7 +68,7 @@ export class Form extends Metadata {
    * @example 'Contact form'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The slug of the form used in the code.
@@ -76,7 +76,7 @@ export class Form extends Metadata {
    * @example 'contact-form'
    */
   @Column('varchar', { length: 255, unique: true })
-    slug: string
+  slug: string
 
   /**
    * The description of the form as displayed in the website.
@@ -84,7 +84,7 @@ export class Form extends Metadata {
    * @example 'Contact us for more information.'
    */
   @Column('text', { default: '' })
-    description: string
+  description: string
 
   /**
    * A reference to the icon of the form.
@@ -92,7 +92,7 @@ export class Form extends Metadata {
    * @example Icon { ... }
    */
   @ManyToOne(() => Icon, { nullable: true, onDelete: 'SET NULL' })
-    icon?: Icon
+  icon?: Icon
 
   /**
    * A 1/1 aspect ratio image that represents the page. It is used as the preview image
@@ -101,7 +101,7 @@ export class Form extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true, onDelete: 'SET NULL' })
-    image?: StorageFile
+  image?: StorageFile
 
   /**
    * The banner image of the page. It is used as the background image of the page header
@@ -109,20 +109,20 @@ export class Form extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true, onDelete: 'SET NULL' })
-    banner?: StorageFile
+  banner?: StorageFile
 
   /**
    * The fields of the form as displayed in the website.
    */
   @Column('text', { transformer: transformerJson, default: '[]' })
-    fields?: FormField[]
+  fields?: FormField[]
 
   /**
    * The submissions assigned to the form. The submissions are the form data filled by the
    * visitors of the website when they submit the form.
    */
   @OneToMany(() => FormSubmission, submission => submission.form)
-    submissions?: FormSubmission[]
+  submissions?: FormSubmission[]
 
   /**
    * Get the URL or the SVG of the icon.

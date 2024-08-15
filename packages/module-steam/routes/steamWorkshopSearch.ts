@@ -1,6 +1,6 @@
-import { assertNumberPositiveStrict, assertString, assertUndefined, createSchema } from '@unshared/validation'
+import type { ModuleSteam } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleSteam } from '../index'
+import { assertNumberPositiveStrict, assertString, assertUndefined, createSchema } from '@unshared/validation'
 
 export function steamWorkshopSearch(this: ModuleSteam) {
   return createRoute(

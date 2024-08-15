@@ -1,6 +1,6 @@
+import type { UserSession } from '../entities'
+import type { ModuleUser } from '../index'
 import { createCipheriv, createHash } from 'node:crypto'
-import { ModuleUser } from '../index'
-import { UserSession } from '../entities'
 
 /**
  * Create an encrypted token for the user session using the secret key.

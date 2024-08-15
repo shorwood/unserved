@@ -1,7 +1,7 @@
-import { join } from 'node:path'
+import type { StorageEraseOptions, StorageFile } from '@unserved/module-storage'
+import type { ModuleStorageLocal } from '../index'
 import { rm } from 'node:fs/promises'
-import { StorageEraseOptions, StorageFile } from '@unserved/module-storage'
-import { ModuleStorageLocal } from '../index'
+import { join } from 'node:path'
 
 export async function erase(this: ModuleStorageLocal, entity: StorageFile, options: StorageEraseOptions = {}): Promise<void> {
   const { force = false, ...deleteObjectOptions } = options

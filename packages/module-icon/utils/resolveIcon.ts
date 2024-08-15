@@ -1,4 +1,4 @@
-import { ModuleIcon } from '../index'
+import type { ModuleIcon } from '../index'
 
 /**
  * Given an icon name, download the icon from the configured CDN and
@@ -8,7 +8,7 @@ import { ModuleIcon } from '../index'
  * @param name The name of the icon to resolve.
  * @returns The `Asset` entity of the icon.
  */
-export async function resolveIcon(this: ModuleIcon, name?: string | null) {
+export async function resolveIcon(this: ModuleIcon, name?: null | string) {
   if (!name) return
 
   // --- Find the icon in the database.

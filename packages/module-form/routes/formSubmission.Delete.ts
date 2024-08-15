@@ -1,7 +1,7 @@
-import { assertStringUuid, createSchema } from '@unshared/validation'
-import { createRoute } from '@unserved/server'
+import type { ModuleForm } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleForm } from '../index'
+import { createRoute } from '@unserved/server'
+import { assertStringUuid, createSchema } from '@unshared/validation'
 
 export function formSubmissionDelete(this: ModuleForm) {
   return createRoute(

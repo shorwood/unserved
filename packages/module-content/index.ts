@@ -1,11 +1,11 @@
-import { ModuleBase } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage } from '@unserved/module-storage'
-import { ModuleLocale } from '@unserved/module-locale'
 import { ModuleIcon } from '@unserved/module-icon'
-import { ERRORS, PERMISSIONS, resolveCategory, resolveTags } from './utils'
-import * as ROUTES from './routes'
+import { ModuleLocale } from '@unserved/module-locale'
+import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleBase } from '@unserved/server'
 import * as ENTITIES from './entities'
+import * as ROUTES from './routes'
+import { ERRORS, PERMISSIONS, resolveCategory, resolveTags } from './utils'
 
 export * from './entities'
 

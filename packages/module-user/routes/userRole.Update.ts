@@ -1,6 +1,6 @@
-import { assertNil, assertString, assertStringUuid, assertUndefined, createArrayParser, createSchema } from '@unshared/validation'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
+import { assertNil, assertString, assertStringUuid, assertUndefined, createArrayParser, createSchema } from '@unshared/validation'
 
 export function userRoleUpdate(this: ModuleUser) {
   return createRoute(

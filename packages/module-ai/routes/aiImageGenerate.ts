@@ -1,10 +1,11 @@
-import { assertStringNotEmpty, assertStringUuid, assertUndefined, createAssertStringEnum, createParser } from '@unshared/validation'
-import { dedent } from '@unshared/string'
-import { createRoute } from '@unserved/server'
+import type { StorageFile, StorageFileObject } from '@unserved/module-storage'
+import type { ModuleAI } from '../index'
+import type { OpenAI_ImageGenerateResponse } from '../utils'
+import { ModuleStorage } from '@unserved/module-storage'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage, StorageFile, StorageFileObject } from '@unserved/module-storage'
-import { OpenAI_ImageGenerateResponse } from '../utils'
-import { ModuleAI } from '../index'
+import { createRoute } from '@unserved/server'
+import { dedent } from '@unshared/string'
+import { assertStringNotEmpty, assertStringUuid, assertUndefined, createAssertStringEnum, createParser } from '@unshared/validation'
 
 export function aiImageGenerate(this: ModuleAI) {
   return createRoute(
@@ -72,7 +73,7 @@ export function aiImageGenerate(this: ModuleAI) {
       })
 
       // --- Check if the request was successful.
-      if (!response.ok) throw this.errors.AI_OPENAI_ERROR(response)
+      if (!response.ok) throw await this.errors.AI_OPENAI_ERROR(response)
       const data = await response.json() as OpenAI_ImageGenerateResponse
 
       // --- Fetch and store the generated image.

@@ -1,7 +1,8 @@
 /* eslint-disable sonarjs/no-duplicated-branches */
+import type { PermissionObject } from '@unserved/server'
+import type { ModuleUser } from '../index'
+import { createRoute } from '@unserved/server'
 import { assertString, assertStringNumber, assertUndefined, createSchema } from '@unshared/validation'
-import { PermissionObject, createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
 
 export interface UserPermissionsSearchResult {
   id?: string

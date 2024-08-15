@@ -1,6 +1,6 @@
-import { H3Event, RouterMethod } from 'h3'
-import { Peer, WSError } from 'crossws'
-import { IsNever, MaybePromise, UnionMerge } from '@unshared/types'
+import type { IsNever, MaybePromise, UnionMerge } from '@unshared/types'
+import type { Peer, WSError } from 'crossws'
+import type { H3Event, RouterMethod } from 'h3'
 
 /** Symbol to identify a route object. */
 export const SYMBOL_ROUTE = Symbol('route')

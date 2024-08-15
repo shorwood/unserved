@@ -1,8 +1,8 @@
-import { setHeader } from 'h3'
-import { assertString, assertStringNumber, assertUndefined, createParser } from '@unshared/validation'
-import { parseBoolean } from '@unshared/string'
+import type { ModuleIcon } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleIcon } from '../index'
+import { parseBoolean } from '@unshared/string'
+import { assertString, assertStringNumber, assertUndefined, createParser } from '@unshared/validation'
+import { setHeader } from 'h3'
 
 export function iconGet(this: ModuleIcon) {
   return createRoute(

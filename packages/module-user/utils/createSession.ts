@@ -1,6 +1,8 @@
-import { H3Event, getHeader, getRequestIP } from 'h3'
-import { ModuleUser } from '../index'
-import { User, UserSession } from '../entities'
+import type { H3Event } from 'h3'
+import type { User } from '../entities'
+import type { ModuleUser } from '../index'
+import { getHeader, getRequestIP } from 'h3'
+import { UserSession } from '../entities'
 
 export function createSession(this: ModuleUser, event: H3Event, user: User): UserSession {
 

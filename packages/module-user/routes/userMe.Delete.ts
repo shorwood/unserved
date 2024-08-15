@@ -1,6 +1,6 @@
-import { setResponseStatus } from 'h3'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
+import { setResponseStatus } from 'h3'
 
 export function userMeDelete(this: ModuleUser) {
   return createRoute('DELETE /api/me', async({ event }) => {

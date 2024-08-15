@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
-import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
 import { StorageFile } from '@unserved/module-storage'
+import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 
 interface SerializeOptions {
   withIconData?: boolean
@@ -46,7 +46,7 @@ export class ContentWebsite extends Metadata {
    * @example 'Acme Inc.'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The canonical URL of the website. It is used to specify the preferred URL of
@@ -55,7 +55,7 @@ export class ContentWebsite extends Metadata {
    * @example 'https://www.acme.com'
    */
   @Column('varchar', { length: 255, nullable: true })
-    url?: string
+  url?: string
 
   /**
    * The description of the website. It is used as the description of the website
@@ -64,28 +64,28 @@ export class ContentWebsite extends Metadata {
    * @example 'The best products in the world.'
    */
   @Column('text', { nullable: true })
-    description?: string
+  description?: string
 
   /**
    * The contact email of the website. It allows the users to contact the website
    * owner for any questions or inquiries.
    */
   @Column('varchar', { length: 255, nullable: true })
-    contactEmail?: string
+  contactEmail?: string
 
   /**
    * The phone number of the website. It allows the users to contact the website
    * owner by phone for any questions or inquiries.
    */
   @Column('varchar', { length: 255, nullable: true })
-    contactPhone?: string
+  contactPhone?: string
 
   /**
    * The contact address of the website. It allows the users to contact the website
    * owner by mail for any questions or inquiries.
    */
   @Column('varchar', { length: 255, nullable: true })
-    contactAddress?: string
+  contactAddress?: string
 
   /**
    * The social media links of the company. It allows to link the company to
@@ -93,7 +93,7 @@ export class ContentWebsite extends Metadata {
    * YouTube, and others.
    */
   @Column('text', { nullable: true, transformer: transformerJson })
-    contactSocials?: ContentWebsiteSocial[]
+  contactSocials?: ContentWebsiteSocial[]
 
   /**
    * The registration number of the company.
@@ -101,7 +101,7 @@ export class ContentWebsite extends Metadata {
    * @example '1234567890'
    */
   @Column('varchar', { length: 255, nullable: true })
-    registrationNumber?: string
+  registrationNumber?: string
 
   /**
    * The type of the registration number of the company.
@@ -109,7 +109,7 @@ export class ContentWebsite extends Metadata {
    * @example 'EIN'
    */
   @Column('varchar', { length: 255, nullable: true })
-    registrationType?: string
+  registrationType?: string
 
   /**
    * The tax number of the company.
@@ -117,7 +117,7 @@ export class ContentWebsite extends Metadata {
    * @example '123-45-6789'
    */
   @Column('varchar', { length: 255, nullable: true })
-    taxNumber?: string
+  taxNumber?: string
 
   /**
    * The type of the tax number of the company.
@@ -125,7 +125,7 @@ export class ContentWebsite extends Metadata {
    * @example 'VAT'
    */
   @Column('varchar', { length: 255, nullable: true })
-    taxType?: string
+  taxType?: string
 
   /**
    * The favorite icon of the website as displayed in the browser tab and the bookmarks.
@@ -133,21 +133,21 @@ export class ContentWebsite extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true })
-    icon?: StorageFile
+  icon?: StorageFile
 
   /**
    * The logo of the website as displayed in the header and the footer of the website.
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true })
-    image?: StorageFile
+  image?: StorageFile
 
   /**
    * The banner of the website as displayed in the header of the website.
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true })
-    banner?: StorageFile
+  banner?: StorageFile
 
   /**
    * Download the image data of the page and return it as a base64 URL.

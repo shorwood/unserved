@@ -1,4 +1,4 @@
-import { ModuleUser } from '../index'
+import type { ModuleUser } from '../index'
 
 /**
  * Given a list of permission names, this function resolves the permissions and returns
@@ -8,7 +8,7 @@ import { ModuleUser } from '../index'
  * @param names List of permission names.
  * @returns List of permissions.
  */
-export function resolvePermissions(this: ModuleUser, names?: string[] | null): string[] {
+export function resolvePermissions(this: ModuleUser, names?: null | string[]): string[] {
   if (!names) return []
   if (names.length === 0) return []
 

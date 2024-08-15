@@ -1,8 +1,8 @@
 /* eslint-disable unicorn/no-useless-undefined */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable unicorn/no-null */
-import { ValueTransformer } from 'typeorm'
-import { Semver, createSemver } from '@unshared/string'
+import type { ValueTransformer } from 'typeorm'
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { createSemver, Semver } from '@unshared/string'
 
 /**
  * Transform the field value to a sementic version string when saving it to the database
@@ -16,11 +16,11 @@ import { Semver, createSemver } from '@unshared/string'
  * }
  */
 export const transformerSemver: ValueTransformer = {
-  to(value?: Semver | null): string | null {
+  to(value?: Semver | null): null | string {
     if (value instanceof Semver === false) return null
     return value.toString()
   },
-  from(value?: string | null): Semver | undefined {
+  from(value?: null | string): Semver | undefined {
     if (typeof value !== 'string') return undefined
     return createSemver(value)
   },

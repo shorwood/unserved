@@ -1,8 +1,8 @@
-import { join } from 'node:path'
-import { homedir } from 'node:os'
 import { ModuleBase } from '@unserved/server'
-import { ERRORS, downloadWorkshopItem, getWorkshopItemDetails, getWorkshopItems } from './utils'
+import { homedir } from 'node:os'
+import { join } from 'node:path'
 import * as ROUTES from './routes'
+import { downloadWorkshopItem, ERRORS, getWorkshopItemDetails, getWorkshopItems } from './utils'
 
 export class ModuleSteam extends ModuleBase {
   routes = ROUTES

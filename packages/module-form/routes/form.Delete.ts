@@ -1,8 +1,8 @@
-import { setResponseStatus } from 'h3'
-import { assertStringUuid, createParser } from '@unshared/validation'
-import { createRoute } from '@unserved/server'
+import type { ModuleForm } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleForm } from '../index'
+import { createRoute } from '@unserved/server'
+import { assertStringUuid, createParser } from '@unshared/validation'
+import { setResponseStatus } from 'h3'
 
 export function formDelete(this: ModuleForm) {
   return createRoute(

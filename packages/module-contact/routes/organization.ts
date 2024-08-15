@@ -1,8 +1,8 @@
-import { EXP_UUID, assertString, assertStringNotEmpty, assertUndefined, createSchema } from '@unshared/validation'
-import { parseBoolean } from '@unshared/string'
+import type { ContactOrganizationObject } from '../entities'
+import type { ModuleContact } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleContact } from '../index'
-import { ContactOrganizationObject } from '../entities'
+import { parseBoolean } from '@unshared/string'
+import { assertString, assertStringNotEmpty, assertUndefined, createSchema, EXP_UUID } from '@unshared/validation'
 
 export function organizationGet(this: ModuleContact) {
   return createRoute(

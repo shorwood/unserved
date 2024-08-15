@@ -1,7 +1,7 @@
-import { setResponseStatus } from 'h3'
-import { assertStringNotEmpty, createParser } from '@unshared/validation'
+import type { ModuleIcon } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleIcon } from '../index'
+import { assertStringNotEmpty, createParser } from '@unshared/validation'
+import { setResponseStatus } from 'h3'
 
 export function iconCollectionDelete(this: ModuleIcon) {
   return createRoute(

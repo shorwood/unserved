@@ -1,8 +1,8 @@
-import { setResponseStatus } from 'h3'
-import { assertStringUuid, createSchema } from '@unshared/validation'
-import { createRoute } from '@unserved/server'
+import type { ModuleLocale } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleLocale } from '../index'
+import { createRoute } from '@unserved/server'
+import { assertStringUuid, createSchema } from '@unshared/validation'
+import { setResponseStatus } from 'h3'
 
 export function localeDelete(this: ModuleLocale) {
   return createRoute(

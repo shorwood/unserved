@@ -1,9 +1,9 @@
-import { assertStringUuid, assertUndefined, createArrayParser, createAssertInstance, createParser } from '@unshared/validation'
-import { toArray } from '@unshared/collection'
-import { createRoute } from '@unserved/server'
+import type { StorageFile } from '../entities'
+import type { ModuleStorage } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage } from '../index'
-import { StorageFile } from '../entities'
+import { createRoute } from '@unserved/server'
+import { toArray } from '@unshared/collection'
+import { assertStringUuid, assertUndefined, createArrayParser, createAssertInstance, createParser } from '@unshared/validation'
 
 export function storageFileUpload(this: ModuleStorage) {
   return createRoute(

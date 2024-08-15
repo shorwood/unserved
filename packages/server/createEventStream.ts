@@ -1,5 +1,6 @@
+import type { H3Event, EventStream as H3EventStream } from 'h3'
+import { createEventStream as createH3EventStream } from 'h3'
 import { randomUUID } from 'node:crypto'
-import { H3Event, EventStream as H3EventStream, createEventStream as createH3EventStream } from 'h3'
 
 /** The data that a task can send to the client. */
 export type EventStreamPayload<T = unknown> =
@@ -84,7 +85,7 @@ export class EventStream<T = unknown> {
       // --- Catch any errors that occur and send them to the client.
       .catch(async(error: Error | string) => {
         await instance.sendError(error)
-        throw error
+        throw error as Error
       })
 
       // --- Finally, close the stream to signal the end of the task.

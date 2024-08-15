@@ -1,5 +1,5 @@
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
 
 export function userMeGet(this: ModuleUser) {
   return createRoute(

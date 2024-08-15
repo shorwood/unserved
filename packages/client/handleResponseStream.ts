@@ -1,5 +1,5 @@
-import { EventStreamPayload } from '@unserved/server'
-import { RequestOptions } from './request'
+import type { EventStreamPayload } from '@unserved/server'
+import type { RequestOptions } from './request'
 
 /**
  * Handle a request response where the content type is a stream of JSON objects. This function

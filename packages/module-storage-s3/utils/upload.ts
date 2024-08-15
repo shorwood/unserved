@@ -1,6 +1,7 @@
-import { FileLike, StorageFile, fileToStream } from '@unserved/module-storage'
+import type { FileLike, StorageFile } from '@unserved/module-storage'
+import type { ModuleStorageS3 } from '../index'
 import { DeleteObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3'
-import { ModuleStorageS3 } from '../index'
+import { fileToStream } from '@unserved/module-storage'
 
 export async function upload(this: ModuleStorageS3, file: FileLike): Promise<StorageFile> {
   const { StorageFile } = this.entities

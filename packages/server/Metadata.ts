@@ -1,7 +1,7 @@
-import { BaseEntity, BeforeSoftRemove, BeforeUpdate, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import 'reflect-metadata'
-import { UUID, randomUUID } from 'node:crypto'
 import { MaybePromise } from '@unshared/types'
+import { randomUUID, UUID } from 'node:crypto'
+import 'reflect-metadata'
+import { BaseEntity, BeforeSoftRemove, BeforeUpdate, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { transformerDate } from './transformerDate'
 
 @Entity()
@@ -32,7 +32,7 @@ export class Metadata extends BaseEntity {
    * @example '2022-01-01T00:00:00.000Z'
    */
   @Column('varchar', { transformer: transformerDate, length: 255 })
-    updatedAt = new Date()
+  updatedAt = new Date()
 
   /**
    * The date at which the record was soft-deleted. This is automatically set when the record is soft-deleted.
@@ -41,7 +41,7 @@ export class Metadata extends BaseEntity {
    * @example '2022-01-01T00:00:00.000Z'
    */
   @DeleteDateColumn({ transformer: transformerDate, nullable: true, type: 'varchar' })
-    deletedAt?: Date
+  deletedAt?: Date
 
   /**
    * Automatically set the `deletedAt` field when the record is soft-deleted. This is used to track when the record

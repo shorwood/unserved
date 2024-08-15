@@ -1,8 +1,8 @@
-import { ModuleBase } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
 import { ModuleStorage } from '@unserved/module-storage'
-import { ERRORS, PERMISSIONS, openaiComplete } from './utils'
+import { ModuleUser } from '@unserved/module-user'
+import { ModuleBase } from '@unserved/server'
 import * as ROUTES from './routes'
+import { ERRORS, openaiComplete, PERMISSIONS } from './utils'
 
 export type ModuleAIOptions = Partial<Pick<
   ModuleAI,

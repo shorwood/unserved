@@ -1,6 +1,6 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
-import { Metadata } from '@unserved/server'
 import { StorageFile } from '@unserved/module-storage'
+import { Metadata } from '@unserved/server'
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
 import { Article } from './Article'
 
 /**
@@ -18,7 +18,7 @@ export class ArticleCategory extends Metadata {
    * @example 'News'
    */
   @Column('string')
-    name: string
+  name: string
 
   /**
    * The slug of the category. It is auto-generated from the name and is used to
@@ -26,25 +26,25 @@ export class ArticleCategory extends Metadata {
    * category from the frontend.
    */
   @Column('string', { unique: true })
-    slug: string
+  slug: string
 
   /**
    * A short description of the category. It allows to summarize the content of the category in a few words
    * and provide better SEO optimization for the category.
    */
   @Column('text')
-    description: string
+  description: string
 
   /**
    * A cover image of the category. It is used to display the category in the frontend and provide a visual
    * representation of the category.
    */
   @ManyToOne(() => StorageFile, { nullable: true })
-    image: StorageFile
+  image: StorageFile
 
   /**
    * A reference to the posts of the category. It is used to fetch the posts of the category from the frontend.
    */
   @OneToMany(() => Article, post => post.content)
-    posts: Article[]
+  posts: Article[]
 }

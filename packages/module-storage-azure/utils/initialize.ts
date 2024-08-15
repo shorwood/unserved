@@ -1,6 +1,6 @@
-import { dedent } from '@unshared/string'
+import type { ModuleStorageAzure } from '../index'
 import { BlobServiceClient } from '@azure/storage-blob'
-import { ModuleStorageAzure } from '../index'
+import { dedent } from '@unshared/string'
 
 export async function initialize(this: ModuleStorageAzure): Promise<void> {
   if (this.storageAzureClient instanceof BlobServiceClient) return

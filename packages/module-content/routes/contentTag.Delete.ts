@@ -1,7 +1,7 @@
-import { setResponseStatus } from 'h3'
-import { assertStringUuid, createParser } from '@unshared/validation'
+import type { ModuleContent } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleContent } from '../index'
+import { assertStringUuid, createParser } from '@unshared/validation'
+import { setResponseStatus } from 'h3'
 
 export function contentTagDelete(this: ModuleContent) {
   return createRoute(

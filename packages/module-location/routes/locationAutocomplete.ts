@@ -1,7 +1,7 @@
 /// <reference types="h3" />
-import { assertStringNotEmpty, assertStringNumber, assertUndefined, createAssertNumberBetween, createSchema } from '@unshared/validation'
+import type { ModuleLocation } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleLocation } from '../index'
+import { assertStringNotEmpty, assertStringNumber, assertUndefined, createAssertNumberBetween, createSchema } from '@unshared/validation'
 
 export interface LocationAutocompleteResult {
   full: string

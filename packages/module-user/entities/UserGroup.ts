@@ -1,7 +1,7 @@
-import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { Metadata } from '@unserved/server'
-import { UserRole } from './UserRole'
+import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { User } from './User'
+import { UserRole } from './UserRole'
 
 /**
  * A `UserGroup` is a group of users. It can be used to assign roles to multiple users at once
@@ -16,7 +16,7 @@ export class UserGroup extends Metadata {
    * Name of the group. It is unique and used to identify the group.
    */
   @Column('varchar', { unique: true, length: 255 })
-    name: string
+  name: string
 
   /**
    * The slug of the group. It is used to generate a unique URL for the group.
@@ -25,7 +25,7 @@ export class UserGroup extends Metadata {
    * "Sales Department" will have the slug "sales-department".
    */
   @Column('varchar', { unique: true, length: 255 })
-    slug: string
+  slug: string
 
   /**
    * Description of the group. It is used to describe the purpose of the group.
@@ -33,7 +33,7 @@ export class UserGroup extends Metadata {
    * in the group, or to assign roles to the users in the group.
    */
   @Column('text', { default: '' })
-    description: string
+  description: string
 
   /**
    * List of users in the group. The users in the group can have different roles
@@ -41,7 +41,7 @@ export class UserGroup extends Metadata {
    * in the group, or to assign roles to the users in the group.
    */
   @ManyToMany(() => User, user => user.groups)
-    users?: User[]
+  users?: User[]
 
   /**
    * Role(s) of the group. It is used to determine what the users can do in the application.
@@ -53,5 +53,5 @@ export class UserGroup extends Metadata {
    */
   @JoinTable({ name: 'UserGroup_Roles' })
   @ManyToMany(() => UserRole)
-    roles?: UserRole[]
+  roles?: UserRole[]
 }

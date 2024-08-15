@@ -1,10 +1,10 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
-import { UUID } from 'node:crypto'
-import { Metadata, ModuleBase } from '@unserved/server'
-import { StorageFile } from '@unserved/module-storage'
 import { Icon } from '@unserved/module-icon'
-import { ContentTag, ContentTagObject } from './ContentTag'
+import { StorageFile } from '@unserved/module-storage'
+import { Metadata, ModuleBase } from '@unserved/server'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { ContentPage, ContentPageObject } from './ContentPage'
+import { ContentTag, ContentTagObject } from './ContentTag'
 
 interface SerializeOptions {
   withIconData?: boolean
@@ -40,7 +40,7 @@ export class ContentCategory extends Metadata {
    * @example 'Tutorials'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The slug of the category. It is used to generate the URL of the category and allow
@@ -50,7 +50,7 @@ export class ContentCategory extends Metadata {
    * @example 'tutorials'
    */
   @Column('varchar', { length: 255 })
-    slug: string
+  slug: string
 
   /**
    * The description of the category. It is used to describe the category in the
@@ -59,7 +59,7 @@ export class ContentCategory extends Metadata {
    * @example 'Learn how to build a website from scratch.'
    */
   @Column('text')
-    description: string
+  description: string
 
   /**
    * A reference to the icon of the category. It should be an iconify icon that represents
@@ -69,7 +69,7 @@ export class ContentCategory extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => Icon, { nullable: true, onDelete: 'SET NULL' })
-    icon?: Icon
+  icon?: Icon
 
   /**
    * A 1/1 aspect ratio image that represents the page. It is used as the preview image
@@ -78,7 +78,7 @@ export class ContentCategory extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true, onDelete: 'SET NULL' })
-    image?: StorageFile
+  image?: StorageFile
 
   /**
    * The banner image of the category. It is used as the background image of the category header
@@ -86,7 +86,7 @@ export class ContentCategory extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true, onDelete: 'SET NULL' })
-    banner?: StorageFile
+  banner?: StorageFile
 
   /**
    * The tags of the category. It is used to categorize the pages of the website and allow
@@ -95,7 +95,7 @@ export class ContentCategory extends Metadata {
    * @example [ContentPageTag {...}, ContentPageTag {...}]
    */
   @ManyToMany(() => ContentTag, tag => tag.pages)
-    tags?: ContentTag[]
+  tags?: ContentTag[]
 
   /**
    * The pages of the category. It is used to display the pages of the category in the
@@ -104,7 +104,7 @@ export class ContentCategory extends Metadata {
    * @example [ContentPage {...}, ContentPage {...}]
    */
   @OneToMany(() => ContentPage, page => page.category)
-    pages?: ContentPage[]
+  pages?: ContentPage[]
 
   /**
    * Get the URL or the SVG of the icon.

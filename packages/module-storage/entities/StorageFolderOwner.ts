@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
-import { Metadata } from '@unserved/server'
 import { User, UserObject } from '@unserved/module-user'
+import { Metadata } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
 import { StorageFolder } from './StorageFolder'
 
 /** Serialzed representation of the `StorageFolderOwner` entity. */
@@ -22,14 +22,14 @@ export class StorageFolderOwner extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => User, { onDelete: 'CASCADE' })
-    owner: User
+  owner: User
 
   /**
    * The `StorageFolder` entity that is owned by the user.
    */
   @JoinColumn()
   @ManyToOne(() => StorageFolder, folder => folder.owners, { onDelete: 'CASCADE' })
-    folder: StorageFolder
+  folder: StorageFolder
 
   /**
    * The permission level of the user on the folder. It is used to determine the level of access
@@ -37,7 +37,7 @@ export class StorageFolderOwner extends Metadata {
    * HTTP response.
    */
   @Column('varchar', { length: 255 })
-    permission: 'EDIT' | 'OWNER' | 'READ'
+  permission: 'EDIT' | 'OWNER' | 'READ'
 
   /**
    * @returns The plain object representation of the entity.

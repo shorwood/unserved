@@ -1,5 +1,5 @@
-import { RemoveOptions } from 'typeorm'
-import { Readable } from 'node:stream'
+import type { Readable } from 'node:stream'
+import type { RemoveOptions } from 'typeorm'
 
 export interface StorageDownloadOptions {
 

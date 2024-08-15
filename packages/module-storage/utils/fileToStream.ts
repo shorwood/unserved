@@ -1,10 +1,11 @@
 /* eslint-disable n/no-unsupported-features/node-builtins */
-import { ReadableStream as NodeReadableStream } from 'node:stream/web'
+import type { Derive } from '@unshared/binary'
+import type { Awaitable } from '@unshared/functions'
+import type { MaybeFunction, MaybePromise } from '@unshared/types'
+import type { Hash, UUID } from 'node:crypto'
+import { deriveStreamHash } from '@unshared/binary'
 import { Readable } from 'node:stream'
-import { Hash, UUID } from 'node:crypto'
-import { MaybeFunction, MaybePromise } from '@unshared/types'
-import { Awaitable } from '@unshared/functions'
-import { Derive, deriveStreamHash } from '@unshared/binary'
+import { ReadableStream as NodeReadableStream } from 'node:stream/web'
 
 export interface FileLike {
   stream: MaybeFunction<MaybePromise<Buffer | NodeReadableStream | Readable | ReadableStream | string>>

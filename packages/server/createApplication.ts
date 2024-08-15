@@ -1,13 +1,13 @@
-import { DataSource, DataSourceOptions } from 'typeorm'
-import { createServer } from 'node:http'
-import { EventHandler, RouterMethod, createApp, createRouter, toNodeListener } from 'h3'
-import { Constructor } from '@unshared/types'
-import { dedent } from '@unshared/string'
-import { parseEnvironmentVariables } from '@unshared/process'
-import { isConstructor } from '@unshared/functions'
 import { Once } from '@unshared/decorators'
-import { InferEntities, InferOptions, ModuleInstance, ModuleLike } from './types'
+import { isConstructor } from '@unshared/functions'
+import { parseEnvironmentVariables } from '@unshared/process'
+import { dedent } from '@unshared/string'
+import { Constructor } from '@unshared/types'
+import { createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
+import { createServer } from 'node:http'
+import { DataSource, DataSourceOptions } from 'typeorm'
 import { createEventHandler } from './createEventHandler'
+import { InferEntities, InferOptions, ModuleInstance, ModuleLike } from './types'
 
 export type ApplicationOptions<T extends ModuleLike> = {
 

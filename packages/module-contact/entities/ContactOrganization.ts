@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, JoinTable, OneToMany, OneToOne } from 'typeorm'
-import { UUID } from 'node:crypto'
-import { Metadata, transformerJson } from '@unserved/server'
-import { StorageFile } from '@unserved/module-storage'
 import { Location, LocationObject } from '@unserved/module-location'
+import { StorageFile } from '@unserved/module-storage'
+import { Metadata, transformerJson } from '@unserved/server'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinColumn, JoinTable, OneToMany, OneToOne } from 'typeorm'
 
 /** The social media links of the company. */
 export interface ContactOrganizationSocial {
@@ -25,7 +25,7 @@ export class ContactOrganization extends Metadata {
    * @example 'Acme Inc.'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The social media links of the company. It allows to link the company to
@@ -33,7 +33,7 @@ export class ContactOrganization extends Metadata {
    * YouTube, and others.
    */
   @Column('text', { nullable: true, transformer: transformerJson })
-    contactSocials?: ContactOrganizationSocial[]
+  contactSocials?: ContactOrganizationSocial[]
 
   /**
    * The registration number of the company.
@@ -41,7 +41,7 @@ export class ContactOrganization extends Metadata {
    * @example '1234567890'
    */
   @Column('varchar', { length: 255, nullable: true })
-    registrationNumber: string
+  registrationNumber: string
 
   /**
    * The type of the registration number of the company.
@@ -49,7 +49,7 @@ export class ContactOrganization extends Metadata {
    * @example 'EIN'
    */
   @Column('varchar', { length: 255, nullable: true })
-    registrationType: string
+  registrationType: string
 
   /**
    * The tax number of the company.
@@ -57,7 +57,7 @@ export class ContactOrganization extends Metadata {
    * @example '123-45-6789'
    */
   @Column('varchar', { length: 255, nullable: true })
-    taxNumber?: string
+  taxNumber?: string
 
   /**
    * The type of the tax number of the company.
@@ -65,7 +65,7 @@ export class ContactOrganization extends Metadata {
    * @example 'VAT'
    */
   @Column('varchar', { length: 255, nullable: true })
-    taxType?: string
+  taxType?: string
 
   /**
    * The logo of the company. It should be a square image with a transparent
@@ -75,7 +75,7 @@ export class ContactOrganization extends Metadata {
    */
   @JoinColumn()
   @OneToOne(() => StorageFile, { cascade: true, nullable: true })
-    logo?: StorageFile
+  logo?: StorageFile
 
   /**
    * The images and videos of the company. It allows to show the products,
@@ -85,14 +85,14 @@ export class ContactOrganization extends Metadata {
    */
   @JoinTable()
   @OneToMany(() => StorageFile, storageFile => storageFile)
-    images?: StorageFile[]
+  images?: StorageFile[]
 
   /**
    * The address of the company. It should be the legal address of the company
    * and not the address of the office or the branch.
    */
   @OneToOne(() => Location, { cascade: true, nullable: true })
-    address?: Location
+  address?: Location
 
   /**
    * @returns The serializable object of the organization.

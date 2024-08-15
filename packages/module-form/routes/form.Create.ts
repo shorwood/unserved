@@ -1,11 +1,11 @@
-import { assertNil, assertString, assertStringUuid, createSchema } from '@unshared/validation'
-import { toSlug } from '@unshared/string'
-import { createRoute } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage } from '@unserved/module-storage'
+import type { ModuleForm } from '../index'
 import { ModuleIcon } from '@unserved/module-icon'
+import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleUser } from '@unserved/module-user'
+import { createRoute } from '@unserved/server'
+import { toSlug } from '@unshared/string'
+import { assertNil, assertString, assertStringUuid, createSchema } from '@unshared/validation'
 import { assertFields } from '../utils'
-import { ModuleForm } from '../index'
 
 export function formCreate(this: ModuleForm) {
   return createRoute(

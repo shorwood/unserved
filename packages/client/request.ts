@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import { IsNever, PartialStrict } from '@unshared/types'
 import type { ApplicationOrModule } from '@unserved/server'
-import { InferInput, InferOutput, InferRouteName } from './types'
-import { resolveRequestInit } from './resolveRequestInit'
+import { IsNever, PartialStrict } from '@unshared/types'
 import { handleResponse } from './handleResponse'
+import { resolveRequestInit } from './resolveRequestInit'
+import { InferInput, InferOutput, InferRouteName } from './types'
 
 /** Type-safe options to pass to the client request based on the route. */
 type RequestOptionsData<T extends ApplicationOrModule = never, P extends InferRouteName<T> = never> =

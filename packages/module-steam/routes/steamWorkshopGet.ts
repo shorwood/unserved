@@ -1,7 +1,7 @@
-import { BBCode } from 'nbbcjs'
-import { assertString, createSchema } from '@unshared/validation'
+import type { ModuleSteam } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleSteam } from '../index'
+import { assertString, createSchema } from '@unshared/validation'
+import { BBCode } from 'nbbcjs'
 
 const bbCodeParser = new BBCode()
 bbCodeParser.setDetectURLs(true)

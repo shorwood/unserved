@@ -1,7 +1,7 @@
-import { ILike } from 'typeorm'
-import { assertNumberPositiveStrict, assertString, assertStringNumber, assertUndefined, createSchema } from '@unshared/validation'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
+import { assertNumberPositiveStrict, assertString, assertStringNumber, assertUndefined, createSchema } from '@unshared/validation'
+import { ILike } from 'typeorm'
 
 export function userSearch(this: ModuleUser) {
   return createRoute(

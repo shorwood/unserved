@@ -1,4 +1,4 @@
-import { Location, ModuleLocation } from '../index'
+import type { Location, ModuleLocation } from '../index'
 
 /**
  * Given an address string, geo-code the address and return a new `Location` entity.

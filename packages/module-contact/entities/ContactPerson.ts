@@ -1,7 +1,7 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
-import { UUID } from 'node:crypto'
-import { Metadata } from '@unserved/server'
 import { User, UserObject } from '@unserved/module-user'
+import { Metadata } from '@unserved/server'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 
 /**
  * A `ContactPerson` entity corresponds to a person or an individual. It contains the
@@ -18,7 +18,7 @@ export class ContactPerson extends Metadata {
    * @example 'John'
    */
   @Column('varchar', { length: 255 })
-    firstName: string
+  firstName: string
 
   /**
    * The last name of the person.
@@ -26,7 +26,7 @@ export class ContactPerson extends Metadata {
    * @example 'Doe'
    */
   @Column('varchar', { length: 255, default: '' })
-    lastName: string
+  lastName: string
 
   /** @returns The full name of the person. */
   get fullName() {
@@ -44,7 +44,7 @@ export class ContactPerson extends Metadata {
    */
   @JoinColumn()
   @OneToOne(() => User, { cascade: true, nullable: true })
-    user?: User
+  user?: User
 
   /** @returns The serializable object of the person. */
   serialize(): ContactPersonObject {

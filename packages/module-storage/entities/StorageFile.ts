@@ -1,12 +1,12 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, Unique } from 'typeorm'
-import { join } from 'node:path'
-import { UUID } from 'node:crypto'
 import { Metadata, ModuleBase } from '@unserved/server'
-import { StorageFolderOwnerObject } from './StorageFolderOwner'
-import { StorageFolder, StorageFolderObject } from './StorageFolder'
-import { StorageFileOwner } from './StorageFileOwner'
-import { FileLike, StorageDownloadOptions, StorageDownloadResult, StorageEraseOptions } from '../utils'
+import { UUID } from 'node:crypto'
+import { join } from 'node:path'
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, Unique } from 'typeorm'
 import { ModuleStorage } from '../index'
+import { FileLike, StorageDownloadOptions, StorageDownloadResult, StorageEraseOptions } from '../utils'
+import { StorageFileOwner } from './StorageFileOwner'
+import { StorageFolder, StorageFolderObject } from './StorageFolder'
+import { StorageFolderOwnerObject } from './StorageFolderOwner'
 
 /** Serialize options for the `StorageFolder` entity. */
 interface SerializeOptions {
@@ -44,7 +44,7 @@ export class StorageFile extends Metadata {
    * @example '/images'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The MD5 hash of the asset. It is used to determine the integrity of the asset. It is
@@ -53,7 +53,7 @@ export class StorageFile extends Metadata {
    */
   @Column('varchar', { length: 255 })
   @Index({ unique: true })
-    hash: string
+  hash: string
 
   /**
    * The MIME type of the asset. It is used to determine the type of the asset such as
@@ -64,7 +64,7 @@ export class StorageFile extends Metadata {
    * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
    */
   @Column('varchar', { length: 255 })
-    type: string
+  type: string
 
   /**
    * The size of the asset. It is used to determine the size of the asset in bytes. It is
@@ -73,7 +73,7 @@ export class StorageFile extends Metadata {
    * @example 1024
    */
   @Column('int')
-    size: number
+  size: number
 
   /**
    * If the file was uploaded from a remote URL, this field contains the URL of the remote
@@ -81,7 +81,7 @@ export class StorageFile extends Metadata {
    * asset from the remote URL.
    */
   @Column('text', { default: '', nullable: true })
-    source: string
+  source: string
 
   /**
    * Description of the asset. It is a short text that describes the asset and its usage.
@@ -90,7 +90,7 @@ export class StorageFile extends Metadata {
    * @example 'A banner image for the homepage'
    */
   @Column('text', { default: '', nullable: true })
-    description: string
+  description: string
 
   /**
    * The number of times this object is referenced by other entities. It is used to determine
@@ -102,21 +102,21 @@ export class StorageFile extends Metadata {
    * can store the picture once and reference it from multiple users.
    */
   @Column('int', { default: 1 })
-    references: number
+  references: number
 
   /**
    * The number of times this asset has been downloaded. It is used to determine the popularity
    * of the asset and the bandwidth usage of the server.
    */
   @Column('int', { default: 0 })
-    downloads: number
+  downloads: number
 
   /**
    * A reference to the owner of the entity. It is used to determine who has the permission to
    * read, update, or delete the entity.
    */
   @OneToMany(() => StorageFileOwner, owner => owner.file)
-    owners?: StorageFileOwner[]
+  owners?: StorageFileOwner[]
 
   /**
    * A reference to the folder containing the asset. It is used to determine the directory
@@ -124,7 +124,7 @@ export class StorageFile extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFolder, folder => folder.files)
-    parent?: StorageFolder
+  parent?: StorageFolder
 
   /**
    * @returns The URL to access the asset data. It points to the `/api/storage/:id` endpoint

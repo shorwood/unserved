@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { Metadata, transformerDate } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { User } from './User'
 
 /**
@@ -20,7 +20,7 @@ export class UserSession extends Metadata {
    */
   @ManyToOne(() => User, user => user.sessions, { onDelete: 'CASCADE' })
   @JoinColumn()
-    user?: User
+  user?: User
 
   /**
    * The address of the session. It is used to bind the session to a specific device.
@@ -28,7 +28,7 @@ export class UserSession extends Metadata {
    * @example '192.168.1.1'
    */
   @Column('varchar', { length: 255 })
-    address: string
+  address: string
 
   /**
    * The user agent of the session. It is used to determine the device and browser
@@ -37,7 +37,7 @@ export class UserSession extends Metadata {
    * @example 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
    */
   @Column('varchar', { length: 255 })
-    userAgent: string
+  userAgent: string
 
   /**
    * Expiration date of the session. When the session expires, all subsequent requests
@@ -47,5 +47,5 @@ export class UserSession extends Metadata {
    * @example '2022-12-31T23:59:59.999Z'
    */
   @Column('varchar', { transformer: transformerDate, length: 255 })
-    expiresAt: Date
+  expiresAt: Date
 }

@@ -1,8 +1,9 @@
-import { join } from 'node:path'
-import { rm } from 'node:fs/promises'
+import type { FileLike, StorageFile } from '@unserved/module-storage'
+import type { ModuleStorageLocal } from '../index'
+import { fileToStream } from '@unserved/module-storage'
 import { createWriteStream } from 'node:fs'
-import { FileLike, StorageFile, fileToStream } from '@unserved/module-storage'
-import { ModuleStorageLocal } from '../index'
+import { rm } from 'node:fs/promises'
+import { join } from 'node:path'
 
 export async function upload(this: ModuleStorageLocal, entity: FileLike): Promise<StorageFile> {
   const { StorageFile } = this.entities

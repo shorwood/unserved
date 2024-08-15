@@ -1,12 +1,12 @@
-import { assertNil, assertString, assertStringNotEmpty, assertStringUuid, createArrayParser, createParser } from '@unshared/validation'
-import { toSlug } from '@unshared/string'
-import { createRoute } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage } from '@unserved/module-storage'
-import { ModuleLocale } from '@unserved/module-locale'
+import type { ModuleContent } from '../index'
 import { ModuleIcon } from '@unserved/module-icon'
+import { ModuleLocale } from '@unserved/module-locale'
+import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleUser } from '@unserved/module-user'
+import { createRoute } from '@unserved/server'
+import { toSlug } from '@unshared/string'
+import { assertNil, assertString, assertStringNotEmpty, assertStringUuid, createArrayParser, createParser } from '@unshared/validation'
 import { assertSections } from '../utils'
-import { ModuleContent } from '../index'
 
 export function contentPageUpdate(this: ModuleContent) {
   return createRoute(

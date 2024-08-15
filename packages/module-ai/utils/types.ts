@@ -10,7 +10,7 @@ export interface OpenAI_CompletionResponse {
       role: string
       content: string
     }
-    logprobs: number | null
+    logprobs: null | number
     finish_reason: string
   }>
   usage: {

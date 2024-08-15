@@ -1,8 +1,8 @@
-import { createDecipheriv, createHash } from 'node:crypto'
-import { assertStringUuid } from '@unshared/validation'
+import type { UserSession } from '../entities'
+import type { ModuleUser } from '../index'
 import { toPredicate } from '@unshared/functions'
-import { ModuleUser } from '../index'
-import { UserSession } from '../entities'
+import { assertStringUuid } from '@unshared/validation'
+import { createDecipheriv, createHash } from 'node:crypto'
 
 /**
  * Decrypher a token using the secret key and return the id of the user session

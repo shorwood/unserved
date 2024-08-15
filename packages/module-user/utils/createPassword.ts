@@ -1,4 +1,5 @@
-import { ScryptOptions, randomBytes, scrypt } from 'node:crypto'
+import type { ScryptOptions } from 'node:crypto'
+import { randomBytes, scrypt } from 'node:crypto'
 
 /**
  * Options to hash the password of the user. It includes the length of the

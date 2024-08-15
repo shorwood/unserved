@@ -1,5 +1,5 @@
 /* eslint-disable unicorn/no-null */
-import { ValueTransformer } from 'typeorm'
+import type { ValueTransformer } from 'typeorm'
 
 /**
  * Transforms a JSON object to a string when saving it to the database
@@ -13,11 +13,11 @@ import { ValueTransformer } from 'typeorm'
  * }
  */
 export const transformerJson = {
-  to(value?: Record<string, unknown> | null): string | null {
+  to(value?: Record<string, unknown> | null): null | string {
     if (typeof value !== 'object' || value === null) return null
     return JSON.stringify(value)
   },
-  from(value?: string | null): unknown {
+  from(value?: null | string): unknown {
     if (typeof value !== 'string') return
     try { return JSON.parse(value) as unknown }
     catch { return }

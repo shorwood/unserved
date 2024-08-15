@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
-import { UUID } from 'node:crypto'
 import { Metadata } from '@unserved/server'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { IconCollection } from './IconCollection'
 
 export interface IconObject {
@@ -24,7 +24,7 @@ export class Icon extends Metadata {
    * @example 'mdi:web'
    */
   @Column('varchar', { length: 255, unique: true })
-    name: string
+  name: string
 
   /**
    * The inner body of the icon. It is the SVG data of the icon that is used to
@@ -33,7 +33,7 @@ export class Icon extends Metadata {
    * @example '<path fill="currentColor" d="..."/>'
    */
   @Column('text')
-    body?: string
+  body?: string
 
   /**
    * If `true`, the icon is used as a sample when presenting the icons sets.
@@ -41,7 +41,7 @@ export class Icon extends Metadata {
    * @default false
    */
   @Column('boolean', { default: false })
-    isSample: boolean
+  isSample: boolean
 
   /**
    * The collection from which the icon is taken. It is used to group the icons by their
@@ -49,7 +49,7 @@ export class Icon extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => IconCollection, collection => collection.icons, { onDelete: 'CASCADE' })
-    collection: IconCollection
+  collection: IconCollection
 
   /**
    * Get the URL of the icon.

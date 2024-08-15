@@ -1,8 +1,10 @@
-import { Result, attempt } from '@unshared/functions'
-import { ApplicationOrModule } from '@unserved/server'
-import { InferOutput, InferRouteName } from './types'
-import { RequestOptions, request } from './request'
+import type { ApplicationOrModule } from '@unserved/server'
+import type { Result } from '@unshared/functions'
+import type { RequestOptions } from './request'
+import type { InferOutput, InferRouteName } from './types'
+import { attempt } from '@unshared/functions'
 import { connect } from './connect'
+import { request } from './request'
 
 export class Client<T extends ApplicationOrModule> extends EventTarget {
 

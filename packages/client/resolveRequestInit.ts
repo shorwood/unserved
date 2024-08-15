@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 /* eslint-disable sonarjs/cognitive-complexity */
-import { RequestOptions } from './request'
+import type { RequestOptions } from './request'
 
 /**
  * Resolves the request body and/or query parameters based on the method type. This function
@@ -14,7 +14,7 @@ export function resolveRequestInit(name: string, options: RequestOptions) {
   const { data, baseUrl, ...requestInit } = options
 
   // --- Extract the path and method from the name.
-  const match = name.match(/^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS) (\/.+)$/)
+  const match = /^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS) (\/.+)$/.exec(name)
   if (!match) throw new Error('Could not resolve the path and method from the route name.')
   if (!baseUrl) throw new Error('Could not resolve the `RequestInit` object: the `baseUrl` is missing.')
   const [, method, path] = match

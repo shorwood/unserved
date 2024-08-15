@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
-import { Metadata } from '@unserved/server'
 import { Icon } from '@unserved/module-icon'
+import { Metadata } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 import { LocaleTranslation } from './LocaleTranslation'
 
 interface LocaleSerializeOptions {
@@ -36,7 +36,7 @@ export class Locale extends Metadata {
    * @example 'English'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The slug of the locale. It is used to generate the URL of the locale and allow
@@ -46,7 +46,7 @@ export class Locale extends Metadata {
    * @example 'en-US'
    */
   @Column('varchar', { length: 255, unique: true, nullable: true })
-    code: string
+  code: string
 
   /**
    * Determines if the locale is the default locale of the website. It is used as
@@ -54,7 +54,7 @@ export class Locale extends Metadata {
    * preferred locale.
    */
   @Column('boolean', { unique: true })
-    isDefault: boolean
+  isDefault: boolean
 
   /**
    * Determines if the locale is disabled. It is used to prevent the users from
@@ -62,7 +62,7 @@ export class Locale extends Metadata {
    * temporarily without deleting the locale.
    */
   @Column('boolean', { default: false })
-    isDisabled: boolean
+  isDisabled: boolean
 
   /**
    * A reference to the flag of the locale. It is used to display the flag of the locale
@@ -70,7 +70,7 @@ export class Locale extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => Icon, { nullable: true, onDelete: 'SET NULL' })
-    icon?: Icon
+  icon?: Icon
 
   /**
    * List of translations of the locale. It is used to translate the strings of the website
@@ -81,7 +81,7 @@ export class Locale extends Metadata {
    * @example [LocaleTranslation { ... }]
    */
   @OneToMany(() => LocaleTranslation, translation => translation.locale, { cascade: true })
-    translations?: LocaleTranslation[]
+  translations?: LocaleTranslation[]
 
   /**
    * @returns A map of the translations of the locale.

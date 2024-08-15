@@ -1,7 +1,7 @@
-import { assertString, assertStringNotEmpty, assertStringUuid, assertUndefined, createArrayParser, createSchema } from '@unshared/validation'
+import type { UserObject } from '../entities'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
-import { UserObject } from '../entities'
+import { assertString, assertStringNotEmpty, assertStringUuid, assertUndefined, createArrayParser, createSchema } from '@unshared/validation'
 
 export function userUpdate(this: ModuleUser) {
   return createRoute(

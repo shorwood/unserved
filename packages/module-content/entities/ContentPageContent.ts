@@ -1,6 +1,6 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
-import { Metadata, transformerDate, transformerJson } from '@unserved/server'
 import { Locale } from '@unserved/module-locale'
+import { Metadata, transformerDate, transformerJson } from '@unserved/server'
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
 import { ContentPage } from './ContentPage'
 
 export interface ContentPageSection {
@@ -23,7 +23,7 @@ export class ContentPageContent extends Metadata {
    * @example 'How to build a website'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The slug of the page. It is used to generate the URL of the page and allow the
@@ -33,7 +33,7 @@ export class ContentPageContent extends Metadata {
    * @example 'how-to-build-a-website'
    */
   @Column('varchar', { length: 255 })
-    slug: string
+  slug: string
 
   /**
    * The description of the page. It is used as the description of the page in the
@@ -42,21 +42,21 @@ export class ContentPageContent extends Metadata {
    * @example 'The best products in the world.'
    */
   @Column('text', { default: '' })
-    description: string
+  description: string
 
   /**
    * The sections of the page. It is used to display the content of the page to the
    * users and allow the website owner to edit the content of the page.
    */
   @Column('text', { transformer: transformerJson })
-    sections: ContentPageSection[] = []
+  sections: ContentPageSection[] = []
 
   /**
    * The date at which the page was published. It can be in the future to schedule
    * a publication at a later date or be undefined to keep the page as a draft.
    */
   @Column('varchar', { transformer: transformerDate, nullable: true })
-    publishedAt?: Date
+  publishedAt?: Date
 
   /**
    * The language used in the content of the page. It is used to translate the content
@@ -65,7 +65,7 @@ export class ContentPageContent extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => Locale, { onDelete: 'CASCADE' })
-    locale?: Locale
+  locale?: Locale
 
   /**
    * A reference to the page of the website. It is used to link the version to the
@@ -74,5 +74,5 @@ export class ContentPageContent extends Metadata {
    */
   @JoinColumn()
   @OneToOne(() => ContentPage, content => content.content, { onDelete: 'CASCADE' })
-    page?: ContentPage
+  page?: ContentPage
 }

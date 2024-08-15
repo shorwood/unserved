@@ -1,6 +1,6 @@
+import type { ContentTag } from '../entities'
+import type { ModuleContent } from '../index'
 import { toKebabCase } from '@unshared/string'
-import { ModuleContent } from '../index'
-import { ContentTag } from '../entities'
 
 /**
  * Given a list of strings, find the `ContentTag` entities that match the slugs.
@@ -10,7 +10,7 @@ import { ContentTag } from '../entities'
  * @param tags The list of tags to find or create.
  * @returns The `ContentTag` entities.
  */
-export async function resolveTags(this: ModuleContent, tags?: string[] | null) {
+export async function resolveTags(this: ModuleContent, tags?: null | string[]) {
   const { ContentTag } = this.entities
   const results: ContentTag[] = []
   if (!tags) return results

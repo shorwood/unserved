@@ -1,11 +1,11 @@
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
-import { UUID } from 'node:crypto'
-import { Metadata, ModuleBase } from '@unserved/server'
-import { StorageFile } from '@unserved/module-storage'
 import { Icon } from '@unserved/module-icon'
-import { ContentTag, ContentTagObject } from './ContentTag'
-import { ContentPageContent, ContentPageSection } from './ContentPageContent'
+import { StorageFile } from '@unserved/module-storage'
+import { Metadata, ModuleBase } from '@unserved/server'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { ContentCategory, ContentCategoryObject } from './ContentCategory'
+import { ContentPageContent, ContentPageSection } from './ContentPageContent'
+import { ContentTag, ContentTagObject } from './ContentTag'
 
 interface SerializeOptions {
   withSections?: boolean
@@ -46,7 +46,7 @@ export class ContentPage extends Metadata {
    * @example 'How to build a website'
    */
   @Column('varchar', { length: 255 })
-    name: string
+  name: string
 
   /**
    * The slug of the page. It is used to generate the URL of the page and allow the
@@ -56,7 +56,7 @@ export class ContentPage extends Metadata {
    * @example 'how-to-build-a-website'
    */
   @Column('varchar', { length: 255, unique: true })
-    slug: string
+  slug: string
 
   /**
    * The tags of the page. It is used to categorize the pages of the website and allow
@@ -65,7 +65,7 @@ export class ContentPage extends Metadata {
    * @example [ContentPageTag {...}, ContentPageTag {...}]
    */
   @ManyToMany(() => ContentTag, tag => tag.pages)
-    tags?: ContentTag[]
+  tags?: ContentTag[]
 
   /**
    * A reference to the icon of the page. It should be an iconify icon that represents
@@ -75,7 +75,7 @@ export class ContentPage extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => Icon, { nullable: true, onDelete: 'SET NULL' })
-    icon?: Icon
+  icon?: Icon
 
   /**
    * A 1/1 aspect ratio image that represents the page. It is used as the preview image
@@ -84,7 +84,7 @@ export class ContentPage extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true, onDelete: 'SET NULL' })
-    image?: StorageFile
+  image?: StorageFile
 
   /**
    * The banner image of the page. It is used as the background image of the page header
@@ -92,7 +92,7 @@ export class ContentPage extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => StorageFile, { nullable: true, onDelete: 'SET NULL' })
-    banner?: StorageFile
+  banner?: StorageFile
 
   /**
    * The category of the page. It is used to categorize the pages of the website and allow
@@ -102,7 +102,7 @@ export class ContentPage extends Metadata {
    */
   @JoinColumn()
   @ManyToOne(() => ContentCategory, category => category.pages, { nullable: true, onDelete: 'SET NULL' })
-    category?: ContentCategory
+  category?: ContentCategory
 
   /**
    * The versions of the page. It regroups the different versions of the page to allow
@@ -110,7 +110,7 @@ export class ContentPage extends Metadata {
    * The latest version of the page is the one displayed to the users.
    */
   @OneToMany(() => ContentPageContent, version => version.page, { cascade: true })
-    content: ContentPageContent[]
+  content: ContentPageContent[]
 
   /**
    * Get the URL or the SVG of the icon.

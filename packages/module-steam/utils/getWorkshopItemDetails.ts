@@ -1,6 +1,6 @@
+import type { ModuleSteam } from '../index'
+import type { WorkshopItemDetail, WorkshopItemResult } from './types'
 import { toSearchParams } from '@unshared/string'
-import { WorkshopItemDetail, WorkshopItemResult } from './types'
-import { ModuleSteam } from '../index'
 
 export interface GetWorkshopItemDetailsOptions {
   publishedfileids: string[]

@@ -1,5 +1,5 @@
-import { ModuleLocale } from '../index'
-import { Locale } from '../entities'
+import type { Locale } from '../entities'
+import type { ModuleLocale } from '../index'
 
 /**
  * Given a locale code and a map of translations, import the translations into the locale.

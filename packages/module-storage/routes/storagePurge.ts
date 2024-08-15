@@ -1,6 +1,6 @@
-import { createRoute } from '@unserved/server'
+import type { ModuleStorage } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage } from '../index'
+import { createRoute } from '@unserved/server'
 
 export function storagePurge(this: ModuleStorage) {
   return createRoute(

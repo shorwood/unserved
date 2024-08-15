@@ -1,7 +1,7 @@
-import { Readable } from 'node:stream'
-import { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
+import type { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
+import type { ModuleStorageAzure } from '../index'
 import { BlobSASPermissions } from '@azure/storage-blob'
-import { ModuleStorageAzure } from '../index'
+import { Readable } from 'node:stream'
 
 export async function download(this: ModuleStorageAzure, entity: StorageFile, options: StorageDownloadOptions = {}): Promise<StorageDownloadResult> {
   const { offset, size, abortSignal } = options

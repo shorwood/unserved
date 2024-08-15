@@ -1,6 +1,6 @@
-import { deleteCookie, setResponseStatus } from 'h3'
+import type { ModuleUser } from '../index'
 import { createRoute } from '@unserved/server'
-import { ModuleUser } from '../index'
+import { deleteCookie, setResponseStatus } from 'h3'
 
 export function userSignout(this: ModuleUser) {
   return createRoute('DELETE /api/signout', async({ event }) => {

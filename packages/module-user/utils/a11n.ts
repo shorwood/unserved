@@ -1,5 +1,6 @@
-import { H3Event, getCookie, getHeader, getRequestIP } from 'h3'
-import { ModuleUser } from '../index'
+import type { H3Event } from 'h3'
+import type { ModuleUser } from '../index'
+import { getCookie, getHeader, getRequestIP } from 'h3'
 
 export interface A11nOptions {
 

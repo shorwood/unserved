@@ -1,8 +1,8 @@
-import { ReadableStream } from 'node:stream/web'
-import { Readable } from 'node:stream'
-import { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
+import type { StorageDownloadOptions, StorageDownloadResult, StorageFile } from '@unserved/module-storage'
+import type { ReadableStream } from 'node:stream/web'
+import type { ModuleStorageS3 } from '../index'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
-import { ModuleStorageS3 } from '../index'
+import { Readable } from 'node:stream'
 
 export async function download(this: ModuleStorageS3, entity: StorageFile, options: StorageDownloadOptions = {}): Promise<StorageDownloadResult> {
   const { offset = 0, size } = options

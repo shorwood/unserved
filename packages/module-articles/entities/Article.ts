@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, OneToMany } from 'typeorm'
 import { Metadata } from '@unserved/server'
+import { Column, Entity, JoinColumn, OneToMany } from 'typeorm'
 import { ArticleContent } from './ArticleContent'
 
 /**
@@ -19,7 +19,7 @@ export class Article extends Metadata {
    * @example 'how-to-create-a-blog-with-typescript-and-node-js'
    */
   @Column('string', { unique: true })
-    slug: string
+  slug: string
 
   /**
    * A cover image of the post. It is used to display the post in the frontend and provide a visual
@@ -27,5 +27,5 @@ export class Article extends Metadata {
    */
   @JoinColumn()
   @OneToMany(() => ArticleContent, content => content.post)
-    content: ArticleContent[]
+  content: ArticleContent[]
 }

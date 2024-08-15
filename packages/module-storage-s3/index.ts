@@ -1,5 +1,5 @@
+import type { S3Client } from '@aws-sdk/client-s3'
 import { ModuleStorage } from '@unserved/module-storage'
-import { S3Client } from '@aws-sdk/client-s3'
 import { download, erase, initialize, purge, upload } from './utils'
 
 export type ModuleStorageS3Options = Partial<Pick<

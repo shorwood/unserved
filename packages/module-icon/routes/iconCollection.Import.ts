@@ -1,8 +1,8 @@
-import { assertStringNotEmpty, createParser } from '@unshared/validation'
-import { createRoute } from '@unserved/server'
+import type { ModuleIcon } from '../index'
+import type { IconCollectionDownload, IconCollectionMetadata } from '../utils'
 import { ModuleUser } from '@unserved/module-user'
-import { IconCollectionDownload, IconCollectionMetadata } from '../utils'
-import { ModuleIcon } from '../index'
+import { createRoute } from '@unserved/server'
+import { assertStringNotEmpty, createParser } from '@unshared/validation'
 
 interface Progress {
   value: number

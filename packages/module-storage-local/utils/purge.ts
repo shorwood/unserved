@@ -1,7 +1,7 @@
-import { join } from 'node:path'
+import type { StoragePurgeResult } from '@unserved/module-storage'
+import type { ModuleStorageLocal } from '../index'
 import { readdir, rm, stat } from 'node:fs/promises'
-import { StoragePurgeResult } from '@unserved/module-storage'
-import { ModuleStorageLocal } from '../index'
+import { join } from 'node:path'
 
 export async function purge(this: ModuleStorageLocal): Promise<StoragePurgeResult> {
   const entities = await this.entities.StorageFile.find({ select: ['id'] })

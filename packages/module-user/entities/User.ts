@@ -1,9 +1,9 @@
-import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
-import { UUID } from 'node:crypto'
 import { Metadata, transformerJson } from '@unserved/server'
-import { UserSession } from './UserSession'
+import { UUID } from 'node:crypto'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
+import { createPassword, PasswordOptions } from '../utils'
 import { UserRole, UserRoleObject } from './UserRole'
-import { PasswordOptions, createPassword } from '../utils'
+import { UserSession } from './UserSession'
 
 /**
  * The user object returned to the client. It is used to send the user data to the client
@@ -36,44 +36,44 @@ export class User extends Metadata {
    * being disabled or deleted.
    */
   @Column('boolean', { nullable: true, unique: true })
-    isAdministrator?: boolean
+  isAdministrator?: boolean
 
   /**
    * Flag to check if the user is enabled or disabled. It is used to prevent the user
    * from logging in or accessing the application while still keeping the user data.
    */
   @Column('boolean', { default: true })
-    isEnabled: boolean
+  isEnabled: boolean
 
   /**
    * Email or username address of the user. It is unique and used to login.
    */
   @Column('varchar', { unique: true, length: 255 })
-    username: string
+  username: string
 
   /**
    * Hashed password of the user.
    */
   @Column('varchar', { length: 255, nullable: true })
-    password?: string
+  password?: string
 
   /**
    * The options used to hash the current password of the user.
    */
   @Column('text', { transformer: transformerJson, nullable: true })
-    passwordOptions?: PasswordOptions
+  passwordOptions?: PasswordOptions
 
   /**
    * TOTP secret of the user.
    */
   @Column('varchar', { length: 255, nullable: true })
-    totpSecret?: string
+  totpSecret?: string
 
   /**
    * TOTP options of the user.
    */
   @Column('text', { transformer: transformerJson, nullable: true })
-    totpOptions?: PasswordOptions
+  totpOptions?: PasswordOptions
 
   /**
    * The group(s) of the user. It is used to assign roles to multiple users at once
@@ -81,7 +81,7 @@ export class User extends Metadata {
    */
   @JoinTable({ name: 'User_Groups' })
   @ManyToMany(() => User, user => user.groups)
-    groups?: User[]
+  groups?: User[]
 
   /**
    * Role(s) of the user. It is used to determine what the user can do in the application.
@@ -93,7 +93,7 @@ export class User extends Metadata {
    */
   @JoinTable({ name: 'User_Roles' })
   @ManyToMany(() => UserRole)
-    roles?: UserRole[]
+  roles?: UserRole[]
 
   /**
    * The list of sessions associated with the user. It is used to determine the devices
@@ -102,7 +102,7 @@ export class User extends Metadata {
    * @example [UserSession { ... }]
    */
   @OneToMany(() => UserSession, session => session.user)
-    sessions?: UserSession[]
+  sessions?: UserSession[]
 
   /**
    * @returns The permissions of the user. It is a combination of all the permissions

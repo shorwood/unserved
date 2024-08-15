@@ -1,10 +1,10 @@
-import { assertString, assertStringNotEmpty, assertStringUuid, assertUndefined, createArrayParser, createParser } from '@unshared/validation'
-import { toSlug } from '@unshared/string'
-import { createRoute } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
-import { ModuleStorage } from '@unserved/module-storage'
+import type { ModuleContent } from '../index'
 import { ModuleIcon } from '@unserved/module-icon'
-import { ModuleContent } from '../index'
+import { ModuleStorage } from '@unserved/module-storage'
+import { ModuleUser } from '@unserved/module-user'
+import { createRoute } from '@unserved/server'
+import { toSlug } from '@unshared/string'
+import { assertString, assertStringNotEmpty, assertStringUuid, assertUndefined, createArrayParser, createParser } from '@unshared/validation'
 
 export function contentCategoryCreate(this: ModuleContent) {
   return createRoute(

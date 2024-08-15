@@ -1,9 +1,9 @@
-import { setResponseStatus } from 'h3'
-import { assertBoolean, assertString, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
-import { createRoute } from '@unserved/server'
-import { ModuleUser } from '@unserved/module-user'
+import type { ModuleLocale } from '../index'
 import { ModuleIcon } from '@unserved/module-icon'
-import { ModuleLocale } from '../index'
+import { ModuleUser } from '@unserved/module-user'
+import { createRoute } from '@unserved/server'
+import { assertBoolean, assertString, assertStringUuid, assertUndefined, createParser } from '@unshared/validation'
+import { setResponseStatus } from 'h3'
 
 export function localeUpdate(this: ModuleLocale) {
   return createRoute(

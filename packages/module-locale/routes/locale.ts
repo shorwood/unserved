@@ -1,9 +1,9 @@
-import { ILike } from 'typeorm'
-import { EXP_UUID, assertString, assertStringNotEmpty, assertUndefined, createSchema } from '@unshared/validation'
-import { parseBoolean } from '@unshared/string'
-import { createRoute } from '@unserved/server'
+import type { ModuleLocale } from '../index'
 import { ModuleUser } from '@unserved/module-user'
-import { ModuleLocale } from '../index'
+import { createRoute } from '@unserved/server'
+import { parseBoolean } from '@unshared/string'
+import { assertString, assertStringNotEmpty, assertUndefined, createSchema, EXP_UUID } from '@unshared/validation'
+import { ILike } from 'typeorm'
 
 export function localeGet(this: ModuleLocale) {
   return createRoute(
