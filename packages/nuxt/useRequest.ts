@@ -1,9 +1,15 @@
 import type { InferInput, InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
 import type { ApplicationOrModule, Server } from '@unserved/server'
-import type { AsyncDataOptions } from 'nuxt/app'
+import type { AsyncDataOptions, useAsyncData } from 'nuxt/app'
 import type { Ref } from 'vue'
-import { useAsyncData } from 'nuxt/app'
 import { useClient } from './useClient'
+
+// --- Workaround that lets us use the global `useAsyncData` in the nuxt context
+// --- without having to explicitly import it in this module. This is necessary
+// --- to avoid build issues when using the `useRequest` function in the nuxt context.
+declare namespace globalThis {
+  export const useAsyncData: typeof import('nuxt/app').useAsyncData
+}
 
 /** Extract the keys of an object but only if they are strings. */
 export type KeysOf<T> = Array<T extends T
@@ -66,8 +72,9 @@ export function useRequest<
   name: P,
   options: UseRequestOptions<T, P, O, U, K, D> = {},
 ) {
+
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  return useAsyncData(
+  return globalThis.useAsyncData(
     options.key ?? name as string,
     async() => useClient<T>().request(name, options),
     options,
