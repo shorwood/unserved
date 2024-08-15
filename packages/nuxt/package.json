@@ -48,18 +48,17 @@
     "LICENSE.md"
   ],
   "peerDependencies": {
-    "@nuxt/kit": "3.12.0",
-    "nuxt": "3.12.0",
-    "vue": "3.4.0"
+    "nuxt": ">=3.12.0",
+    "vue": ">=3.4.0"
   },
   "dependencies": {
+    "@nuxt/kit": "3.12.4",
     "@unserved/client": "workspace:*",
     "@unserved/server": "workspace:*",
     "@unshared/functions": "0.0.16",
     "@vueuse/core": "10.11.1"
   },
   "devDependencies": {
-    "@nuxt/kit": "3.12.4",
     "nuxt": "3.12.4",
     "vue": "3.4.38"
   }
