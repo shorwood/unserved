@@ -9,7 +9,7 @@ import { DataSource, DataSourceOptions } from 'typeorm'
 import { createEventHandler } from './createEventHandler'
 import { InferEntities, InferOptions, ModuleInstance, ModuleLike } from './types'
 
-export type ApplicationOptions<T extends ModuleLike> = {
+export type ApplicationOptions<T extends ModuleLike = ModuleLike> = {
 
   /**
    * The logger instance of the application. It is used to log messages and errors in the
@@ -18,7 +18,7 @@ export type ApplicationOptions<T extends ModuleLike> = {
    *
    * @default globalThis.console
    */
-  logger?: Console
+  logger?: Pick<Console, 'debug' | 'error' | 'log' | 'warn'>
 
   /**
    * The data source of the application. It is used to connect to the database and perform
@@ -85,7 +85,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
    *
    * @default globalThis.console
    */
-  logger = globalThis.console
+  logger: Pick<Console, 'debug' | 'error' | 'log' | 'warn'> = globalThis.console
 
   /**
    * Instantiate a new application with the given modules and options.
@@ -106,6 +106,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
       dataSource: {
         ...DEFAULT_DATA_SOURCE_OPTIONS,
         ...parseEnvironmentVariables('DATABASE'),
+        ...options.dataSource,
       },
     }
 
@@ -122,12 +123,10 @@ export class Application<T extends ModuleLike = ModuleLike> {
       for (const dependency of module.dependencies) {
         const found = this.modules.find(m => m instanceof dependency)
         if (!found) {
-          throw new Error(dedent(`
-            [Application] Missing dependency
+          this.logger.warn(dedent(`
+            [Application] Missing dependency.
 
-            There has been an error initializing the application. The module "${module.constructor.name}"
-            expects the module "${dependency.name}" to be registered in the application. Please make sure
-            that the module is registered in the application before initializing it.
+            There has been an error initializing the application. The module "${module.constructor.name}" expects the module "${dependency.name}" to be registered in the application. Please make sure that the module is registered in the application before initializing it.
           `))
         }
       }
