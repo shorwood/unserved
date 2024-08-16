@@ -1,7 +1,3 @@
-import type { Application } from '@unserved/server'
+import type { ApplicationOrModule } from '@unserved/server'
 
-declare module '@unserved/server' {
-  interface Server {
-    application: Application
-  }
-}
+export type GlobalApplication = ApplicationOrModule

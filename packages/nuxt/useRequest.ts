@@ -1,15 +1,9 @@
 import type { InferInput, InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
-import type { ApplicationOrModule, Server } from '@unserved/server'
+import type { GlobalApplication } from '@unserved/nuxt/types'
+import type { ApplicationOrModule } from '@unserved/server'
 import type { AsyncDataOptions, useAsyncData } from 'nuxt/app'
 import type { Ref } from 'vue'
 import { useClient } from './useClient'
-
-// --- Workaround that lets us use the global `useAsyncData` in the nuxt context
-// --- without having to explicitly import it in this module. This is necessary
-// --- to avoid build issues when using the `useRequest` function in the nuxt context.
-declare namespace globalThis {
-  export const useAsyncData: typeof import('nuxt/app').useAsyncData
-}
 
 /** Extract the keys of an object but only if they are strings. */
 export type KeysOf<T> = Array<T extends T
@@ -18,9 +12,9 @@ export type KeysOf<T> = Array<T extends T
 >
 
 /** Matches a ref or an object with a nested ref. */
-type MaybeReferenceDeep<T> =
+type MaybeRefDeep<T> =
   T extends Record<string, unknown>
-    ? { [K in keyof T]: MaybeReferenceDeep<T[K]>; }
+    ? { [K in keyof T]: MaybeRefDeep<T[K]>; }
     : Ref<T> | T
 
 /**
@@ -43,7 +37,7 @@ export type UseRequestOptions<
   U = O,
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
-> = { data?: MaybeReferenceDeep<InferInput<T, P>> } & { key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
+> = { data?: MaybeRefDeep<InferInput<T, P>> } & { key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
 
 /**
  * Request a route from the server and return the result. This function is a wrapper around `useAsyncData` that
@@ -62,7 +56,7 @@ export type UseRequestOptions<
  * const { data: user } = useRequest('GET /api/users/:id', { data: { id: '123' } })
  */
 export function useRequest<
-  T extends ApplicationOrModule = Server['application'],
+  T extends ApplicationOrModule = GlobalApplication,
   P extends InferRouteName<T> = never,
   O extends InferOutput<T, P> = InferOutput<T, P>,
   U = O,
@@ -72,9 +66,9 @@ export function useRequest<
   name: P,
   options: UseRequestOptions<T, P, O, U, K, D> = {},
 ) {
-
+  // @ts-expect-error: The `useAsyncData` function is globally available in Nuxt.
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-  return globalThis.useAsyncData(
+  return useAsyncData(
     options.key ?? name as string,
     async() => useClient<T>().request(name, options),
     options,

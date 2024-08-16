@@ -1,4 +1,4 @@
-import type { Server } from '@unserved/server'
+import type { GlobalApplication } from '@unserved/nuxt/types'
 import type { ApplicationOrModule } from '@unserved/server'
 import { createClient } from '@unserved/client'
 import { createGlobalState } from '@vueuse/core'
@@ -20,4 +20,4 @@ import { createGlobalState } from '@vueuse/core'
  * // Connect to a websocket route.
  * const socket = useClient().connect('WS /api/chat')
  */
-export const useClient = createGlobalState(<T extends ApplicationOrModule = Server['application']>() => createClient<T>())
+export const useClient = createGlobalState(() => createClient()) as <T extends ApplicationOrModule = GlobalApplication>() => ReturnType<typeof createClient<T>>
