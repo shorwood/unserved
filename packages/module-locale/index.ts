@@ -2,6 +2,7 @@ import { ModuleIcon } from '@unserved/module-icon'
 import { ModuleUser } from '@unserved/module-user'
 import { ModuleBase } from '@unserved/server'
 import * as ENTITIES from './entities'
+import * as ROUTES from './routes'
 import { ERRORS, importTranslations, importTranslationsToLocale, PERMISSIONS, resolveLocale } from './utils'
 
 export * from './entities'
@@ -15,6 +16,7 @@ export type ModuleLocaleOptions = Partial<Pick<ModuleLocale, 'localeTranslations
  */
 export class ModuleLocale extends ModuleBase {
   errors = ERRORS
+  routes = ROUTES
   entities = ENTITIES
   permissions = PERMISSIONS
   dependencies = [ModuleUser, ModuleIcon]
