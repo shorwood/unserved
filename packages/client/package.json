@@ -66,5 +66,8 @@
     "@unserved/server": "workspace:*",
     "@unshared/functions": "0.0.16",
     "@unshared/types": "0.0.16"
+  },
+  "devDependencies": {
+    "h3": "1.12.0"
   }
 }
