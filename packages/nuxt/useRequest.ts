@@ -1,8 +1,7 @@
-import type { InferInput, InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
+import type { InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
 import type { GlobalApplication } from '@unserved/nuxt/types'
 import type { ApplicationOrModule } from '@unserved/server'
 import type { AsyncDataOptions, useAsyncData } from 'nuxt/app'
-import type { Ref } from 'vue'
 import { useClient } from './useClient'
 
 declare namespace globalThis {
@@ -14,12 +13,6 @@ export type KeysOf<T> = Array<T extends T
   ? keyof T extends string ? keyof T
     : never : never
 >
-
-/** Matches a ref or an object with a nested ref. */
-type MaybeRefDeep<T> =
-  T extends Record<string, unknown>
-    ? { [K in keyof T]: MaybeRefDeep<T[K]>; }
-    : Ref<T> | T
 
 /**
  * The options to pass to the `useRequest` function. It extends the `AsyncDataOptions` and `RequestOptions` types
@@ -41,7 +34,7 @@ export type UseRequestOptions<
   U = O,
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
-> = { data?: MaybeRefDeep<InferInput<T, P>>; key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
+> = { key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
 
 export type UseRequestReturn<
   T extends ApplicationOrModule,
