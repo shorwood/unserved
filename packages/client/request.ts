@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import type { ApplicationOrModule } from '@unserved/server'
-import { IsNever, PartialStrict } from '@unshared/types'
+import { IsNever } from '@unshared/types'
 import { handleResponse } from './handleResponse'
 import { resolveRequestInit } from './resolveRequestInit'
 import { InferInput, InferOutput, InferRouteName } from './types'
@@ -9,7 +9,7 @@ import { InferInput, InferOutput, InferRouteName } from './types'
 type RequestOptionsData<T extends ApplicationOrModule = never, P extends InferRouteName<T> = never> =
   IsNever<T> extends true
     ? Record<string, unknown>
-    : PartialStrict<InferInput<T, P>>
+    : InferInput<T, P>
 
 type RequestErrorCallback = (error: Error) => void
 type RequestDataCallback<T extends ApplicationOrModule, P extends InferRouteName<T>> =
