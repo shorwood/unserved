@@ -27,16 +27,17 @@ declare namespace globalThis {
  * const socket = useClient().connect('WS /api/chat')
  */
 export const useClient = createGlobalState(() => {
-  if ('useRequestURL' in globalThis === false) {
-    console.warn('The `useRequestURL` function is not available. Make sure you are using Nuxt.')
-    return
-  }
 
-  // --- Create a new client.
+  // --- Warn if the `useRequestURL` function is not available.
+  if ('useRequestURL' in globalThis === false)
+    console.warn('The `useRequestURL` function is not available. Make sure you are running this function in a Nuxt context.')
+
+  // --- Determine the base URL of the client.
   const baseUrl = 'location' in globalThis
     // @ts-expect-error: The `useRequestURL` function is only available in Nuxt.
     ? useRequestURL().origin
     : window.location.origin
 
+  // --- Create a new client instance with the base URL.
   return createClient({ baseUrl })
 }) as <T extends ApplicationOrModule = GlobalApplication>() => Client<T>

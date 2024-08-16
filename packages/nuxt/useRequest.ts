@@ -5,9 +5,9 @@ import type { AsyncDataOptions, useAsyncData } from 'nuxt/app'
 import type { Ref } from 'vue'
 import { useClient } from './useClient'
 
-// declare namespace globalThis {
-//   const useAsyncData: typeof import('nuxt/app').useAsyncData
-// }
+declare namespace globalThis {
+  const useAsyncData: typeof import('nuxt/app').useAsyncData
+}
 
 /** Extract the keys of an object but only if they are strings. */
 export type KeysOf<T> = Array<T extends T
@@ -41,7 +41,7 @@ export type UseRequestOptions<
   U = O,
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
-> = { data?: MaybeRefDeep<InferInput<T, P>> } & { key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
+> = { data?: MaybeRefDeep<InferInput<T, P>>; key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
 
 export type UseRequestReturn<
   T extends ApplicationOrModule,
@@ -78,16 +78,16 @@ export function useRequest<
 >(
   name: P,
   options: UseRequestOptions<T, P, O, U, K, D> = {},
-): UseRequestReturn<T, P, O, U, K, D> | undefined {
-  if ('useAsyncData' in globalThis === false) {
-    console.warn('The `useAsyncData` function is not available. Make sure you are using Nuxt.')
-    return
-  }
+): UseRequestReturn<T, P, O, U, K, D> {
+
+  // --- Warn if the `useAsyncData` function is not available.
+  if ('useAsyncData' in globalThis === false)
+    console.warn('The `useAsyncData` function is not available. Make sure you are running this function in a Nuxt context.')
 
   // @ts-expect-error: The `useAsyncData` function is only available in Nuxt.
   return useAsyncData(
     options.key ?? name as string,
-    async() => useClient<T>().request(name, options),
+    () => useClient<T>().request(name, options),
     options,
   )
 }
