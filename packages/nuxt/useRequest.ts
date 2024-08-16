@@ -5,6 +5,10 @@ import type { AsyncDataOptions, useAsyncData } from 'nuxt/app'
 import type { Ref } from 'vue'
 import { useClient } from './useClient'
 
+// declare namespace globalThis {
+//   const useAsyncData: typeof import('nuxt/app').useAsyncData
+// }
+
 /** Extract the keys of an object but only if they are strings. */
 export type KeysOf<T> = Array<T extends T
   ? keyof T extends string ? keyof T
@@ -39,6 +43,15 @@ export type UseRequestOptions<
   D = null,
 > = { data?: MaybeRefDeep<InferInput<T, P>> } & { key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
 
+export type UseRequestReturn<
+  T extends ApplicationOrModule,
+  P extends InferRouteName<T>,
+  O extends InferOutput<T, P>,
+  U = O,
+  K extends KeysOf<U> = KeysOf<U>,
+  D = null,
+> = ReturnType<typeof useAsyncData<InferOutput<T, P>, unknown, U, K, D>>
+
 /**
  * Request a route from the server and return the result. This function is a wrapper around `useAsyncData` that
  * will call the `@unserved/client`'s `request` method with the given route name and options. The result will be
@@ -65,14 +78,16 @@ export function useRequest<
 >(
   name: P,
   options: UseRequestOptions<T, P, O, U, K, D> = {},
-) {
-  // @ts-expect-error: The `useAsyncData` function is globally available in Nuxt.
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+): UseRequestReturn<T, P, O, U, K, D> | undefined {
+  if ('useAsyncData' in globalThis === false) {
+    console.warn('The `useAsyncData` function is not available. Make sure you are using Nuxt.')
+    return
+  }
+
+  // @ts-expect-error: The `useAsyncData` function is only available in Nuxt.
   return useAsyncData(
     options.key ?? name as string,
     async() => useClient<T>().request(name, options),
     options,
-
-    // --- This is a workaround for a TypeScript bug where the type is not inferred correctly.
-  ) as ReturnType<typeof useAsyncData<InferOutput<T, P>, unknown, U, K, D>>
+  )
 }
