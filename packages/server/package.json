@@ -77,6 +77,9 @@
     "README.md",
     "LICENSE.md"
   ],
+  "peerDependencies": {
+    "typeorm": ">=0.3.0"
+  },
   "dependencies": {
     "@unshared/decorators": "0.0.16",
     "@unshared/functions": "0.0.16",
@@ -85,7 +88,9 @@
     "@unshared/types": "0.0.16",
     "crossws": "0.2.4",
     "h3": "1.12.0",
-    "reflect-metadata": "0.2.2",
+    "reflect-metadata": "0.2.2"
+  },
+  "devDependencies": {
     "typeorm": "0.3.20"
   }
 }
