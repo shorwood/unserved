@@ -7,6 +7,8 @@ import { attempt } from '@unshared/functions'
 import { connect } from './connect'
 import { request } from './request'
 
+export type ClientOptions<T extends ApplicationOrModule> = Partial<Pick<Client<T>, 'baseUrl' | 'headers'>>
+
 export class Client<T extends ApplicationOrModule> extends EventTarget {
 
   /**
@@ -15,7 +17,7 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
    * @param options The options to pass to the client.
    * @example new Client({ baseUrl: 'https://api.example.com' })
    */
-  constructor(options: Partial<Pick<Client<T>, 'baseUrl' | 'headers'>> = {}) {
+  constructor(options: ClientOptions<T> = {}) {
     super()
     if (options.headers) this.headers = options.headers
     if (options.baseUrl) this.baseUrl = options.baseUrl
@@ -33,7 +35,9 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
   /**
    * @returns The base URL to use in the request.
    */
-  public baseUrl = 'http://localhost:3000'
+  public baseUrl = 'location' in globalThis
+    ? globalThis.location.origin
+    : 'http://localhost:3000'
 
   /**
    * Fetch a route from the API and return the data. If the client was instantiated with an
@@ -117,11 +121,6 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
  * // Use the data from the API.
  * console.log(data) // { id: '1', name: 'John Doe' }
  */
-export function createClient<T extends ApplicationOrModule>(options?: Partial<Client<T>>) {
-  const client = new Client<T>(options)
-  return {
-    connect: client.connect.bind(client),
-    request: client.request.bind(client),
-    requestAttempt: client.requestAttempt.bind(client),
-  }
+export function createClient<T extends ApplicationOrModule>(options?: ClientOptions<T>) {
+  return new Client<T>(options)
 }
