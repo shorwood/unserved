@@ -9,19 +9,24 @@ export default defineNuxtModule({
       bridge: false,
     },
   },
-  async setup(_, { options }) {
+  setup(_, { options }) {
+
+    // --- Define the modules to import.
+    const imports = {
+      useRequest: '@unserved/nuxt/useRequest',
+      useClient: '@unserved/nuxt/useClient',
+    }
 
     // --- Ensure the Vite config is defined.
     options.vite = options.vite ?? {}
     options.vite.optimizeDeps = options.vite.optimizeDeps ?? {}
     options.vite.optimizeDeps.include = options.vite.optimizeDeps.include ?? []
+    options.vite.optimizeDeps.exclude = options.vite.optimizeDeps.exclude ?? []
 
     // --- Add the imports to the Vite config.
-    const imports = await import('./index.js')
-    for (const name in imports) {
-      if (name === 'default') continue
-      options.vite.optimizeDeps.include.push(`@unserved/nuxt/${name}`)
-      addImportsSources({ imports: [name], from: `@unserved/nuxt/${name}` })
-    }
+    addImportsSources({
+      from: '@unserved/nuxt',
+      imports: Object.entries(imports).map(([name, from]) => ({ name, from })),
+    })
   },
 })

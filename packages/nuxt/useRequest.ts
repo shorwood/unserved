@@ -1,12 +1,9 @@
 import type { InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
 import type { GlobalApplication } from '@unserved/nuxt/types'
 import type { ApplicationOrModule } from '@unserved/server'
-import type { AsyncDataOptions, useAsyncData } from 'nuxt/app'
+import type { AsyncDataOptions } from 'nuxt/app'
+import { useAsyncData } from 'nuxt/app'
 import { useClient } from './useClient'
-
-declare namespace globalThis {
-  const useAsyncData: typeof import('nuxt/app').useAsyncData
-}
 
 /** Extract the keys of an object but only if they are strings. */
 export type KeysOf<T> = Array<T extends T
@@ -72,12 +69,6 @@ export function useRequest<
   name: P,
   options: UseRequestOptions<T, P, O, U, K, D> = {},
 ): UseRequestReturn<T, P, O, U, K, D> {
-
-  // --- Warn if the `useAsyncData` function is not available.
-  if ('useAsyncData' in globalThis === false)
-    console.warn('The `useAsyncData` function is not available. Make sure you are running this function in a Nuxt context.')
-
-  // @ts-expect-error: The `useAsyncData` function is only available in Nuxt.
   return useAsyncData(
     options.key ?? name as string,
     () => useClient<T>().request(name, options),
