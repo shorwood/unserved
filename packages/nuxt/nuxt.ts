@@ -17,11 +17,11 @@ export default defineNuxtModule({
       useClient: '@unserved/nuxt/useClient',
     }
 
-    // --- Ensure the Vite config is defined.
+    // --- Ensure the imports are excluded from Vite optimization.
     options.vite = options.vite ?? {}
     options.vite.optimizeDeps = options.vite.optimizeDeps ?? {}
-    options.vite.optimizeDeps.include = options.vite.optimizeDeps.include ?? []
     options.vite.optimizeDeps.exclude = options.vite.optimizeDeps.exclude ?? []
+    options.vite.optimizeDeps.exclude.push(...Object.values(imports))
 
     // --- Add the imports to the Vite config.
     addImportsSources({
