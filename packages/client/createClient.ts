@@ -3,7 +3,7 @@ import type { Result } from '@unshared/functions'
 import type { WebSocketConnection } from './connect'
 import type { RequestOptions } from './request'
 import type { InferOutput, InferRouteName } from './types'
-import { attempt } from '@unshared/functions'
+import { attempt } from '@unshared/functions/attempt'
 import { connect } from './connect'
 import { request } from './request'
 

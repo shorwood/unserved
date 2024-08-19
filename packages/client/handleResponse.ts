@@ -1,5 +1,5 @@
 import type { RequestOptions } from './request'
-import { awaitable } from '@unshared/functions'
+import { awaitable } from '@unshared/functions/awaitable'
 import { handleResponseStream } from './handleResponseStream'
 
 /**
