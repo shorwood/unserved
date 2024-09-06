@@ -183,8 +183,8 @@ export class Application<T extends ModuleLike = ModuleLike> {
    */
   getModule<T extends Constructor>(module: T): InstanceType<T> {
     const result = this.modules.find(m => m instanceof module)
-    if (!result) throw new Error('Module not found')
-    if (result.isInitialized === false) throw new Error('Module not initialized')
+    if (!result) throw new Error(`Module with constructor "${module.name}" not found`)
+    if (result.isInitialized === false) throw new Error(`Module "${module.name}" was found but not initialized`)
     return result as InstanceType<T>
   }
 
