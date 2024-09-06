@@ -61,10 +61,12 @@ export function connect<T extends ApplicationOrModule, P extends InferRouteName<
 
   // --- Declare the `on` function to listen for events from
   function on<T>(event: 'close' | 'error' | 'message' | 'open', callback: (data: T) => void) {
-    const listener =(event: CloseEvent | Event | MessageEvent<any>) => {
+    const listener = (event: CloseEvent | Event | MessageEvent<any>) => {
       // @ts-expect-error: `data` exists on the event.
-      const data = JSON.parse(event.data as string) as T
-      callback(data)
+      let data = event.data as unknown
+      try { data = JSON.parse(data as string) }
+      catch { /* Ignore the error. */ }
+      callback(data as T)
     }
 
     webSocket.addEventListener(event, listener)
