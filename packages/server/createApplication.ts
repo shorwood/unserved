@@ -124,7 +124,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
     // --- Instantiate all the modules and store them in the application.
     this.modules = modules.map((module) => {
       const isCtor = isConstructor(module)
-      const instance = isCtor ? new (module as Constructor)(options) : module
+      const instance = isCtor ? new (module as Constructor)(this.options) : module
       return instance as ModuleInstance<T>
     })
 
