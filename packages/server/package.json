@@ -91,7 +91,7 @@
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
-    "crossws": "0.3.0",
+    "crossws": "0.2.4",
     "h3": "1.12.0",
     "typeorm": "0.3.20"
   }
