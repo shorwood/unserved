@@ -78,6 +78,8 @@
     "LICENSE.md"
   ],
   "peerDependencies": {
+    "crossws": ">=0.3.0",
+    "h3": ">=1.12.0",
     "typeorm": ">=0.3.0"
   },
   "dependencies": {
@@ -86,11 +88,11 @@
     "@unshared/process": "0.0.16",
     "@unshared/string": "0.0.16",
     "@unshared/types": "0.0.16",
-    "crossws": "0.3.0",
-    "h3": "1.12.0",
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
+    "crossws": "0.3.0",
+    "h3": "1.12.0",
     "typeorm": "0.3.20"
   }
 }
