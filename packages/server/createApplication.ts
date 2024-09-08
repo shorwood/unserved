@@ -12,6 +12,16 @@ import { InferEntities, InferOptions, ModuleInstance, ModuleLike } from './types
 export type ApplicationOptions<T extends ModuleLike = ModuleLike> = {
 
   /**
+   * The environment variable prefix used to parse the application options. When the application
+   * is initialized, it will parse the environment variables with the given prefix and merge them
+   * with the options of the application. This allows you to configure the application using
+   * environment variables.
+   *
+   * @default 'APP'
+   */
+  prefix?: string
+
+  /**
    * The logger instance of the application. It is used to log messages and errors in the
    * application. The logger is used to log messages to the console, file, or other logging
    * services.
@@ -97,15 +107,16 @@ export class Application<T extends ModuleLike = ModuleLike> {
 
     // --- Set the logger of the application.
     if (options.logger) this.logger = options.logger
+    const { prefix = 'APP' } = options
 
     // --- Merge the options of the application with the options from
     // --- the environment variables.
     this.options = {
       ...this.options,
-      ...parseEnvironmentVariables('APP'),
+      ...parseEnvironmentVariables(prefix),
       dataSource: {
         ...DEFAULT_DATA_SOURCE_OPTIONS,
-        ...parseEnvironmentVariables('DATABASE'),
+        ...parseEnvironmentVariables(`${prefix}_DATABASE`),
         ...options.dataSource,
       },
     }
