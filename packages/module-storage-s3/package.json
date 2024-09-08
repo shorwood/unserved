@@ -28,7 +28,7 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "@aws-sdk/client-s3": "3.631.0",
+    "@aws-sdk/client-s3": "3.645.0",
     "@unserved/module-storage": "workspace:*",
     "@unserved/server": "workspace:*",
     "@unshared/string": "0.0.16"

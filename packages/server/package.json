@@ -86,7 +86,7 @@
     "@unshared/process": "0.0.16",
     "@unshared/string": "0.0.16",
     "@unshared/types": "0.0.16",
-    "crossws": "0.2.4",
+    "crossws": "0.3.0",
     "h3": "1.12.0",
     "reflect-metadata": "0.2.2"
   },
