@@ -1,4 +1,4 @@
-import type { IsNever, MaybePromise, UnionMerge } from '@unshared/types'
+import type { MaybePromise, UnionMerge } from '@unshared/types'
 import type { Peer, WSError } from 'crossws'
 import type { H3Event, RouterMethod } from 'h3'
 
@@ -35,8 +35,8 @@ export interface RouteOptions<
  *
  * @template T The application handler options.
  */
-export type RouteContext<T extends RouteOptions = never> =
-  IsNever<T> extends true
+export type RouteContext<T extends RouteOptions = RouteOptions> =
+  RouteOptions extends T
     ? {
       event: H3Event
       body: any
@@ -57,7 +57,7 @@ export type RouteContext<T extends RouteOptions = never> =
  *
  * @template T The application handler options.
  */
-export type RouteHandler<T extends RouteOptions = never> = (context: RouteContext<T>) => unknown
+export type RouteHandler<T extends RouteOptions = RouteOptions> = (context: RouteContext<T>) => unknown
 
 ////////////////////////////////////////
 
@@ -114,7 +114,7 @@ export interface WSRouteHandlers<T extends WSRouteOptions = WSRouteOptions> {
  */
 export type Route<
   T extends RouteOptions | WSRouteOptions = RouteOptions | WSRouteOptions,
-  H extends RouteHandler | WSRouteHandlers = RouteHandler | WSRouteHandlers,
+  H extends RouteHandler<any> | WSRouteHandlers = RouteHandler | WSRouteHandlers,
 > =
   T extends { name: `WS ${string}` }
     ? H extends WSRouteHandlers ? UnionMerge<H | T> : never
