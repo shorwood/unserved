@@ -83,11 +83,11 @@
     "typeorm": ">=0.3.0"
   },
   "dependencies": {
-    "@unshared/decorators": "0.0.16",
-    "@unshared/functions": "0.0.16",
-    "@unshared/process": "0.0.16",
-    "@unshared/string": "0.0.16",
-    "@unshared/types": "0.0.16",
+    "@unshared/decorators": "0.0.18",
+    "@unshared/functions": "0.0.18",
+    "@unshared/process": "0.0.18",
+    "@unshared/string": "0.0.18",
+    "@unshared/types": "0.0.18",
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {

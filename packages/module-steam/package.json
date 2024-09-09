@@ -29,9 +29,9 @@
   ],
   "dependencies": {
     "@unserved/server": "workspace:*",
-    "@unshared/process": "0.0.16",
-    "@unshared/string": "0.0.16",
-    "@unshared/validation": "0.0.16",
+    "@unshared/process": "0.0.18",
+    "@unshared/string": "0.0.18",
+    "@unshared/validation": "0.0.18",
     "h3": "1.12.0",
     "nbbcjs": "1.1.2"
   }

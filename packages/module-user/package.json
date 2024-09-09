@@ -29,9 +29,9 @@
   ],
   "dependencies": {
     "@unserved/server": "workspace:*",
-    "@unshared/functions": "0.0.16",
-    "@unshared/string": "0.0.16",
-    "@unshared/validation": "0.0.16",
+    "@unshared/functions": "0.0.18",
+    "@unshared/string": "0.0.18",
+    "@unshared/validation": "0.0.18",
     "h3": "1.12.0",
     "typeorm": "0.3.20"
   },
