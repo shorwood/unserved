@@ -35,7 +35,8 @@ function createHttpEventHandler<T extends Route<RouteOptions, RouteHandler>>(rou
     }
 
     // --- Call the handler with the context and return the data.
-    return await route.callback({ event, body, parameters, query, formData }) ?? Buffer.alloc(0)
+    // eslint-disable-next-line unicorn/no-null
+    return route.callback({ event, body, parameters, query, formData }) ?? null
   })
 }
 
