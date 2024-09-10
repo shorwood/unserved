@@ -32,8 +32,8 @@
     "@unserved/module-storage": "workspace:*",
     "@unserved/module-user": "workspace:*",
     "@unserved/server": "workspace:*",
-    "@unshared/string": "0.0.18",
-    "@unshared/validation": "0.0.18",
+    "@unshared/string": "0.0.19",
+    "@unshared/validation": "0.0.19",
     "h3": "1.12.0",
     "typeorm": "0.3.20"
   }

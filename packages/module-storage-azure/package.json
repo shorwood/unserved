@@ -31,6 +31,6 @@
     "@azure/storage-blob": "12.24.0",
     "@unserved/module-storage": "workspace:*",
     "@unserved/server": "workspace:*",
-    "@unshared/string": "0.0.18"
+    "@unshared/string": "0.0.19"
   }
 }
