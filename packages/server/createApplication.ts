@@ -1,6 +1,6 @@
 import { Once } from '@unshared/decorators'
 import { isConstructor } from '@unshared/functions'
-import { parseEnvironmentVariables } from '@unshared/process'
+import { parseEnvironments } from '@unshared/process'
 import { dedent } from '@unshared/string'
 import { Constructor } from '@unshared/types'
 import { createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
@@ -113,10 +113,10 @@ export class Application<T extends ModuleLike = ModuleLike> {
     // --- the environment variables.
     this.options = {
       ...this.options,
-      ...parseEnvironmentVariables(prefix),
+      ...parseEnvironments(prefix),
       dataSource: {
         ...DEFAULT_DATA_SOURCE_OPTIONS,
-        ...parseEnvironmentVariables(`${prefix}_DATABASE`),
+        ...parseEnvironments(`${prefix}_DATABASE`),
         ...options.dataSource,
       },
     }
