@@ -24,7 +24,7 @@ export function resolveRequestInit(name: string, options: RequestOptions) {
   const init: RequestInit = { ...requestInit, method }
 
   // --- If the method has a parameter, fill the path with the data.
-  const parameters = path.match(/:(\w+)/g)
+  const parameters = path.match(/:([\w-]+)/g)
   if (parameters && data) {
     for (const parameter of parameters) {
       const key = parameter.slice(1)
