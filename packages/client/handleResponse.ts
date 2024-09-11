@@ -25,6 +25,13 @@ export async function handleResponse(response: Response, options: RequestOptions
     throw error
   }
 
+  // --- If the status code is 204, return an empty response.
+  if (response.status === 204) {
+    if (onSuccess) onSuccess()
+    if (onEnd) onEnd()
+    return
+  }
+
   // --- If the response is a application/stream+json, return an iterator that parses the JSON.
   if (type === 'application/stream+json') {
     const responseIterator = handleResponseStream(response, options)
