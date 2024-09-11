@@ -6,7 +6,7 @@ import { resolveRequestInit } from './resolveRequestInit'
 import { InferInput, InferOutput, InferRouteName } from './types'
 
 /** Type-safe options to pass to the client request based on the route. */
-type RequestOptionsData<T extends ApplicationOrModule = never, P extends InferRouteName<T> = never> =
+export type RequestOptionsData<T extends ApplicationOrModule = never, P extends InferRouteName<T> = never> =
   IsNever<T> extends true
     ? Record<string, unknown>
     : InferInput<T, P>
