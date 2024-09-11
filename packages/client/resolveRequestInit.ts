@@ -11,7 +11,7 @@ import type { RequestOptions } from './request'
  * @returns The URL and the `RequestInit` object.
  */
 export function resolveRequestInit(name: string, options: RequestOptions) {
-  const { data, baseUrl, ...requestInit } = options
+  const { data: initialData, baseUrl, ...requestInit } = options
 
   // --- Extract the path and method from the name.
   const match = /^(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS) (\/.+)$/.exec(name)
@@ -22,6 +22,7 @@ export function resolveRequestInit(name: string, options: RequestOptions) {
   // --- Fill the path with the data.
   const url = new URL(path, baseUrl)
   const init: RequestInit = { ...requestInit, method }
+  const data = { ...initialData }
 
   // --- If the method has a parameter, fill the path with the data.
   const parameters = path.match(/:([\w-]+)/g)
