@@ -1,8 +1,10 @@
-import type { InferOutput, InferRouteName, RequestOptions } from '@unserved/client'
+import type { InferOutput, InferRouteName, RequestOptions, RequestOptionsData } from '@unserved/client'
 import type { GlobalApplication } from '@unserved/nuxt/types'
 import type { ApplicationOrModule } from '@unserved/server'
 import type { AsyncDataOptions } from 'nuxt/app'
+import type { MaybeRef } from 'vue'
 import { useAsyncData } from 'nuxt/app'
+import { unref } from 'vue'
 import { useClient } from './useClient'
 
 /** Extract the keys of an object but only if they are strings. */
@@ -10,6 +12,11 @@ export type KeysOf<T> = Array<T extends T
   ? keyof T extends string ? keyof T
     : never : never
 >
+
+/** Wrap an object as to allow for `Ref` values to be passed. */
+export type MaybeRefWrap<T extends object> = MaybeRef<{
+  [K in keyof T]: MaybeRef<T[K]>
+}>
 
 /**
  * The options to pass to the `useRequest` function. It extends the `AsyncDataOptions` and `RequestOptions` types
@@ -31,7 +38,11 @@ export type UseRequestOptions<
   U = O,
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
-> = { key?: string } & AsyncDataOptions<O, U, K, D> & RequestOptions<T, P>
+> =
+  { data?: MaybeRefWrap<RequestOptionsData<T, P>> } &
+  { key?: string } &
+  AsyncDataOptions<O, U, K, D> &
+  Omit<RequestOptions<T, P>, 'data'>
 
 export type UseRequestReturn<
   T extends ApplicationOrModule,
@@ -71,7 +82,11 @@ export function useRequest<
 ): UseRequestReturn<T, P, O, U, K, D> {
   return useAsyncData(
     options.key ?? name as string,
-    () => useClient<T>().request(name, options),
+    () => {
+      const data = unref({ ...options.data }) as RequestOptionsData<T, P>
+      for (const key in data) data[key] = unref(data[key])
+      return useClient<T>().request(name, { ...options, data })
+    },
     options,
   )
 }
