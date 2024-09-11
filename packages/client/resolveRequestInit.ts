@@ -22,7 +22,8 @@ export function resolveRequestInit(name: string, options: RequestOptions) {
   // --- Fill the path with the data.
   const url = new URL(path, baseUrl)
   const init: RequestInit = { ...requestInit, method }
-  const data = { ...initialData }
+  const isObjectRaw = Object.prototype.toString.call(initialData) === '[object Object]'
+  const data = isObjectRaw ? { ...initialData } : initialData
 
   // --- If the method has a parameter, fill the path with the data.
   const parameters = path.match(/:([\w-]+)/g)
