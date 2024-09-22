@@ -9,13 +9,6 @@ export type ModuleLike = ModuleBase | typeof ModuleBase
 /** Inferable types of an application or module. */
 export type ApplicationOrModule = Application | ModuleLike | typeof Application
 
-/** A permission object. */
-export interface PermissionObject {
-  id: string
-  name: string
-  description?: string
-}
-
 /**
  * Get a union of all the instances of the given module classes. If
  * the module class is a constructor, it will return the instance type.

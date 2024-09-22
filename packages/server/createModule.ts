@@ -4,7 +4,7 @@ import type { BaseEntity } from './BaseEntity'
 import type { Application } from './createApplication'
 import type { EventStream, EventStreamFunction } from './createEventStream'
 import type { Route } from './createRoute'
-import type { InferRepositories, PermissionObject } from './types'
+import type { InferRepositories } from './types'
 import { setHeader } from 'h3'
 import { createEventStream } from './createEventStream'
 
@@ -61,12 +61,6 @@ export class ModuleBase {
    * a message, and a name.
    */
   public errors: Record<string, MaybeFunction<MaybePromise<Error>, any[]>> = {}
-
-  /**
-   * A map of permissions associated with the module. These are the permissions that are used
-   * to determine if a user has access to a specific resource or operation.
-   */
-  public permissions: Record<string, PermissionObject> = {}
 
   /**
    * Get the application context of the module. This is used to access the application context
