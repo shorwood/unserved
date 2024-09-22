@@ -2,6 +2,7 @@ import { resolvePackageNames } from '@unshared/scripts'
 import { defineConfig } from 'vitest/config'
 
 const packageNames = await resolvePackageNames()
+const include = packageNames.map(name => `./packages/${name}/**/*.test.ts`)
 const includeSource = packageNames.map(name => `./packages/${name}/**/*.ts`)
 
 const exclude = [
@@ -16,7 +17,7 @@ export default defineConfig({
 
     exclude,
     globals: true,
-    include: [],
+    include,
     includeSource,
     reporters: ['basic'],
     setupFiles: './packages/setupTest.ts',
