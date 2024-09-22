@@ -1,4 +1,5 @@
 export * from './isDataSource'
 export * from './transformerDate'
+export * from './transformerFromParser'
 export * from './transformerJson'
 export * from './transformerSemver'
