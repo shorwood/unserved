@@ -60,9 +60,14 @@ function createWsEventHandler<T extends Route<WSRouteOptions, WSRouteHandlers>>(
 
       let payload: unknown
       if (route.parseMessage) {
-        const messageJson = message.toString()
-        const messageObject: unknown = JSON.parse(messageJson)
-        payload = route.parseMessage(messageObject)
+        try {
+          const messageJson = message.toString()
+          const messageObject: unknown = JSON.parse(messageJson)
+          payload = route.parseMessage(messageObject)
+        }
+        catch (error) {
+          return route.onError?.({ peer, error: error as Error })
+        }
       }
 
       return route.onMessage({ peer, payload })
