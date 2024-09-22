@@ -1,5 +1,4 @@
 /* eslint-disable unicorn/no-useless-undefined */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable unicorn/no-null */
 import type { ValueTransformer } from 'typeorm'
 
@@ -14,7 +13,7 @@ import type { ValueTransformer } from 'typeorm'
  *     createdAt: Date
  * }
  */
-export const transformerDate: ValueTransformer = {
+export const transformerDate = {
   to(value?: Date | null): null | string {
     if (value instanceof Date === false) return null
     return value.toISOString()
@@ -23,14 +22,14 @@ export const transformerDate: ValueTransformer = {
     if (typeof value !== 'string') return undefined
     return new Date(value)
   },
-}
+} satisfies ValueTransformer
 
 /* v8 ignore start */
 if (import.meta.vitest) {
   describe('from', () => {
     it('should transform a date to a string', () => {
       const date = new Date(0).toISOString()
-      const result = transformerDate.from(date) as Date
+      const result = transformerDate.from(date)
       const expected = new Date(0)
       expect(result).toStrictEqual(expected)
     })
@@ -41,7 +40,8 @@ if (import.meta.vitest) {
     })
 
     it('should return undefined when the value is not a string', () => {
-      const result = transformerDate.from(0 as unknown as string)
+      // @ts-expect-error: testing invalid input
+      const result = transformerDate.from(0)
       expect(result).toBeUndefined()
     })
   })
@@ -60,7 +60,8 @@ if (import.meta.vitest) {
     })
 
     it('should return null when the value is not a date', () => {
-      const result = transformerDate.to('not a date' as unknown as Date)
+      // @ts-expect-error: testing invalid input
+      const result = transformerDate.to('not a date')
       expect(result).toBeNull()
     })
   })

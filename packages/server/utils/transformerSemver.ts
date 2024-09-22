@@ -1,7 +1,4 @@
-/* eslint-disable unicorn/no-useless-undefined */
-/* eslint-disable unicorn/no-null */
 import type { ValueTransformer } from 'typeorm'
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { createSemver, Semver } from '@unshared/string'
 
 /**
@@ -16,17 +13,18 @@ import { createSemver, Semver } from '@unshared/string'
  * }
  */
 export const transformerSemver: ValueTransformer = {
-  to(value?: Semver | null): null | string {
-    if (value instanceof Semver === false) return null
-    return value.toString()
+  to(value?: unknown): string | undefined {
+    if (value instanceof Semver) return value.toString()
   },
-  from(value?: null | string): Semver | undefined {
-    if (typeof value !== 'string') return undefined
-    return createSemver(value)
+  from(value?: unknown): Semver | undefined {
+    if (typeof value === 'string') return createSemver(value)
   },
 }
 
 /* v8 ignore start */
+/* eslint-disable unicorn/no-null */
+/* eslint-disable unicorn/no-useless-undefined */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 if (import.meta.vitest) {
   describe('from', () => {
     it('should transform a Semver to a string', () => {
@@ -56,14 +54,14 @@ if (import.meta.vitest) {
       }))
     })
 
-    it('should return null when the value is undefined', () => {
+    it('should return undefined when the value is undefined', () => {
       const result = transformerSemver.to(undefined)
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
 
-    it('should return null when the value is not a semver', () => {
+    it('should return undefined when the value is not a semver', () => {
       const result = transformerSemver.to('not a semver' as unknown as Date)
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
   })
 }

@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-null */
 import type { ValueTransformer } from 'typeorm'
 
 /**
@@ -13,11 +12,11 @@ import type { ValueTransformer } from 'typeorm'
  * }
  */
 export const transformerJson = {
-  to(value?: Record<string, unknown> | null): null | string {
-    if (typeof value !== 'object' || value === null) return null
-    return JSON.stringify(value)
+  to(value?: unknown): string | undefined {
+    if (typeof value === 'object' && value !== null)
+      return JSON.stringify(value)
   },
-  from(value?: null | string): unknown {
+  from(value?: unknown): unknown {
     if (typeof value !== 'string') return
     try { return JSON.parse(value) as unknown }
     catch { return }
@@ -25,12 +24,18 @@ export const transformerJson = {
 } satisfies ValueTransformer
 
 /* v8 ignore start */
+/* eslint-disable unicorn/no-null */
 if (import.meta.vitest) {
   describe('from', () => {
     it('should transform a JSON string to a JSON object', () => {
       const json = JSON.stringify({ key: 'value' })
       const result = transformerJson.from(json)
       expect(result).toStrictEqual({ key: 'value' })
+    })
+
+    it('should return undefined when the value is undefined', () => {
+      const result = transformerJson.from()
+      expect(result).toBeUndefined()
     })
 
     it('should return undefined when the value is null', () => {
@@ -46,10 +51,15 @@ if (import.meta.vitest) {
       expect(result).toBe('{"key":"value"}')
     })
 
-    it('should return null when the value is undefined', () => {
+    it('should return undefined when the value is null', () => {
+      const result = transformerJson.to(null)
+      expect(result).toBeUndefined()
+    })
+
+    it('should return undefined when the value is undefined', () => {
       // eslint-disable-next-line unicorn/no-useless-undefined
       const result = transformerJson.to(undefined)
-      expect(result).toBeNull()
+      expect(result).toBeUndefined()
     })
   })
 }

@@ -46,21 +46,6 @@
       "types": "./dist/createRoute.d.ts",
       "import": "./dist/createRoute.js"
     },
-    "./transformerDate": {
-      "require": "./dist/transformerDate.cjs",
-      "types": "./dist/transformerDate.d.ts",
-      "import": "./dist/transformerDate.js"
-    },
-    "./transformerJson": {
-      "require": "./dist/transformerJson.cjs",
-      "types": "./dist/transformerJson.d.ts",
-      "import": "./dist/transformerJson.js"
-    },
-    "./transformerSemver": {
-      "require": "./dist/transformerSemver.cjs",
-      "types": "./dist/transformerSemver.d.ts",
-      "import": "./dist/transformerSemver.js"
-    },
     "./types": {
       "require": "./dist/types.cjs",
       "types": "./dist/types.d.ts",
@@ -88,6 +73,7 @@
     "@unshared/process": "0.0.19",
     "@unshared/string": "0.0.19",
     "@unshared/types": "0.0.19",
+    "@unshared/validation": "0.0.19",
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {

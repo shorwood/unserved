@@ -2,7 +2,7 @@ import { MaybePromise } from '@unshared/types'
 import { randomUUID, UUID } from 'node:crypto'
 import 'reflect-metadata'
 import { BeforeSoftRemove, BeforeUpdate, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
-import { transformerDate } from './transformerDate'
+import { transformerDate } from './utils'
 
 @Entity()
 export class BaseEntity {
