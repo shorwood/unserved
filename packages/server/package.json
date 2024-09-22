@@ -16,10 +16,10 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    "./Metadata": {
-      "require": "./dist/Metadata.cjs",
-      "types": "./dist/Metadata.d.ts",
-      "import": "./dist/Metadata.js"
+    "./BaseEntity": {
+      "require": "./dist/BaseEntity.cjs",
+      "types": "./dist/BaseEntity.d.ts",
+      "import": "./dist/BaseEntity.js"
     },
     "./createApplication": {
       "require": "./dist/createApplication.cjs",

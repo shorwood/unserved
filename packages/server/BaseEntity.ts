@@ -1,11 +1,11 @@
 import { MaybePromise } from '@unshared/types'
 import { randomUUID, UUID } from 'node:crypto'
 import 'reflect-metadata'
-import { BaseEntity, BeforeSoftRemove, BeforeUpdate, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { BeforeSoftRemove, BeforeUpdate, Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm'
 import { transformerDate } from './transformerDate'
 
 @Entity()
-export class Metadata extends BaseEntity {
+export class BaseEntity {
 
   /**
    * Unique identifier of the record. This is the primary key and is generated automatically.

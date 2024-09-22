@@ -1,4 +1,5 @@
 import type { Constructor, Function, UnionMerge } from '@unshared/types'
+import type { EntityTarget, Repository } from 'typeorm'
 import type { Application } from './createApplication'
 import type { ModuleBase } from './createModule'
 
@@ -49,13 +50,15 @@ export type InferOptions<T extends ApplicationOrModule> =
     : never
 
 /**
- * Given an application or module, infer the map of entities in the module or application.
+ * Given an application or module, infer the map of repositories in the module or application.
  *
- * @template T The application or module to infer the entities from.
- * @example InferEntities<typeof ModuleUser | ModuleStorage> // => User | UserRole | Asset | ...
+ * @template T The application or module to infer the repositories from.
+ * @example InferRepositories<typeof ModuleUser | ModuleStorage> // => Repository<User> | Repository<UserRole> | ...
  */
-export type InferEntities<T extends ApplicationOrModule> =
-  UnionMerge<ModuleInstance<T> extends { entities: infer Entities } ? Entities : []>
+export type InferRepositories<T extends ApplicationOrModule> =
+  UnionMerge<ModuleInstance<T> extends { entities: infer Entities } ? {
+    [K in keyof Entities]: Entities[K] extends EntityTarget<infer U extends object> ? Repository<U> : never
+  } : []>
 
 /* v8 ignore start */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -63,9 +66,9 @@ export type InferEntities<T extends ApplicationOrModule> =
 if (import.meta.vitest) {
   const { Application } = await import('./createApplication')
   const { ModuleBase } = await import('./createModule')
-  const { Metadata } = await import('./Metadata')
+  const { BaseEntity } = await import('./BaseEntity')
 
-  class User extends ModuleBase { name = 'User' }
+  class User extends BaseEntity { name = 'User' }
   class ModuleUser extends ModuleBase {
     constructor(options?: { name: string }) { super() }
     entities = { User }
@@ -127,20 +130,20 @@ if (import.meta.vitest) {
     })
   })
 
-  describe('inferEntities', () => {
-    it('should infer the entities of a module constructor', () => {
-      type Result = InferEntities<typeof ModuleUser>
-      expectTypeOf<Result>().toEqualTypeOf<{ User: typeof User }>()
+  describe('inferRepositories', () => {
+    it('should infer the repositories of a module constructor', () => {
+      type Result = InferRepositories<typeof ModuleUser>
+      expectTypeOf<Result>().toEqualTypeOf<{ User: Repository<User> }>()
     })
 
-    it('should infer the entities of a module instance', () => {
-      type Result = InferEntities<typeof moduleUser>
-      expectTypeOf<Result>().toEqualTypeOf<{ User: typeof User }>()
+    it('should infer the repositories of a module instance', () => {
+      type Result = InferRepositories<typeof moduleUser>
+      expectTypeOf<Result>().toEqualTypeOf<{ User: Repository<User> }>()
     })
 
-    it('should infer the entities of an application instance', () => {
-      type Result = InferEntities<typeof application>
-      expectTypeOf<Result>().toEqualTypeOf<{ User: typeof User }>()
+    it('should infer the repositories of an application instance', () => {
+      type Result = InferRepositories<typeof application>
+      expectTypeOf<Result>().toEqualTypeOf<{ User: Repository<User> }>()
     })
   })
 }

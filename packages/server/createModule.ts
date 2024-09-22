@@ -1,10 +1,10 @@
 import type { Constructor, MaybeFunction, MaybePromise } from '@unshared/types'
 import type { H3Event } from 'h3'
-import type { EntityTarget, ObjectLiteral } from 'typeorm'
+import type { BaseEntity } from './BaseEntity'
 import type { Application } from './createApplication'
 import type { EventStream, EventStreamFunction } from './createEventStream'
 import type { Route } from './createRoute'
-import type { PermissionObject } from './types'
+import type { InferRepositories, PermissionObject } from './types'
 import { setHeader } from 'h3'
 import { createEventStream } from './createEventStream'
 
@@ -47,7 +47,7 @@ export class ModuleBase {
    * The entities of the module. These are the entities that are used in the service to perform
    * operations on the database. Each entity is associated with a table in the database.
    */
-  public entities: Record<string, EntityTarget<ObjectLiteral>> = {}
+  public entities: Record<string, typeof BaseEntity>
 
   /**
    * The routes associated with the module. These are the routes that are used to handle
@@ -77,6 +77,24 @@ export class ModuleBase {
   getApplication() {
     if (!this.application) throw new Error('Application not found')
     return this.application
+  }
+
+  /**
+   * Get a map of repositories for the entities in the module. This is used to get the
+   * repositories for the entities in the module. It will throw an error if the repository
+   * is not found.
+   *
+   * @returns A map of repositories for the entities in the module.
+   */
+  getRepositories(): InferRepositories<this> {
+    return new Proxy({}, {
+      get: (_, name: string) => {
+        const application = this.getApplication()
+        if (!application.dataSource) throw new Error('DataSource not found')
+        if (!this.entities[name]) throw new Error(`Entity not found: ${name}`)
+        return application.dataSource.getRepository(this.entities[name])
+      },
+    }) as InferRepositories<this>
   }
 
   /**

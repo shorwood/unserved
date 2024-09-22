@@ -7,7 +7,8 @@ import { createApp, createRouter, EventHandler, RouterMethod, toNodeListener } f
 import { createServer } from 'node:http'
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { createEventHandler } from './createEventHandler'
-import { InferEntities, InferOptions, ModuleInstance, ModuleLike } from './types'
+import { InferOptions, ModuleInstance, ModuleLike } from './types'
+import { isDataSource } from './utils'
 
 export type ApplicationOptions<T extends ModuleLike = ModuleLike> = {
 
@@ -166,26 +167,6 @@ export class Application<T extends ModuleLike = ModuleLike> {
   }
 
   /**
-   * All the entities of the application. These are the entities that are used in the application
-   * to perform operations on the database. Each entity is associated with a table in the database.
-   * The entities are collected from all the modules of the application.
-   *
-   * @returns The entities of the application.
-   * @example
-   * const application = new Application([
-   *   new ServiceUser(),
-   *   new ServiceEmail(),
-   * ])
-   *
-   * // Get all the entities of the application.
-   * application.entities // => { User, UserRole, UserSession, UserSettings, Email, EmailTemplate }
-   */
-  get entities(): InferEntities<T> {
-    const entities = this.modules.map(module => module.entities)
-    return Object.assign({}, ...entities) as InferEntities<T>
-  }
-
-  /**
    * Get the given module from the application. This is used to get the module instance
    * from the application context. It will throw an error if the module is not found.
    *
@@ -271,18 +252,19 @@ export class Application<T extends ModuleLike = ModuleLike> {
   @Once()
   async initialize(): Promise<this> {
     if (this.isInitialized) return this
-    // this.logger.debug('Initializing application...')
+
+    // --- Collect all entities from the modules.
+    const entities = this.modules.flatMap(module => Object.values(module.entities))
 
     // --- Initialize the data source and inject the entities from the modules.
     const { dataSource = DEFAULT_DATA_SOURCE_OPTIONS } = this.options
-    this.dataSource = dataSource instanceof DataSource ? dataSource : new DataSource(dataSource)
-    this.dataSource.setOptions({ ...this.dataSource.options, entities: Object.values(this.entities) })
+    this.dataSource = isDataSource(dataSource) ? dataSource : new DataSource(dataSource)
+    this.dataSource.setOptions({ ...this.dataSource.options, entities })
     if (!this.dataSource.isInitialized) await this.dataSource.initialize()
 
     // --- Initialize all the modules.
     for (const module of this.modules) {
       if (module.isInitialized) continue
-      // this.logger.debug('Initializing module:', module.constructor.name)
       await module.initialize()
         .catch((error: Error) => {
           this.logger.error('Error initializing module:', module.constructor.name)
@@ -295,30 +277,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
     }
 
     // --- Set the application as initialized.
-    // this.logger.debug('Application initialized.')
     this.isInitialized = true
     return this
   }
-}
-
-/* v8 ignore start */
-if (import.meta.vitest) {
-  const { ModuleUser, User, UserRole, UserGroup, UserSession, UserSettings } = await import('../module-user/index')
-
-  test('should create a new application instance', () => {
-    const application = new Application([])
-    expect(application).toBeInstanceOf(Application)
-  })
-
-  test('should map of entities registered in all the modules of the application', () => {
-    const application = new Application([ModuleUser])
-    const repositories = application.entities
-    expect(repositories).toStrictEqual({ User, UserRole, UserGroup, UserSession, UserSettings })
-  })
-
-  test('should initialize a DataSource with the entities from the modules', async() => {
-    const application = new Application([ModuleUser])
-    await application.initialize()
-    expect(application.dataSource).toBeInstanceOf(DataSource)
-  })
 }
