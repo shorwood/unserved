@@ -130,7 +130,7 @@ export class ModuleBase {
 
     // --- If an error occurs, send the error to the client and remove the task from the map.
     promise.catch((error: Error) => {
-      this.log.error(error)
+      this.logger.error(error)
       throw error
     })
 
@@ -148,7 +148,7 @@ export class ModuleBase {
    *
    * @returns The logger instance.
    */
-  get log() {
+  get logger() {
     const application = this.getApplication()
     if (!application.logger) throw new Error('Logger not found')
     return application.logger
