@@ -2,7 +2,7 @@ import type { Constructor, MaybeFunction, MaybePromise } from '@unshared/types'
 import type { H3Event } from 'h3'
 import type { BaseEntity } from './BaseEntity'
 import type { Application } from './createApplication'
-import type { EventStream, EventStreamFunction } from './createEventStream'
+import type { EventStreamFunction } from './createEventStream'
 import type { Route } from './createRoute'
 import type { InferRepositories } from './types'
 import { setHeader } from 'h3'
@@ -116,40 +116,20 @@ export class ModuleBase {
   }
 
   /**
-   * A map of the handles of the tasks. The key is the ID of the task and the value is the
-   * task itself.
-   */
-  eventStreams = new Map<string, EventStream>()
-
-  /**
-   * Get a task by its ID.
-   *
-   * @param id The ID of the task.
-   * @returns The task with the given ID.
-   */
-  getEventStream<T extends object>(id: string) {
-    return this.eventStreams.get(id) as EventStream<T>
-  }
-
-  /**
    * Run a function with whithin a task and in the context of an `H3Event`. This
    * will allow the function to send updates to the client and to be cancelled
    * if needed. This will also set the headers of the event to allow the client
    * to identify the response as a task and handle it accordingly.
    *
-   * @param id The ID of the task.
    * @param event The event that triggered the task.
    * @param fn The function that will run the task.
    * @returns The task that was created.
    */
-  withEventStream<T extends object>(id: string, event: H3Event, fn: EventStreamFunction<T>) {
-    const streamExists = this.eventStreams.get(id)
-    if (streamExists) return streamExists
+  withEventStream<T extends object>(event: H3Event, fn: EventStreamFunction<T>) {
     const { eventStream, promise } = createEventStream<T>(event, fn)
 
     // --- If an error occurs, send the error to the client and remove the task from the map.
     promise.catch((error: Error) => {
-      this.eventStreams.delete(eventStream.id)
       this.log.error(error)
       throw error
     })
@@ -160,7 +140,6 @@ export class ModuleBase {
     setHeader(event, 'Content-Type', 'application/stream+json')
 
     // --- Add the task to the map of tasks.
-    this.eventStreams.set(eventStream.id, eventStream)
     return eventStream
   }
 
