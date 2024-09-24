@@ -1,5 +1,5 @@
 import { Locale } from '@unserved/module-locale'
-import { Metadata, transformerDate, transformerJson } from '@unserved/server'
+import { BaseEntity, transformerDate, transformerJson } from '@unserved/server'
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm'
 import { ContentPage } from './ContentPage'
 
@@ -14,7 +14,7 @@ export interface ContentPageSection {
  * website owner to revert to a previous version of the page if needed.
  */
 @Entity({ name: 'ContentPageContent' })
-export class ContentPageContent extends Metadata {
+export class ContentPageContent extends BaseEntity {
 
   /**
    * The display name of the page. It is used as the title of the page in the header,

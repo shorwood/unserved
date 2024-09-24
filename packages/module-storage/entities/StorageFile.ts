@@ -1,4 +1,4 @@
-import { Metadata, ModuleBase } from '@unserved/server'
+import { BaseEntity, ModuleBase } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { join } from 'node:path'
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, Unique } from 'typeorm'
@@ -35,7 +35,7 @@ export interface StorageFileObject {
  */
 @Entity({ name: 'StorageFile' })
 @Unique(['parent', 'name'])
-export class StorageFile extends Metadata {
+export class StorageFile extends BaseEntity {
 
   /**
    * The path of the asset as if it was in a filesystem. It is used to determine the

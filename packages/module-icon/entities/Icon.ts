@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { IconCollection } from './IconCollection'
@@ -15,7 +15,7 @@ export interface IconObject {
  * the content by its icon. The icons data are stored as assets in the asset module.
  */
 @Entity({ name: 'Icon' })
-export class Icon extends Metadata {
+export class Icon extends BaseEntity {
 
   /**
    * The name of the icon. It is a string that represents the icon in the iconify

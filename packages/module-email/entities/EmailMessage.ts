@@ -1,5 +1,5 @@
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, transformerDate } from '@unserved/server'
+import { BaseEntity, transformerDate } from '@unserved/server'
 import { Column, Entity, JoinColumn, JoinTable, ManyToOne, OneToMany } from 'typeorm'
 import { EmailAddress } from './EmailAddress'
 
@@ -9,7 +9,7 @@ import { EmailAddress } from './EmailAddress'
  * an all the relative metadata of the email message.
  */
 @Entity({ name: 'EmailMessage' })
-export class EmailMessage extends Metadata {
+export class EmailMessage extends BaseEntity {
 
   /**
    * The unique identifier of the email message entity. It allows to identify the email
@@ -103,7 +103,7 @@ export class EmailMessage extends Metadata {
  * the various email messages that are part of the conversation.
  */
 @Entity({ name: 'EmailConversation' })
-export class EmailConversation extends Metadata {
+export class EmailConversation extends BaseEntity {
 
   /**
    * The email messages that are part of the conversation.

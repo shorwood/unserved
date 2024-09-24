@@ -1,6 +1,6 @@
 import { Location, LocationObject } from '@unserved/module-location'
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, transformerJson } from '@unserved/server'
+import { BaseEntity, transformerJson } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, JoinTable, OneToMany, OneToOne } from 'typeorm'
 
@@ -17,7 +17,7 @@ export interface ContactOrganizationSocial {
  * logo. All the fields are optional except the name.
  */
 @Entity({ name: 'ContactOrganization' })
-export class ContactOrganization extends Metadata {
+export class ContactOrganization extends BaseEntity {
 
   /**
    * The name of the company.

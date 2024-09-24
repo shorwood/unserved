@@ -1,5 +1,5 @@
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, transformerDate } from '@unserved/server'
+import { BaseEntity, transformerDate } from '@unserved/server'
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { Article } from './Article'
 import { ArticleCategory } from './ArticleCategory'
@@ -11,7 +11,7 @@ import { ArticleCategory } from './ArticleCategory'
  * with a title, a description, a cover image, and a content.
  */
 @Entity({ name: 'ArticleContent' })
-export class ArticleContent extends Metadata {
+export class ArticleContent extends BaseEntity {
 
   /**
    * A reference to the blog post entity.

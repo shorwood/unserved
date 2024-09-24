@@ -1,5 +1,5 @@
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
 import { Article } from './Article'
 
@@ -10,7 +10,7 @@ import { Article } from './Article'
  * be customized with a name, a description, and a cover image.
  */
 @Entity({ name: 'ArticleCategory' })
-export class ArticleCategory extends Metadata {
+export class ArticleCategory extends BaseEntity {
 
   /**
    * Title of the category. It is used to display the category in the frontend.

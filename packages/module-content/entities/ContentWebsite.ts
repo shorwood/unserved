@@ -1,5 +1,5 @@
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { BaseEntity, ModuleBase, transformerJson } from '@unserved/server'
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 
 interface SerializeOptions {
@@ -37,7 +37,7 @@ export interface ContentWebsiteObject {
  * the logo, the favorite icon, the open graph image, and the legal information.
  */
 @Entity({ name: 'ContentWebsite' })
-export class ContentWebsite extends Metadata {
+export class ContentWebsite extends BaseEntity {
 
   /**
    * The display name of the website. It is used as the title of the website in

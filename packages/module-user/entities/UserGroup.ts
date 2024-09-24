@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm'
 import { User } from './User'
 import { UserRole } from './UserRole'
@@ -10,7 +10,7 @@ import { UserRole } from './UserRole'
  * description, and a list of users.
  */
 @Entity({ name: 'UserGroup' })
-export class UserGroup extends Metadata {
+export class UserGroup extends BaseEntity {
 
   /**
    * Name of the group. It is unique and used to identify the group.

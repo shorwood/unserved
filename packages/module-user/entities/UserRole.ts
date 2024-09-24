@@ -1,4 +1,4 @@
-import { Metadata, transformerJson } from '@unserved/server'
+import { BaseEntity, transformerJson } from '@unserved/server'
 import { Column, Entity } from 'typeorm'
 
 /**
@@ -23,7 +23,7 @@ export interface UserRoleObject {
  * determine what the user can do in the application.
  */
 @Entity({ name: 'UserRole' })
-export class UserRole extends Metadata {
+export class UserRole extends BaseEntity {
 
   /**
    * Name of the role. It is unique and used to identify the role. It defines a set of

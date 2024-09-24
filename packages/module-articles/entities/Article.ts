@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity, JoinColumn, OneToMany } from 'typeorm'
 import { ArticleContent } from './ArticleContent'
 
@@ -9,7 +9,7 @@ import { ArticleContent } from './ArticleContent'
  * with a title, a description, a cover image, and a content.
  */
 @Entity({ name: 'Article' })
-export class Article extends Metadata {
+export class Article extends BaseEntity {
 
   /**
    * Slug of the post. It is auto-generated from the name and is used to create a

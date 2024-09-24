@@ -1,6 +1,6 @@
 import { Icon } from '@unserved/module-icon'
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, ModuleBase } from '@unserved/server'
+import { BaseEntity, ModuleBase } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { ContentPage, ContentPageObject } from './ContentPage'
@@ -31,7 +31,7 @@ export interface ContentCategoryObject {
  * website and allow the users to filter the pages by categories.
  */
 @Entity({ name: 'ContentCategory' })
-export class ContentCategory extends Metadata {
+export class ContentCategory extends BaseEntity {
 
   /**
    * The display name of the category. It is used as the title of the category in the

@@ -1,6 +1,6 @@
 import { Icon } from '@unserved/module-icon'
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, ModuleBase } from '@unserved/server'
+import { BaseEntity, ModuleBase } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 import { ContentCategory, ContentCategoryObject } from './ContentCategory'
@@ -37,7 +37,7 @@ export interface ContentPageObject {
  * if needed.
  */
 @Entity({ name: 'ContentPage' })
-export class ContentPage extends Metadata {
+export class ContentPage extends BaseEntity {
 
   /**
    * The display name of the page. It is used as the title of the page in the header,

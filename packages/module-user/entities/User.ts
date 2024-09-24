@@ -1,4 +1,4 @@
-import { Metadata, transformerJson } from '@unserved/server'
+import { BaseEntity, transformerJson } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import { createPassword, PasswordOptions } from '../utils'
@@ -28,7 +28,7 @@ export interface UserObject {
  * An administrator can do everything.
  */
 @Entity({ name: 'User' })
-export class User extends Metadata {
+export class User extends BaseEntity {
 
   /**
    * Flag to check if the user is the super-administrator. It is used to allow the user

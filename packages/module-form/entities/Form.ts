@@ -1,6 +1,6 @@
 import { Icon } from '@unserved/module-icon'
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { BaseEntity, ModuleBase, transformerJson } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 import { FormSubmission, FormSubmissionObject } from './FormSubmission'
@@ -60,7 +60,7 @@ export interface FormObject {
  * `WebsiteFormSubmission` entity.
  */
 @Entity({ name: 'Form' })
-export class Form extends Metadata {
+export class Form extends BaseEntity {
 
   /**
    * The name of the form as displayed in the website.

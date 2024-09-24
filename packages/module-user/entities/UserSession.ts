@@ -1,4 +1,4 @@
-import { Metadata, transformerDate } from '@unserved/server'
+import { BaseEntity, transformerDate } from '@unserved/server'
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm'
 import { User } from './User'
 
@@ -11,7 +11,7 @@ import { User } from './User'
  * determine what the user can do in the application.
  */
 @Entity({ name: 'UserSession' })
-export class UserSession extends Metadata {
+export class UserSession extends BaseEntity {
 
   /**
    * The owner of the session. It is used to determine who is using the session.

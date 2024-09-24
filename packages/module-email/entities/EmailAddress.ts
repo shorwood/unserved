@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity, OneToMany } from 'typeorm'
 import { EmailMessage } from './EmailMessage'
 
@@ -8,7 +8,7 @@ import { EmailMessage } from './EmailMessage'
  * to store the contact information of the entity.
  */
 @Entity({ name: 'EmailAddress' })
-export class EmailAddress extends Metadata {
+export class EmailAddress extends BaseEntity {
 
   /**
    * The email address of the entity.

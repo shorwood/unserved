@@ -1,5 +1,5 @@
 import { User, UserObject } from '@unserved/module-user'
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 
@@ -10,7 +10,7 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
  * fields are optional except the name.
  */
 @Entity({ name: 'ContactPerson' })
-export class ContactPerson extends Metadata {
+export class ContactPerson extends BaseEntity {
 
   /**
    * The full name of the person.

@@ -1,5 +1,5 @@
 import { Icon } from '@unserved/module-icon'
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { ContentCategory } from './ContentCategory'
@@ -23,7 +23,7 @@ export interface ContentTagObject {
  * the pages by tags.
  */
 @Entity({ name: 'ContentTag' })
-export class ContentTag extends Metadata {
+export class ContentTag extends BaseEntity {
 
   /**
    * The display name of the tag. It is used as the title of the tag in the filter

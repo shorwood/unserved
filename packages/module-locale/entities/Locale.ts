@@ -1,5 +1,5 @@
 import { Icon } from '@unserved/module-icon'
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm'
 import { LocaleTranslation } from './LocaleTranslation'
 
@@ -27,7 +27,7 @@ export interface LocaleObject {
  * versions of the page in different locales and allow the users to switch between them.
  */
 @Entity({ name: 'Locale' })
-export class Locale extends Metadata {
+export class Locale extends BaseEntity {
 
   /**
    * The display name of the locale. It is used as the title of the locale in the

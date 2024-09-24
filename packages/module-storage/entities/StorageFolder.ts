@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { join } from 'node:path'
 import { Column, Entity, ManyToOne, OneToMany, Unique } from 'typeorm'
@@ -33,7 +33,7 @@ export interface StorageFolderObject {
  */
 @Entity({ name: 'StorageFolder' })
 @Unique(['parent', 'name'])
-export class StorageFolder extends Metadata {
+export class StorageFolder extends BaseEntity {
 
   /**
    * The computed absolute path of the folder as if it was in a filesystem. It is used to

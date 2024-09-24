@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity } from 'typeorm'
 
 /**
@@ -11,7 +11,7 @@ import { Column, Entity } from 'typeorm'
  * required in some cities, and the country is not required in some regions.
  */
 @Entity({ name: 'Location' })
-export class Location extends Metadata {
+export class Location extends BaseEntity {
 
   /**
    * The latitude of the address.

@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity } from 'typeorm'
 
 /**
@@ -7,7 +7,7 @@ import { Column, Entity } from 'typeorm'
  * etc.
  */
 @Entity({ name: 'UserSettings' })
-export class UserSettings extends Metadata {
+export class UserSettings extends BaseEntity {
 
   /**
    * The user registration status. It determines if the user registration is enabled.

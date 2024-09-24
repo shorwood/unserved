@@ -1,5 +1,5 @@
 import { User, UserObject } from '@unserved/module-user'
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
 import { StorageFile } from './StorageFile'
 
@@ -15,7 +15,7 @@ export interface StorageFileOwnerObject {
  */
 @Entity({ name: 'StorageFileOwner' })
 @Unique(['file', 'owner'])
-export class StorageFileOwner extends Metadata {
+export class StorageFileOwner extends BaseEntity {
 
   /**
    * The `User` entity that owns the entity.

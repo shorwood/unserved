@@ -1,4 +1,4 @@
-import { Metadata } from '@unserved/server'
+import { BaseEntity } from '@unserved/server'
 import { Column, Entity, JoinColumn, ManyToOne, Unique } from 'typeorm'
 import { Locale } from './Locale'
 
@@ -9,7 +9,7 @@ import { Locale } from './Locale'
  */
 @Entity({ name: 'LocaleTranslation' })
 @Unique('locale_translation_key', ['locale', 'key'])
-export class LocaleTranslation extends Metadata {
+export class LocaleTranslation extends BaseEntity {
 
   /**
    * The key of the string. It is used to identify the string and allow the website owner to

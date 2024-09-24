@@ -1,4 +1,4 @@
-import { Metadata, transformerJson } from '@unserved/server'
+import { BaseEntity, transformerJson } from '@unserved/server'
 import { Column, Entity, OneToMany } from 'typeorm'
 import { IconCollectionMetadata } from '../utils'
 import { Icon } from './Icon'
@@ -13,7 +13,7 @@ export interface IconCollectionObject extends IconCollectionMetadata {
  * to search the icons by their sets.
  */
 @Entity({ name: 'IconCollection' })
-export class IconCollection extends Metadata {
+export class IconCollection extends BaseEntity {
 
   /**
    * The name of the set. It is used to identify the set and allow the users to search

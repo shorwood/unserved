@@ -1,5 +1,5 @@
 import { StorageFile } from '@unserved/module-storage'
-import { Metadata, ModuleBase, transformerJson } from '@unserved/server'
+import { BaseEntity, ModuleBase, transformerJson } from '@unserved/server'
 import { UUID } from 'node:crypto'
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 import { Form, FormObject } from './Form'
@@ -26,7 +26,7 @@ export interface FormSubmissionObject {
  * number, the message, and the company. All the fields are optional except the name and the email.
  */
 @Entity({ name: 'FormSubmission' })
-export class FormSubmission extends Metadata {
+export class FormSubmission extends BaseEntity {
 
   /**
    * A reference to the form definition that was submitted.
