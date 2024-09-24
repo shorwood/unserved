@@ -1,5 +1,5 @@
 import type { ApplicationOrModule, EventStream, ModuleInstance, RouteParser } from '@unserved/server'
-import type { Function, Loose, MaybePromise, UnionMerge } from '@unshared/types'
+import type { Function, Loose, UnionMerge } from '@unshared/types'
 
 /**
  * Infer the routes of the application.
@@ -39,8 +39,8 @@ export type InferPayload<T extends ApplicationOrModule, N extends InferRouteName
 /** Infer the output data given a route name. */
 export type InferOutput<T extends ApplicationOrModule, N extends InferRouteName<T>> =
   InferRoute<T> extends infer Route
-    ? Route extends { name: N; callback: (...args: any[]) => MaybePromise<infer Output> }
-      ? Output extends EventStream<infer U> ? AsyncIterable<U> : Output
+    ? Route extends { name: N; callback: (...args: any[]) => infer U }
+      ? Awaited<U> extends EventStream<infer V> ? AsyncIterable<V> : Awaited<U>
       : never
     : never
 
@@ -48,68 +48,129 @@ export type InferOutput<T extends ApplicationOrModule, N extends InferRouteName<
 /* eslint-disable @typescript-eslint/no-unused-vars */
 if (import.meta.vitest) {
   const { ModuleBase, createRoute } = await import('@unserved/server')
-  type H3Event = import('h3').H3Event
 
-  // --- Mock module for testing.
-  class ModuleBlog extends ModuleBase {
-    routes = {
-      getPost: createRoute( {
-        name: 'GET /post/:id',
-        query: () => ({ name: 'John Doe' }) as { name: string | undefined },
-        parameters: () => ({ id: '123' }),
-      }, ({ query }) => `Hello, ${query.name}` ),
+  describe('infer route', () => {
+    it('should infer the route of a module', () => {
+      class ModuleTest extends ModuleBase {
+        routes = {
+          getFoo: createRoute('GET /test', () => {}),
+          postBar: createRoute({ name: 'POST /test' }, () => {}),
+          wsFoo: createRoute('WS /test', {}),
+        }
+      }
+      type Result = InferRoute<typeof ModuleTest>
+      expectTypeOf<Result>().toEqualTypeOf<
+        { name: 'GET /test'; callback: () => void }
+        | { name: 'POST /test'; callback: () => void }
+        | { name: 'WS /test' }
+      >()
+    })
 
-      getPosts: createRoute( {
-        name: 'GET /posts',
-        query: () => ({ name: 'John Doe' }),
-      }, ({ query }) => `Hello, ${query.name}` ),
-
-      createPost: createRoute( {
-        name: 'POST /test',
-        query: () => ({ id: 'John Doe' }),
-        body: () => ({ name: 'John Doe' }),
-        formData: () => ({ file: 'file' }),
-      }, () => {}),
-
-      syncPost: createRoute( {
-        name: 'WS /post/:id',
-        parseMessage: () => ({ id: '123' }),
-      }, {}),
-    }
-  }
-
-  test('should infer the route of a module', () => {
-    type Result = InferRoute<typeof ModuleBlog>
-    expectTypeOf<Result>().toEqualTypeOf<
-      InstanceType<typeof ModuleBlog>['routes']['createPost'] |
-      InstanceType<typeof ModuleBlog>['routes']['getPost'] |
-      InstanceType<typeof ModuleBlog>['routes']['getPosts'] |
-      InstanceType<typeof ModuleBlog>['routes']['syncPost']
-    >()
+    it('should infer the route name of a module', () => {
+      class ModuleTest extends ModuleBase {
+        routes = {
+          getPost: createRoute('GET /post/:id', () => {}),
+          getPosts: createRoute('GET /posts', () => {}),
+          postTest: createRoute('POST /test', () => {}),
+          wsPost: createRoute('WS /post/:id', {}),
+        }
+      }
+      type Result = InferRouteName<typeof ModuleTest>
+      expectTypeOf<Result>().toEqualTypeOf<'GET /post/:id' | 'GET /posts' | 'POST /test' | 'WS /post/:id'>()
+    })
   })
 
-  test('should infer the route name of a module', () => {
-    type Result = InferRouteName<typeof ModuleBlog>
-    expectTypeOf<Result>().toEqualTypeOf<'GET /post/:id' | 'GET /posts' | 'POST /test' | 'WS /post/:id'>()
+  describe('infer input', () => {
+    it('should infer the query input of a GET route', () => {
+      class ModuleTest extends ModuleBase {
+        routes = { test: createRoute({
+          name: 'GET /test',
+          query: () => ({ id: '123' }),
+        }, () => 'Hello') }
+      }
+      type Result = InferInput<typeof ModuleTest, 'GET /test'>
+      expectTypeOf<Result>().toEqualTypeOf<{ id: string }>()
+    })
+
+    it('should infer the parameters input of a GET route', () => {
+      class ModuleTest extends ModuleBase {
+        routes = { test: createRoute({
+          name: 'GET /test/:id',
+          parameters: () => ({ id: '123' }),
+        }, () => 'Hello') }
+      }
+      type Result = InferInput<typeof ModuleTest, 'GET /test/:id'>
+      expectTypeOf<Result>().toEqualTypeOf<{ id: string }>()
+    })
+
+    it('should infer the body input of a POST route', () => {
+      class ModuleTest extends ModuleBase {
+        routes = { test: createRoute({
+          name: 'POST /test',
+          body: () => ({ id: '123', name: 'John Doe' }),
+        }, () => 'Hello') }
+      }
+      type Result = InferInput<typeof ModuleTest, 'POST /test'>
+      expectTypeOf<Result>().toEqualTypeOf<{ id: string; name: string }>()
+    })
   })
 
-  test('should infer the input of a GET route', () => {
-    type Result = InferInput<typeof ModuleBlog, 'GET /post/:id'>
-    expectTypeOf<Result>().toEqualTypeOf<{ id: string; name?: string | undefined }>()
+  describe('infer output', () => {
+    it('should infer the output of a route with synchronous callback', () => {
+      class ModuleTest extends ModuleBase { routes = { test: createRoute({ name: 'GET /test' }, () => 'Hello') } }
+      type Result = InferOutput<typeof ModuleTest, 'GET /test'>
+      expectTypeOf<Result>().toEqualTypeOf<string>()
+    })
+
+    it('should infer the output of a route with asynchronous callback', () => {
+      // eslint-disable-next-line @typescript-eslint/require-await
+      class ModuleTest extends ModuleBase { routes = { test: createRoute({ name: 'GET /test' }, async() => 'Hello') } }
+      type Result = InferOutput<typeof ModuleTest, 'GET /test'>
+      expectTypeOf<Result>().toEqualTypeOf<string>()
+    })
+
+    it('should infer the output of a route with event stream', () => {
+      class ModuleTest extends ModuleBase {
+        routes = {
+          test: createRoute({
+            name: 'GET /test',
+          }, ({ event }) => this.withEventStream<{ value: string }>(event, () => Promise.resolve())),
+        }
+      }
+      type Result = InferOutput<typeof ModuleTest, 'GET /test'>
+      expectTypeOf<Result>().toEqualTypeOf<AsyncIterable<{ value: string }>>()
+    })
+
+    it('should infer the output of an async route with event stream', () => {
+      class ModuleTest extends ModuleBase {
+        routes = {
+          test: createRoute({
+            name: 'GET /test',
+          // eslint-disable-next-line @typescript-eslint/require-await
+          }, async({ event }) => this.withEventStream<{ value: string }>(event, () => Promise.resolve())),
+        }
+      }
+      type Result = InferOutput<typeof ModuleTest, 'GET /test'>
+      expectTypeOf<Result>().toEqualTypeOf<AsyncIterable<{ value: string }>>()
+    })
+
+    it('should infer the output of a WebSocket route', () => {
+      class ModuleTest extends ModuleBase { routes = { test: createRoute({ name: 'WS /test' }, {}) } }
+      type Result = InferOutput<typeof ModuleTest, 'WS /test'>
+      expectTypeOf<Result>().toEqualTypeOf<never>()
+    })
   })
 
-  test('should infer the input of a POST route', () => {
-    type Result = InferInput<typeof ModuleBlog, 'POST /test'>
-    expectTypeOf<Result>().toEqualTypeOf<{ id: string; name: string; file: string }>()
-  })
-
-  test('should infer the output of a route', () => {
-    type Result = InferOutput<typeof ModuleBlog, 'GET /post/:id'>
-    expectTypeOf<Result>().toEqualTypeOf<string>()
-  })
-
-  test('should infer the payload of a WebSocket route', () => {
-    type Result = InferPayload<typeof ModuleBlog, 'WS /post/:id'>
-    expectTypeOf<Result>().toEqualTypeOf<{ id: string }>()
+  describe('infer payload', () => {
+    it('should infer the payload of a WebSocket route', () => {
+      class ModuleTest extends ModuleBase {
+        routes = { post: createRoute({
+          name: 'WS /post/:id',
+          parseMessage: () => ({ id: '123' }),
+        }, {}) }
+      }
+      type Result = InferPayload<typeof ModuleTest, 'WS /post/:id'>
+      expectTypeOf<Result>().toEqualTypeOf<{ id: string }>()
+    })
   })
 }
