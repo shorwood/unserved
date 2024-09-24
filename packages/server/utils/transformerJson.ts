@@ -6,7 +6,7 @@ import type { ValueTransformer } from 'typeorm'
  * This is used to store JSON objects in the database as strings and read them as JSON objects.
  *
  * @example
- * export class Metadata extends BaseEntity {
+ * export class Entity extends BaseEntity {
  * **@Column('json', { transformer: transformerJson, nullable: true })
  *    passwordOptions: PasswordOptions
  * }

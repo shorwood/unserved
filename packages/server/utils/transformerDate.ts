@@ -8,7 +8,7 @@ import type { ValueTransformer } from 'typeorm'
  * store dates in the database as strings and read them as dates.
  *
  * @example
- * export class Metadata extends BaseEntity {
+ * export class Entity extends BaseEntity {
  * **@Column('varchar', { transformer: transformerDate, length: 255 })
  *     createdAt: Date
  * }

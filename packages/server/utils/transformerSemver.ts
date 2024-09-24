@@ -7,7 +7,7 @@ import { createSemver, Semver } from '@unshared/string'
  * store sementic versions in the database as strings and read them as `Semver` instances.
  *
  * @example
- * export class Metadata extends BaseEntity {
+ * export class Entity extends BaseEntity {
  * **@Column('varchar', { transformer: transformerSemver, length: 255 })
  *     version: Semver
  * }
