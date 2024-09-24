@@ -11,7 +11,7 @@ export function isDataSource(value: unknown): value is DataSource {
 /* v8 ignore start */
 if (import.meta.vitest) {
   test('should return true for a DataSource instance', () => {
-    const value = new DataSource({ type: 'better-sqlite3', database: ':memory:', entities: [] })
+    const value = new DataSource({ type: 'sqlite', database: ':memory:', entities: [] })
     const result = isDataSource(value)
     expect(result).toBe(true)
   })
