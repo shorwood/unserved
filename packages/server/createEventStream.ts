@@ -108,5 +108,5 @@ export class EventStream<T = unknown> {
  * @returns The stream of the task.
  */
 export function createEventStream<T>(event: H3Event, fn: EventStreamFunction<T>) {
-  return EventStream.create(event, fn)
+  return EventStream.create<T>(event, fn)
 }
