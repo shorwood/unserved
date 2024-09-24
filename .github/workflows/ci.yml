@@ -7,8 +7,11 @@ on:
   push:
     branches:
       - main
-    paths: 
-      - "packages/**"
+    paths-ignore: 
+      - .husky/**
+      - .github/**
+      - .vscode/**
+      - .devcontainer/**
   pull_request:
     branches:
       - main
