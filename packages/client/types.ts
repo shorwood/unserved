@@ -1,4 +1,4 @@
-import type { ApplicationOrModule, EventStream, ModuleInstance, RouteParser } from '@unserved/server'
+import type { ApplicationOrModule, Error, ErrorData, EventStream, ModuleInstance, RouteParser } from '@unserved/server'
 import type { Function, Loose, UnionMerge } from '@unshared/types'
 
 /**
@@ -39,15 +39,17 @@ export type InferPayload<T extends ApplicationOrModule, N extends InferRouteName
 /** Infer the output data given a route name. */
 export type InferOutput<T extends ApplicationOrModule, N extends InferRouteName<T>> =
   InferRoute<T> extends infer Route
-    ? Route extends { name: N; callback: (...args: any[]) => infer U }
-      ? Awaited<U> extends EventStream<infer V> ? AsyncIterable<V> : Awaited<U>
+    ? Route extends { name: N; callback: (...args: any[]) => Promise<infer U> | infer U }
+      ? U extends EventStream<infer V> ? AsyncIterable<V>
+        : U extends Error<infer N, infer T> ? ErrorData<N, T>
+          : U
       : never
     : never
 
 /* v8 ignore start */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 if (import.meta.vitest) {
-  const { ModuleBase, createRoute } = await import('@unserved/server')
+  const { ModuleBase, createRoute, createError } = await import('@unserved/server')
 
   describe('infer route', () => {
     it('should infer the route of a module', () => {
@@ -158,6 +160,42 @@ if (import.meta.vitest) {
       class ModuleTest extends ModuleBase { routes = { test: createRoute({ name: 'WS /test' }, {}) } }
       type Result = InferOutput<typeof ModuleTest, 'WS /test'>
       expectTypeOf<Result>().toEqualTypeOf<never>()
+    })
+
+    it('should infer the output of a synchronous route with error', () => {
+      class ModuleTest extends ModuleBase {
+        routes = {
+          test: createRoute('GET /test',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+            () => createError({
+              name: 'E_TEST',
+              statusCode: 400,
+              statusMessage: 'Bad Request',
+              message: 'This is a test error',
+              data: { foo: 'bar' },
+            })),
+        }
+      }
+      type Result = InferOutput<typeof ModuleTest, 'GET /test'>
+      expectTypeOf<Result>().toEqualTypeOf<{ name: 'E_TEST'; message: string; foo: string }>()
+    })
+
+    it('should infer the output of an asynchronous route with error', () => {
+      class ModuleTest extends ModuleBase {
+        routes = {
+          test: createRoute('GET /test',
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/require-await
+            async() => createError({
+              name: 'E_TEST',
+              statusCode: 400,
+              statusMessage: 'Bad Request',
+              message: 'This is a test error',
+              data: { foo: 'bar' },
+            })),
+        }
+      }
+      type Result = InferOutput<typeof ModuleTest, 'GET /test'>
+      expectTypeOf<Result>().toEqualTypeOf<{ name: 'E_TEST'; message: string; foo: string }>()
     })
   })
 
