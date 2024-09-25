@@ -26,6 +26,11 @@
       "types": "./dist/createApplication.d.ts",
       "import": "./dist/createApplication.js"
     },
+    "./createError": {
+      "require": "./dist/createError.cjs",
+      "types": "./dist/createError.d.ts",
+      "import": "./dist/createError.js"
+    },
     "./createEventHandler": {
       "require": "./dist/createEventHandler.cjs",
       "types": "./dist/createEventHandler.d.ts",

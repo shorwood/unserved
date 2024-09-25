@@ -1,5 +1,6 @@
 export * from './BaseEntity'
 export * from './createApplication'
+export * from './createError'
 export * from './createEventHandler'
 export * from './createEventStream'
 export * from './createModule'
