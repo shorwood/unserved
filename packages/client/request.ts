@@ -13,7 +13,9 @@ export type RequestOptionsData<T extends ApplicationOrModule = never, P extends 
     : InferInput<T, P>
 
 type RequestErrorCallback<T extends ApplicationOrModule, P extends InferRouteName<T>> =
-  (error: Extract<InferOutput<T, P>, ErrorData>) => void
+  IsNever<T> extends true
+    ? (error: Error) => void
+    : (error: Error | Extract<InferOutput<T, P>, ErrorData>) => void
 
 type RequestDataCallback<T extends ApplicationOrModule, P extends InferRouteName<T>> =
   InferOutput<T, P> extends AsyncIterable<infer U>
@@ -116,7 +118,7 @@ if (import.meta.vitest) {
         }
       }
       type Result = RequestErrorCallback<typeof ModuleTest, 'GET /test'>
-      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string }) => void>()
+      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => void>()
     })
 
     it('should only include the error type in the error callback', () => {
@@ -137,7 +139,7 @@ if (import.meta.vitest) {
         }
       }
       type Result = RequestErrorCallback<typeof ModuleTest, 'GET /test'>
-      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string }) => void>()
+      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => void>()
     })
   })
 
