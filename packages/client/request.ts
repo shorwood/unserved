@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/consistent-type-imports */
 import type { ApplicationOrModule, ErrorData } from '@unserved/server'
 import { IsNever } from '@unshared/types'
@@ -107,7 +106,7 @@ if (import.meta.vitest) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       class ModuleTest extends ModuleBase {
         routes = {
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
           getFoo: createRoute('GET /test', () => createError({
             name: 'E_TEST',
             message: 'Test error message',
@@ -127,7 +126,7 @@ if (import.meta.vitest) {
         routes = {
           getFoo: createRoute('GET /test', () => {
             if (Math.random() > 0.5) return 'Hello'
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             return createError({
               name: 'E_TEST',
               message: 'Test error message',
@@ -161,7 +160,7 @@ if (import.meta.vitest) {
         routes = {
           getFoo: createRoute('GET /test', () => {
             if (Math.random() > 0.5) return 'Hello'
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+
             return createError({
               name: 'E_TEST',
               message: 'Test error message',

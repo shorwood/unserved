@@ -165,15 +165,14 @@ if (import.meta.vitest) {
     it('should infer the output of a synchronous route with error', () => {
       class ModuleTest extends ModuleBase {
         routes = {
-          test: createRoute('GET /test',
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-            () => createError({
-              name: 'E_TEST',
-              statusCode: 400,
-              statusMessage: 'Bad Request',
-              message: 'This is a test error',
-              data: { foo: 'bar' },
-            })),
+
+          test: createRoute('GET /test', () => createError({
+            name: 'E_TEST',
+            statusCode: 400,
+            statusMessage: 'Bad Request',
+            message: 'This is a test error',
+            data: { foo: 'bar' },
+          })),
         }
       }
       type Result = InferOutput<typeof ModuleTest, 'GET /test'>
@@ -184,7 +183,7 @@ if (import.meta.vitest) {
       class ModuleTest extends ModuleBase {
         routes = {
           test: createRoute('GET /test',
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/require-await
+            // eslint-disable-next-line @typescript-eslint/require-await
             async() => createError({
               name: 'E_TEST',
               statusCode: 400,
