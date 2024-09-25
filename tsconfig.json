@@ -28,6 +28,7 @@
     "examples",
     "tsup.config.ts",
     "vitest.config.ts",
+    "vitest.workspace.ts",
     "eslint.config.mjs",
     "forcePnpm.js"
   ],
