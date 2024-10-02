@@ -30,9 +30,9 @@ export type InferInput<T extends ApplicationOrModule, N extends InferRouteName<T
     : never
 
 /** Infer the payload data given a WebSocket route name. */
-export type InferPayload<T extends ApplicationOrModule, N extends InferRouteName<T>> =
+export type InferMessage<T extends ApplicationOrModule, N extends InferRouteName<T>> =
   InferRoute<T> extends infer Route ? Route extends { name: N }
-    ? Route extends { parseMessage: RouteParser<infer U> } ? U : never
+    ? Route extends { message: RouteParser<infer U> } ? U : never
     : never
     : never
 
@@ -203,10 +203,10 @@ if (import.meta.vitest) {
       class ModuleTest extends ModuleBase {
         routes = { post: createRoute({
           name: 'WS /post/:id',
-          parseMessage: () => ({ id: '123' }),
+          message: () => ({ id: '123' }),
         }, {}) }
       }
-      type Result = InferPayload<typeof ModuleTest, 'WS /post/:id'>
+      type Result = InferMessage<typeof ModuleTest, 'WS /post/:id'>
       expectTypeOf<Result>().toEqualTypeOf<{ id: string }>()
     })
   })
