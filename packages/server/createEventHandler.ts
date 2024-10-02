@@ -1,6 +1,10 @@
+import type { Message, Peer } from 'crossws'
 import type { EventHandler } from 'h3'
 import type { Route, RouteHandler, RouteOptions, WSRouteHandlers, WSRouteOptions } from './createRoute'
 import { defineEventHandler, defineWebSocketHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody } from 'h3'
+
+/** The context for a WebSocket peer. */
+type PeerWithContext = Peer<{ parameters: Record<string, string> }>
 
 /**
  * Given a route, create an event handler that can be used to handle a specific
@@ -10,7 +14,7 @@ import { defineEventHandler, defineWebSocketHandler, getValidatedQuery, getValid
  * @param route The route to create the event handler for.
  * @returns The event handler that can be used to handle the request.
  */
-function createHttpEventHandler<T extends Route<RouteOptions, RouteHandler>>(route: T): EventHandler {
+function createEventHandlerHttp<T extends Route<RouteOptions, RouteHandler>>(route: T): EventHandler {
   return defineEventHandler(async(event) => {
 
     // --- Initialize the context variables.
@@ -48,38 +52,66 @@ function createHttpEventHandler<T extends Route<RouteOptions, RouteHandler>>(rou
  * @param route The route to create the event handler for.
  * @returns The event handler that can be used to handle the request.
  */
-function createWsEventHandler<T extends Route<WSRouteOptions, WSRouteHandlers>>(route: T): EventHandler {
+function createEventHandlerWs<T extends Route<WSRouteOptions, WSRouteHandlers>>(route: T): EventHandler {
   return defineWebSocketHandler({
-    open(peer) {
-      if (!route.onOpen) return
-      return route.onOpen({ peer })
-    },
+    open(peer: PeerWithContext) {
 
-    message(peer, message) {
-      if (!route.onMessage) return
+      // --- If the route has parameters, parse them.
+      if (route.parameters) {
+        const url = new URL(peer.url, `ws://${peer.addr}`)
+        const partsRoute = route.name.split(' ')[1].split('/').filter(Boolean)
+        const partsPeer = url.pathname.split('/').filter(Boolean)
 
-      let payload: unknown
-      if (route.parseMessage) {
-        try {
-          const messageJson = message.toString()
-          const messageObject: unknown = JSON.parse(messageJson)
-          payload = route.parseMessage(messageObject)
+        // --- Build the request parameters from the route and peer.
+        const peerParameters: Record<string, string> = {}
+        for (const partRoute of partsRoute) {
+          const value = partsPeer.shift()
+          if (!partRoute.startsWith(':')) continue
+          const key = partRoute.slice(1)
+          if (!value) break
+          peerParameters[key] = value
         }
+
+        // --- Parse and store the parameters in the context.
+        try { peer.ctx.parameters = route.parameters(peerParameters) as Record<string, string> }
         catch (error) {
-          return route.onError?.({ peer, error: error as Error })
+          if (!route.onError) throw error
+          return route.onError({ peer, error: error as Error })
         }
       }
 
-      return route.onMessage({ peer, payload })
+      // --- Call the handler with the context and return the data.
+      if (!route.onOpen) return
+      return route.onOpen({ peer, parameters: peer.ctx.parameters })
     },
 
-    close(peer, details) {
+    message(peer: PeerWithContext, message: Message) {
+      if (!route.onMessage) return
+
+      let messageData: unknown
+      if (route.message) {
+        try {
+          const messageJson = message.toString()
+          const messageObject: unknown = JSON.parse(messageJson)
+          messageData = route.message(messageObject)
+        }
+        catch (error) {
+          if (!route.onError) throw error
+          return route.onError({ peer, error: error as Error })
+        }
+      }
+
+      const { parameters } = peer.ctx
+      return route.onMessage({ peer, message: messageData, parameters })
+    },
+
+    close(peer: PeerWithContext, details: { code?: number; reason?: string }) {
       if (!route.onClose) return
-      return route.onClose({ peer, details })
+      return route.onClose({ peer, details, parameters: peer.ctx.parameters })
     },
 
-    error(peer, error) {
-      if (!route.onError) return
+    error(peer: PeerWithContext, error: Error) {
+      if (!route.onError) throw error
       return route.onError({ peer, error })
     },
   })
@@ -105,5 +137,7 @@ function isHttpRoute(route: Route): route is Route<RouteOptions, RouteHandler> {
  * @example createEventHandler({ method: 'GET', path: '/users', callback: () => [] })
  */
 export function createEventHandler<T extends Route>(route: T): EventHandler {
-  return isHttpRoute(route) ? createHttpEventHandler(route) : createWsEventHandler(route)
+  return isHttpRoute(route)
+    ? createEventHandlerHttp(route)
+    : createEventHandlerWs(route)
 }
