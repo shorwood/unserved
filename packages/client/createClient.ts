@@ -1,6 +1,6 @@
 import type { ApplicationOrModule } from '@unserved/server'
 import type { Result } from '@unshared/functions'
-import type { WebSocketConnection } from './connect'
+import type { ConnectOptions, WebSocketConnection } from './connect'
 import type { RequestOptions } from './request'
 import type { InferOutput, InferRouteName } from './types'
 import { attempt } from '@unshared/functions/attempt'
@@ -98,10 +98,11 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
    * automatically reconnect if the connection is closed unexpectedly.
    *
    * @param name The path to connect to.
+   * @param options The options to pass to the connection.
    * @returns The WebSocket connection.
    */
-  public connect<P extends InferRouteName<T>>(name: P): WebSocketConnection<T, P> {
-    return connect<T, P>(name, { baseUrl: this.baseUrl })
+  public connect<P extends InferRouteName<T>>(name: P, options: Partial<ConnectOptions<T, P>> = {}): WebSocketConnection<T, P> {
+    return connect<T, P>(name, { baseUrl: this.baseUrl, ...options })
   }
 }
 
