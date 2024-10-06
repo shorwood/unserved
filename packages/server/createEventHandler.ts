@@ -55,54 +55,61 @@ function createEventHandlerHttp<T extends Route<RouteOptions, RouteHandler>>(rou
 function createEventHandlerWs<T extends Route<WSRouteOptions, WSRouteHandlers>>(route: T): EventHandler {
   return defineWebSocketHandler({
     open(peer: PeerWithContext) {
+      try {
 
-      // --- If the route has parameters, parse them.
-      if (route.parameters) {
-        const url = new URL(peer.url, `ws://${peer.addr}`)
-        const partsRoute = route.name.split(' ')[1].split('/').filter(Boolean)
-        const partsPeer = url.pathname.split('/').filter(Boolean)
+        // --- If the route has parameters, parse them.
+        if (route.parameters) {
+          const url = new URL(peer.url, `ws://${peer.addr}`)
+          const partsRoute = route.name.split(' ')[1].split('/').filter(Boolean)
+          const partsPeer = url.pathname.split('/').filter(Boolean)
 
-        // --- Build the request parameters from the route and peer.
-        const peerParameters: Record<string, string> = {}
-        for (const partRoute of partsRoute) {
-          const value = partsPeer.shift()
-          if (!partRoute.startsWith(':')) continue
-          const key = partRoute.slice(1)
-          if (!value) break
-          peerParameters[key] = value
+          // --- Build the request parameters from the route and peer.
+          const peerParameters: Record<string, string> = {}
+          for (const partRoute of partsRoute) {
+            const value = partsPeer.shift()
+            if (!partRoute.startsWith(':')) continue
+            const key = partRoute.slice(1)
+            if (!value) break
+            peerParameters[key] = value
+          }
+
+          // --- Parse and store the parameters in the context.
+          peer.ctx.parameters = route.parameters(peerParameters) as Record<string, string>
         }
 
-        // --- Parse and store the parameters in the context.
-        try { peer.ctx.parameters = route.parameters(peerParameters) as Record<string, string> }
-        catch (error) {
-          if (!route.onError) throw error
-          return route.onError({ peer, error: error as Error })
-        }
+        // --- Call the handler with the context and return the data.
+        if (!route.onOpen) return
+        return route.onOpen({ peer, parameters: peer.ctx.parameters })
       }
-
-      // --- Call the handler with the context and return the data.
-      if (!route.onOpen) return
-      return route.onOpen({ peer, parameters: peer.ctx.parameters })
+      catch (error) {
+        if (route.onError) void route.onError({ peer, error: error as Error })
+        throw error
+      }
     },
 
     message(peer: PeerWithContext, message: Message) {
-      if (!route.onMessage) return
+      try {
 
-      let messageData: unknown
-      if (route.message) {
-        try {
+        // --- Parse the message.
+        let messageData: unknown
+        if (route.message) {
           const messageJson = message.toString()
           const messageObject: unknown = JSON.parse(messageJson)
           messageData = route.message(messageObject)
         }
-        catch (error) {
-          if (!route.onError) throw error
-          return route.onError({ peer, error: error as Error })
-        }
-      }
 
-      const { parameters } = peer.ctx
-      return route.onMessage({ peer, message: messageData, parameters })
+        // --- Call the handler with the context.
+        if (!route.onMessage) return
+        return route.onMessage({
+          peer,
+          message: messageData,
+          parameters: peer.ctx.parameters,
+        })
+      }
+      catch (error) {
+        if (route.onError) void route.onError({ peer, error: error as Error })
+        throw error
+      }
     },
 
     close(peer: PeerWithContext, details: { code?: number; reason?: string }) {
