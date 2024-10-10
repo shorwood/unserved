@@ -13,19 +13,19 @@ export type RequestOptionsData<T extends ApplicationOrModule = never, P extends 
 
 type RequestErrorCallback<T extends ApplicationOrModule, P extends InferRouteName<T>> =
   IsNever<T> extends true
-    ? (error: Error) => void
-    : (error: Error | Extract<InferOutput<T, P>, ErrorData>) => void
+    ? (error: Error) => any
+    : (error: Error | Extract<InferOutput<T, P>, ErrorData>) => any
 
 type RequestDataCallback<T extends ApplicationOrModule, P extends InferRouteName<T>> =
   InferOutput<T, P> extends AsyncIterable<infer U>
-    ? (data: U) => void
-    : (data: Exclude<InferOutput<T, P>, ErrorData>) => void
+    ? (data: U) => any
+    : (data: Exclude<InferOutput<T, P>, ErrorData>) => any
 
 interface RequestOptionsHooks<T extends ApplicationOrModule = never, P extends InferRouteName<T> = never> {
   onError?: RequestErrorCallback<T, P>
   onData?: RequestDataCallback<T, P>
-  onSuccess?: () => void
-  onEnd?: () => void
+  onSuccess?: () => any
+  onEnd?: () => any
 }
 
 export interface RequestOptions<
@@ -117,7 +117,7 @@ if (import.meta.vitest) {
         }
       }
       type Result = RequestErrorCallback<typeof ModuleTest, 'GET /test'>
-      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => void>()
+      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => any>()
     })
 
     it('should only include the error type in the error callback', () => {
@@ -138,7 +138,7 @@ if (import.meta.vitest) {
         }
       }
       type Result = RequestErrorCallback<typeof ModuleTest, 'GET /test'>
-      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => void>()
+      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => any>()
     })
   })
 
@@ -151,7 +151,7 @@ if (import.meta.vitest) {
         }
       }
     type Result = RequestDataCallback<typeof ModuleTest, 'GET /test'>
-    expectTypeOf<Result>().toEqualTypeOf<(data: string) => void>()
+    expectTypeOf<Result>().toEqualTypeOf<(data: string) => any>()
     })
 
     it('should exclude the error type from the data callback', () => {
@@ -172,7 +172,7 @@ if (import.meta.vitest) {
         }
       }
     type Result = RequestDataCallback<typeof ModuleTest, 'GET /test'>
-    expectTypeOf<Result>().toEqualTypeOf<(data: 'Hello') => void>()
+    expectTypeOf<Result>().toEqualTypeOf<(data: 'Hello') => any>()
     })
   })
 }
