@@ -64,10 +64,10 @@
   ],
   "dependencies": {
     "@unserved/server": "workspace:*",
-    "@unshared/functions": "0.0.19",
-    "@unshared/types": "0.0.19"
+    "@unshared/functions": "0.2.0",
+    "@unshared/types": "0.2.0"
   },
   "devDependencies": {
-    "h3": "1.12.0"
+    "h3": "1.13.0"
   }
 }

@@ -31,11 +31,11 @@
     "@unserved/module-storage": "workspace:*",
     "@unserved/module-user": "workspace:*",
     "@unserved/server": "workspace:*",
-    "@unshared/collection": "0.0.19",
-    "@unshared/string": "0.0.19",
-    "@unshared/types": "0.0.19",
-    "@unshared/validation": "0.0.19",
-    "h3": "1.12.0",
+    "@unshared/collection": "0.2.0",
+    "@unshared/string": "0.2.0",
+    "@unshared/types": "0.2.0",
+    "@unshared/validation": "0.2.0",
+    "h3": "1.13.0",
     "sharp": "0.33.5"
   }
 }

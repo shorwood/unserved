@@ -28,9 +28,9 @@
     "LICENSE.md"
   ],
   "dependencies": {
-    "@azure/storage-blob": "12.24.0",
+    "@azure/storage-blob": "12.26.0",
     "@unserved/module-storage": "workspace:*",
     "@unserved/server": "workspace:*",
-    "@unshared/string": "0.0.19"
+    "@unshared/string": "0.2.0"
   }
 }
