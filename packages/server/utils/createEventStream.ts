@@ -83,9 +83,9 @@ export class EventStream<T = unknown> {
     const promise = callback(instance)
 
       // --- Catch any errors that occur and send them to the client.
-      .catch(async(error: Error | string) => {
+      .catch(async(error: Error) => {
         await instance.sendError(error)
-        throw error as Error
+        throw error
       })
 
       // --- Finally, close the stream to signal the end of the task.
