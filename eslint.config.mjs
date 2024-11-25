@@ -1,7 +1,3 @@
-import unsharedConfig from '@unshared/eslint-config'
+import unshared from '@unshared/eslint-config'
 
-export default unsharedConfig({
-  tsConfigPath: [
-    './tsconfig.json',
-  ],
-})
+export default unshared()
