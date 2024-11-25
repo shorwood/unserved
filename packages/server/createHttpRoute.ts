@@ -32,7 +32,7 @@ export interface HttpRouteOptions<
 export type HttpRouteHandler<T extends HttpRouteOptions, R> =
   (context: HttpRouteContext<T>) => MaybePromise<R>
 
-export type HttpRoute<T extends HttpRouteOptions = HttpRouteOptions, R = unknown> =
+export type HttpRoute<T extends HttpRouteOptions, R> =
   T & { handler: HttpRouteHandler<T, R>; [SYMBOL_HTTP_ROUTE]: true }
 
 /**
@@ -52,24 +52,4 @@ export type HttpRoute<T extends HttpRouteOptions = HttpRouteOptions, R = unknown
  */
 export function createHttpRoute<T extends HttpRouteOptions, R>(options: Readonly<T>, handler: HttpRouteHandler<T, R>): HttpRoute<T, R> {
   return { ...options, handler, [SYMBOL_HTTP_ROUTE]: true } as HttpRoute<T, R>
-}
-
-/**
- * Create a route that can be used to handle an HTTP request. The route includes the method,
- * path, body, query, parameters, and the callback that is called when the route is matched.
- *
- * @param options The options used to define the route.
- * @param handler The callback that is called when the route is matched.
- * @returns The route that can be used to handle the request.
- * @deprecated Use `createHttpRoute` instead.
- * @example
- *
- * const route = createRoute({
- *   name: 'GET /users/:id',
- *   parseParameters: (parameters) => ({ id: asNumber(parameters.id) })
- *   handler: ({ parameters }) => { ... }
- * })
- */
-export function createRoute<T extends HttpRouteOptions, R>(options: Readonly<T>, handler: HttpRouteHandler<T, R>): HttpRoute<T, R> {
-  return createHttpRoute(options, handler)
 }
