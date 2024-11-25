@@ -31,7 +31,7 @@ export const useClient = createGlobalState(() => {
   // --- Determine the base URL of the client.
   const baseUrl = 'location' in globalThis
     ? useRequestURL().origin
-    : window.location.origin
+    : globalThis.location.origin
 
   // --- Create a new client instance with the base URL.
   return createClient({ baseUrl })
