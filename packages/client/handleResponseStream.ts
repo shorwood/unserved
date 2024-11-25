@@ -1,4 +1,4 @@
-import type { EventStreamPayload } from '@unserved/server'
+import type { EventStreamPayload } from '@unserved/server/utils'
 import type { RequestOptions } from './request'
 
 /**
@@ -19,10 +19,7 @@ export async function * handleResponseStream(response: Response, options: Reques
     while (true) {
       const { done, value } = await reader.read()
       if (done) break
-      const parts = new TextDecoder().decode(value)
-        .trim()
-        .split('\0')
-        .filter(Boolean)
+      const parts = new TextDecoder().decode(value).trim().split('\0').filter(Boolean)
 
       // --- For each part, parse the JSON and yield the data.
       for (const part of parts) {
