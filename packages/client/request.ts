@@ -1,53 +1,77 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-import type { ApplicationOrModule, ErrorData } from '@unserved/server'
-import { IsNever } from '@unshared/types'
+import type { ServerErrorData } from '@unserved/server'
+import { fetch } from '@unshared/client'
+import { RequestOptions as _RequestOptions } from '@unshared/client/utils'
+import { IsNever, Override } from '@unshared/types'
 import { handleResponse } from './handleResponse'
-import { resolveRequestInit } from './resolveRequestInit'
-import { InferInput, InferOutput, InferRouteName } from './types'
+import { RouteName, RouteRequestBody, RouteRequestData, RouteRequestFormData, RouteRequestParameters, RouteRequestQuery, RouteResponseData } from './types'
 
-/** Type-safe options to pass to the client request based on the route. */
-export type RequestOptionsData<T extends ApplicationOrModule = never, P extends InferRouteName<T> = never> =
-  IsNever<T> extends true
-    ? Record<string, unknown>
-    : InferInput<T, P>
-
-type RequestErrorCallback<T extends ApplicationOrModule, P extends InferRouteName<T>> =
+export type RequestErrorCallback<T, P extends RouteName<T>> =
   IsNever<T> extends true
     ? (error: Error) => any
-    : (error: Error | Extract<InferOutput<T, P>, ErrorData>) => any
+    : (error: Error | Extract<RouteResponseData<T, P>, ServerErrorData>) => any
 
-type RequestDataCallback<T extends ApplicationOrModule, P extends InferRouteName<T>> =
-  InferOutput<T, P> extends AsyncIterable<infer U>
+export type RequestDataCallback<T, P extends RouteName<T>> =
+  RouteResponseData<T, P> extends AsyncIterable<infer U>
     ? (data: U) => any
-    : (data: Exclude<InferOutput<T, P>, ErrorData>) => any
+    : (data: Exclude<RouteResponseData<T, P>, ServerErrorData>) => any
 
-interface RequestOptionsHooks<T extends ApplicationOrModule = never, P extends InferRouteName<T> = never> {
-  onError?: RequestErrorCallback<T, P>
-  onData?: RequestDataCallback<T, P>
-  onSuccess?: () => any
-  onEnd?: () => any
-}
-
-export interface RequestOptions<
-  T extends ApplicationOrModule = never,
-  P extends InferRouteName<T> = never,
-> extends
-  RequestInit,
-  RequestOptionsHooks<T, P> {
+export type RequestOptions<T, P extends RouteName<T>> = Override<_RequestOptions, {
 
   /**
    * The data to pass to the request. This data will be used to fill the path
    * parameters, query parameters, body, and form data of the request based on
    * the route method.
    */
-  data?: RequestOptionsData<T, P>
+  data?: RouteRequestData<T, P>
 
   /**
-   * The base URL of the request. This URL will be used to resolve the path of
-   * the route.
+   * The query parameters to pass to the request. This data will be used to fill
+   * the query parameters of the request based on the route method.
    */
-  baseUrl?: string
-}
+  query?: RouteRequestQuery<T, P>
+
+  /**
+   * The body to pass to the request. This data will be used to fill the body of
+   * the request based on the route method.
+   */
+  body?: RouteRequestBody<T, P>
+
+  /**
+   * The form data to pass to the request. This data will be used to fill the form
+   * data of the request based on the route method.
+   */
+  formData?: RouteRequestFormData<T, P>
+
+  /**
+   * The path parameters to pass to the request. This data will be used to fill the
+   * path parameters of the request based on the route method.
+   */
+  parameters?: RouteRequestParameters<T, P>
+
+  /**
+   * The callback that is called when an error occurs during the request.
+   */
+  onError?: RequestErrorCallback<T, P>
+
+  /**
+   * The callback that is called when data is received from the request. This callback
+   * will be called for each chunk of data that is received from the request.
+   */
+  onData?: RequestDataCallback<T, P>
+
+  /**
+   * The callback that is called when the request is successful. This callback will be
+   * called after the request is complete and all data has been received.
+   */
+  onSuccess?: () => any
+
+  /**
+   * The callback that is called when the request is complete. This callback will be called
+   * after the request is complete and all data has been received.
+   */
+  onEnd?: () => any
+}>
 
 /**
  * Fetch a route from the API and return the data. If the client was instantiated with an
@@ -67,112 +91,7 @@ export interface RequestOptions<
  * // Fetch the data from the API.
  * const data = request('GET /api/product/:id', { data: { id: '1' } })
  */
-export async function request<T extends ApplicationOrModule, P extends InferRouteName<T> = InferRouteName<T>>(name: P, options?: RequestOptions<T, P>): Promise<InferOutput<T, P>>
-export async function request(name: string, options: RequestOptions = {}): Promise<unknown> {
-  const { url, init } = resolveRequestInit(name, options)
-  const response = await fetch(url, init)
-  return await handleResponse(response, options)
-}
-
-/* v8 ignore start */
-if (import.meta.vitest) {
-  const { ModuleBase, createRoute, createError } = await import('@unserved/server')
-
-  describe('requestOptionsData', () => {
-    it('should infer the request data type', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      class ModuleTest extends ModuleBase {
-        routes = {
-          getFoo: createRoute({
-            name: 'GET /test',
-            parameters: () => ({ foo: 'Hello' }),
-            query: () => ({ bar: 'Hello' }),
-            body: () => ({ baz: 'Hello' }),
-          }, () => {}),
-        }
-      }
-      type Result = RequestOptionsData<typeof ModuleTest, 'GET /test'>
-      expectTypeOf<Result>().toEqualTypeOf<{ foo: string; bar: string; baz: string }>()
-    })
-
-    it('should infer the request data type without a module', () => {
-      type Result = RequestOptionsData
-      expectTypeOf<Result>().toEqualTypeOf<Record<string, unknown>>()
-    })
-  })
-
-  describe('requestErrorCallback', () => {
-    it('should infer the error callback', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      class ModuleTest extends ModuleBase {
-        routes = {
-
-          getFoo: createRoute('GET /test', () => createError({
-            name: 'E_TEST',
-            message: 'Test error message',
-            statusCode: 400,
-            statusMessage: 'Bad Request',
-            data: { foo: 'bar' },
-          })),
-        }
-      }
-      type Result = RequestErrorCallback<typeof ModuleTest, 'GET /test'>
-      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => any>()
-    })
-
-    it('should only include the error type in the error callback', () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      class ModuleTest extends ModuleBase {
-        routes = {
-          getFoo: createRoute('GET /test', () => {
-            if (Math.random() > 0.5) return 'Hello'
-
-            return createError({
-              name: 'E_TEST',
-              message: 'Test error message',
-              statusCode: 400,
-              statusMessage: 'Bad Request',
-              data: { foo: 'bar' },
-            })
-          }),
-        }
-      }
-      type Result = RequestErrorCallback<typeof ModuleTest, 'GET /test'>
-      expectTypeOf<Result>().toEqualTypeOf<(error: { name: 'E_TEST'; message: string; foo: string } | Error) => any>()
-    })
-  })
-
-  describe('requestDataCallback', () => {
-    it('should infer the data callback', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      class ModuleTest extends ModuleBase {
-        routes = {
-          getFoo: createRoute('GET /test', () => 'Hello'),
-        }
-      }
-    type Result = RequestDataCallback<typeof ModuleTest, 'GET /test'>
-    expectTypeOf<Result>().toEqualTypeOf<(data: string) => any>()
-    })
-
-    it('should exclude the error type from the data callback', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      class ModuleTest extends ModuleBase {
-        routes = {
-          getFoo: createRoute('GET /test', () => {
-            if (Math.random() > 0.5) return 'Hello'
-
-            return createError({
-              name: 'E_TEST',
-              message: 'Test error message',
-              statusCode: 400,
-              statusMessage: 'Bad Request',
-              data: { foo: 'bar' },
-            })
-          }),
-        }
-      }
-    type Result = RequestDataCallback<typeof ModuleTest, 'GET /test'>
-    expectTypeOf<Result>().toEqualTypeOf<(data: 'Hello') => any>()
-    })
-  })
+export async function request<T, P extends RouteName<T>>(name: P, options: RequestOptions<T, P>): Promise<RouteResponseData<T, P>> {
+  const response = await fetch(name, options)
+  return await handleResponse(response, options) as RouteResponseData<T, P>
 }

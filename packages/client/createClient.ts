@@ -2,7 +2,7 @@ import type { ApplicationOrModule } from '@unserved/server'
 import type { Result } from '@unshared/functions'
 import type { ConnectOptions, WebSocketConnection } from './connect'
 import type { RequestOptions } from './request'
-import type { InferOutput, InferRouteName } from './types'
+import type { RouteName, RouteResponseData } from './types'
 import { attempt } from '@unshared/functions/attempt'
 import { connect } from './connect'
 import { request } from './request'
@@ -57,7 +57,7 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
    * // Fetch the data from the API.
    * const data = request('GET /api/product/:id', { data: { id: '1' } })
    */
-  public async request<P extends InferRouteName<T>>(name: P, options: RequestOptions<T, P> = {}): Promise<InferOutput<T, P>> {
+  public async request<P extends RouteName<T>>(name: P, options: RequestOptions<T, P> = {}): Promise<RouteResponseData<T, P>> {
     return request(name, {
       ...options,
       baseUrl: this.baseUrl,
@@ -89,7 +89,7 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
    * if (error) console.error(error)
    * else console.log(data)
    */
-  public async requestAttempt<P extends InferRouteName<T>>(name: P, options?: RequestOptions<T, P>): Promise<Result<InferOutput<T, P>>> {
+  public async requestAttempt<P extends RouteName<T>>(name: P, options?: RequestOptions<T, P>): Promise<Result<RouteResponseData<T, P>>> {
     return await attempt(async() => await this.request(name, options))
   }
 
@@ -101,7 +101,7 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
    * @param options The options to pass to the connection.
    * @returns The WebSocket connection.
    */
-  public connect<P extends InferRouteName<T>>(name: P, options: Partial<ConnectOptions<T, P>> = {}): WebSocketConnection<T, P> {
+  public connect<P extends RouteName<T>>(name: P, options: Partial<ConnectOptions<T, P>> = {}): WebSocketConnection<T, P> {
     return connect<T, P>(name, { baseUrl: this.baseUrl, ...options })
   }
 }
