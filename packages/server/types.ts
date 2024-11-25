@@ -2,6 +2,14 @@ import type { Constructor, Function } from '@unshared/types'
 import type { EntityTarget, Repository } from 'typeorm'
 import type { Application } from './createApplication'
 import type { ModuleBase } from './createModule'
+import type { HttpRoute } from './createHttpRoute'
+import type { WebSocketRoute } from './createWebSocketRoute'
+
+/** A parser for the body, query, and parameters of the route. */
+export type Parser<T = any, V = any> = (value: V) => T
+
+/** A route that is either an `HttpRoute` or a `WebSocketRoute`. */
+export type Route = HttpRoute | WebSocketRoute
 
 /** A constructor of instance of a module. */
 export type ModuleLike = ModuleBase | typeof ModuleBase
