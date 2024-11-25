@@ -1,8 +1,7 @@
-/* eslint-disable n/no-unsupported-features/node-builtins */
 import type { ApplicationOrModule } from '@unserved/server'
-import type { InferInput, InferMessage, InferRouteName } from './types'
+import type { RouteMessage, RouteName, RouteRequestData } from './types'
 
-export interface ConnectOptions<T extends ApplicationOrModule, P extends InferRouteName<T>> {
+export interface ConnectOptions<T extends ApplicationOrModule, P extends RouteName<T>> {
 
   /** The base URL to connect to. */
   baseUrl: string
@@ -20,17 +19,17 @@ export interface ConnectOptions<T extends ApplicationOrModule, P extends InferRo
    * })
    * ```
    */
-  data?: InferInput<T, P>
+  data?: RouteRequestData<T, P>
 }
 
-export interface WebSocketConnection<T extends ApplicationOrModule, P extends InferRouteName<T>> {
+export interface WebSocketConnection<T extends ApplicationOrModule, P extends RouteName<T>> {
 
   /**
    * Send a payload to the server. The payload will be serialized to JSON before sending.
    *
    * @param message The data to send to the server.
    */
-  send(message: InferMessage<T, P>): void
+  send(message: RouteMessage<T, P>): void
 
   /**
    * Listen for events from the server. The event will be deserialized from JSON before calling the callback.
@@ -56,11 +55,11 @@ export interface WebSocketConnection<T extends ApplicationOrModule, P extends In
  * @param options The options to pass to the connection.
  * @returns The WebSocket connection.
  */
-export function connect<T extends ApplicationOrModule, P extends InferRouteName<T>>(name: P, options: ConnectOptions<T, P>): WebSocketConnection<T, P> {
+export function connect<T extends ApplicationOrModule, P extends RouteName<T>>(name: P, options: ConnectOptions<T, P>): WebSocketConnection<T, P> {
   const { baseUrl, data } = options
 
   // --- Parse the method and path from the route name.
-  const [method, path] = name.split(' ')
+  const [method, path] = (name as string).split(' ')
   const url = new URL(path, baseUrl)
   if (!path || !method) throw new Error('Invalid path')
 
@@ -69,9 +68,10 @@ export function connect<T extends ApplicationOrModule, P extends InferRouteName<
   if (parameters && data) {
     for (const parameter of parameters) {
       const key = parameter.slice(1)
-      if (!data[key]) continue
-      url.pathname = url.pathname.replace(parameter, data[key] as string)
-      delete data[key]
+      const value = data[key as keyof typeof data]
+      if (typeof value !== 'string') continue
+      url.pathname = url.pathname.replace(parameter, value)
+      delete data[key as keyof typeof data]
     }
   }
 
@@ -84,7 +84,7 @@ export function connect<T extends ApplicationOrModule, P extends InferRouteName<
   })
 
   // --- Declare the `send` function to send data to the server.
-  function send(data: InferMessage<T, P>) {
+  function send(data: RouteMessage<T, P>) {
     const json = JSON.stringify(data)
     webSocket.send(json)
   }
