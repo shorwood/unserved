@@ -2,11 +2,10 @@ import type { Constructor, MaybeFunction, MaybePromise } from '@unshared/types'
 import type { H3Event } from 'h3'
 import type { BaseEntity } from './BaseEntity'
 import type { Application } from './createApplication'
-import type { EventStreamFunction } from './createEventStream'
-import type { Route } from './createRoute'
-import type { InferRepositories } from './types'
+import type { InferRepositories, Route } from './types'
+import type { EventStreamFunction } from './utils'
 import { setHeader } from 'h3'
-import { createEventStream } from './createEventStream'
+import { createEventStream } from './utils'
 
 /**
  * A module is an isolated context that contains the entities, repositories as well as

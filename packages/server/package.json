@@ -31,25 +31,20 @@
       "types": "./dist/createError.d.ts",
       "import": "./dist/createError.js"
     },
-    "./createEventHandler": {
-      "require": "./dist/createEventHandler.cjs",
-      "types": "./dist/createEventHandler.d.ts",
-      "import": "./dist/createEventHandler.js"
-    },
-    "./createEventStream": {
-      "require": "./dist/createEventStream.cjs",
-      "types": "./dist/createEventStream.d.ts",
-      "import": "./dist/createEventStream.js"
+    "./createHttpRoute": {
+      "require": "./dist/createHttpRoute.cjs",
+      "types": "./dist/createHttpRoute.d.ts",
+      "import": "./dist/createHttpRoute.js"
     },
     "./createModule": {
       "require": "./dist/createModule.cjs",
       "types": "./dist/createModule.d.ts",
       "import": "./dist/createModule.js"
     },
-    "./createRoute": {
-      "require": "./dist/createRoute.cjs",
-      "types": "./dist/createRoute.d.ts",
-      "import": "./dist/createRoute.js"
+    "./createWebSocketRoute": {
+      "require": "./dist/createWebSocketRoute.cjs",
+      "types": "./dist/createWebSocketRoute.d.ts",
+      "import": "./dist/createWebSocketRoute.js"
     },
     "./types": {
       "require": "./dist/types.cjs",

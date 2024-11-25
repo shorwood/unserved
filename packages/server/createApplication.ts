@@ -6,9 +6,9 @@ import { Constructor } from '@unshared/types'
 import { createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
 import { createServer } from 'node:http'
 import { DataSource, DataSourceOptions } from 'typeorm'
-import { createEventHandler } from './createEventHandler'
 import { InferOptions, ModuleInstance, ModuleLike } from './types'
 import { isDataSource } from './utils'
+import { createEventHandler } from './utils'
 
 export type ApplicationOptions<T extends ModuleLike = ModuleLike> = {
 
@@ -108,7 +108,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
 
     // --- Set the logger of the application.
     if (options.logger) this.logger = options.logger
-    const { prefix = 'APP' } = options
+    const { prefix = 'APP', dataSource } = options
 
     // --- Merge the options of the application with the options from
     // --- the environment variables.
@@ -118,7 +118,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
       dataSource: {
         ...DEFAULT_DATA_SOURCE_OPTIONS,
         ...parseEnvironments(`${prefix}_DATABASE`),
-        ...options.dataSource,
+        ...dataSource,
       },
     }
 
@@ -199,6 +199,7 @@ export class Application<T extends ModuleLike = ModuleLike> {
       if (!module.routes) continue
       for (let route of Object.values(module.routes)) {
         try {
+          // eslint-disable-next-line sonarjs/updated-loop-counter
           route = typeof route === 'function' ? route.call(module) : route
           const [method, path] = route.name.split(' ')
           const eventHandler = createEventHandler(route)
