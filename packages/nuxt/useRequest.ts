@@ -1,4 +1,4 @@
-import type { InferOutput, InferRouteName, RequestOptions, RequestOptionsData } from '@unserved/client'
+import type { RequestOptions, RouteName, RouteRequestData, RouteResponseData } from '@unserved/client'
 import type { GlobalApplication } from '@unserved/nuxt/types'
 import type { ApplicationOrModule } from '@unserved/server'
 import type { AsyncDataOptions } from 'nuxt/app'
@@ -33,25 +33,25 @@ export type MaybeRefWrap<T extends object> = MaybeRef<{
  */
 export type UseRequestOptions<
   T extends ApplicationOrModule = never,
-  P extends InferRouteName<T> = never,
-  O extends InferOutput<T, P> = InferOutput<T, P>,
+  P extends RouteName<T> = never,
+  O extends RouteResponseData<T, P> = RouteResponseData<T, P>,
   U = O,
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
 > =
-  { data?: MaybeRefWrap<RequestOptionsData<T, P>> } &
+  { data?: MaybeRefWrap<RouteRequestData<T, P>> } &
   { key?: string } &
   AsyncDataOptions<O, U, K, D> &
   Omit<RequestOptions<T, P>, 'data'>
 
 export type UseRequestReturn<
   T extends ApplicationOrModule,
-  P extends InferRouteName<T>,
-  O extends InferOutput<T, P>,
+  P extends RouteName<T>,
+  O extends RouteResponseData<T, P>,
   U = O,
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
-> = ReturnType<typeof useAsyncData<InferOutput<T, P>, unknown, U, K, D>>
+> = ReturnType<typeof useAsyncData<RouteResponseData<T, P>, unknown, U, K, D>>
 
 /**
  * Request a route from the server and return the result. This function is a wrapper around `useAsyncData` that
@@ -71,8 +71,8 @@ export type UseRequestReturn<
  */
 export function useRequest<
   T extends ApplicationOrModule = GlobalApplication,
-  P extends InferRouteName<T> = never,
-  O extends InferOutput<T, P> = InferOutput<T, P>,
+  P extends RouteName<T> = never,
+  O extends RouteResponseData<T, P> = RouteResponseData<T, P>,
   U = O,
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
@@ -83,7 +83,7 @@ export function useRequest<
   return useAsyncData(
     options.key ?? name as string,
     () => {
-      const data = unref({ ...options.data }) as RequestOptionsData<T, P>
+      const data = unref({ ...options.data }) as RouteRequestData<T, P>
       for (const key in data) data[key] = unref(data[key])
       return useClient<T>().request(name, { ...options, data })
     },

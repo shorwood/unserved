@@ -1,6 +1,4 @@
 export * from './connect'
 export * from './createClient'
-export * from './handleResponse'
-export * from './handleResponseStream'
 export * from './request'
 export * from './types'

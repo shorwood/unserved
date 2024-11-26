@@ -1,5 +1,5 @@
 import type { EventHandler } from 'h3'
-import type { HttpRoute } from '../createHttpRoute'
+import type { HttpRoute, HttpRouteOptions } from '../createHttpRoute'
 import { defineEventHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody } from 'h3'
 
 /**
@@ -10,7 +10,7 @@ import { defineEventHandler, getValidatedQuery, getValidatedRouterParams, readFo
  * @param route The route to create the event handler for.
  * @returns The event handler that can be used to handle the request.
  */
-export function createHttpEventHandler<T extends HttpRoute>(route: T): EventHandler {
+export function createHttpEventHandler<T extends HttpRoute<HttpRouteOptions, unknown>>(route: T): EventHandler {
   return defineEventHandler(async(event) => {
 
     // --- Initialize the context variables.

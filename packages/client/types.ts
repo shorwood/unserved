@@ -5,8 +5,8 @@ import type { MaybeFunction, UnionMerge } from '@unshared/types'
 /** Infer the path of the application. */
 export type RouteName<T> =
   ModuleInstance<T> extends { routes: Record<string, infer R> }
-    ? R extends MaybeFunction<{ name: infer U extends string }> ? (string & U) : never
-    : never
+    ? R extends MaybeFunction<{ name: infer U extends string }> ? U : never
+    : string
 
 /** Infer the routes of the application or module. */
 export type RouteByName<T, N extends RouteName<T> = RouteName<T>> =

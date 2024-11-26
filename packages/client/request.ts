@@ -1,22 +1,15 @@
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-import type { ServerErrorData } from '@unserved/server'
+import type { RequestOptions as BaseRequestOptions, RequestHooks } from '@unshared/client/utils'
+import type { Override } from '@unshared/types'
+import type { RouteName, RouteRequestBody, RouteRequestData, RouteRequestFormData, RouteRequestParameters, RouteRequestQuery, RouteResponseData } from './types'
 import { fetch } from '@unshared/client'
-import { RequestOptions as _RequestOptions } from '@unshared/client/utils'
-import { IsNever, Override } from '@unshared/types'
-import { handleResponse } from './handleResponse'
-import { RouteName, RouteRequestBody, RouteRequestData, RouteRequestFormData, RouteRequestParameters, RouteRequestQuery, RouteResponseData } from './types'
-
-export type RequestErrorCallback<T, P extends RouteName<T>> =
-  IsNever<T> extends true
-    ? (error: Error) => any
-    : (error: Error | Extract<RouteResponseData<T, P>, ServerErrorData>) => any
+import { handleResponse } from '@unshared/client/utils'
 
 export type RequestDataCallback<T, P extends RouteName<T>> =
   RouteResponseData<T, P> extends AsyncIterable<infer U>
     ? (data: U) => any
-    : (data: Exclude<RouteResponseData<T, P>, ServerErrorData>) => any
+    : (data: RouteResponseData<T, P>) => any
 
-export type RequestOptions<T, P extends RouteName<T>> = Override<_RequestOptions, {
+export type RequestOptions<T, P extends RouteName<T>> = Override<BaseRequestOptions & RequestHooks, {
 
   /**
    * The data to pass to the request. This data will be used to fill the path
@@ -50,27 +43,10 @@ export type RequestOptions<T, P extends RouteName<T>> = Override<_RequestOptions
   parameters?: RouteRequestParameters<T, P>
 
   /**
-   * The callback that is called when an error occurs during the request.
-   */
-  onError?: RequestErrorCallback<T, P>
-
-  /**
    * The callback that is called when data is received from the request. This callback
    * will be called for each chunk of data that is received from the request.
    */
   onData?: RequestDataCallback<T, P>
-
-  /**
-   * The callback that is called when the request is successful. This callback will be
-   * called after the request is complete and all data has been received.
-   */
-  onSuccess?: () => any
-
-  /**
-   * The callback that is called when the request is complete. This callback will be called
-   * after the request is complete and all data has been received.
-   */
-  onEnd?: () => any
 }>
 
 /**
@@ -92,6 +68,7 @@ export type RequestOptions<T, P extends RouteName<T>> = Override<_RequestOptions
  * const data = request('GET /api/product/:id', { data: { id: '1' } })
  */
 export async function request<T, P extends RouteName<T>>(name: P, options: RequestOptions<T, P>): Promise<RouteResponseData<T, P>> {
-  const response = await fetch(name, options)
+  const response = await fetch(name, options as BaseRequestOptions)
+  // @ts-expect-error: Data type mismatch is expected.
   return await handleResponse(response, options) as RouteResponseData<T, P>
 }
