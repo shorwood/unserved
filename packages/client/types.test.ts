@@ -80,6 +80,22 @@ describe('types', () => {
       type Result = RouteRequestData<typeof ModuleTest, 'GET /articles/:id'>
       expectTypeOf<Result>().toEqualTypeOf<{ name: string; image: string; id: string; search: string }>()
     })
+
+    it('should loosen the data input of a route when it can be undefined', () => {
+      class ModuleTest extends ModuleBase {
+        routes = {
+          createArticle: createHttpRoute({
+            name: 'GET /articles/:id',
+            parseQuery: () => ({ search: 'Hello' as string | undefined }),
+            parseParameters: () => ({ id: '123' as string | undefined }),
+            parseBody: () => ({ name: 'Hello' as string | undefined }),
+            parseFormData: () => ({ image: 'Hello' as string | undefined }),
+          }, () => 'Hello'),
+        }
+      }
+      type Result = RouteRequestData<typeof ModuleTest, 'GET /articles/:id'>
+      expectTypeOf<Result>().toEqualTypeOf<{ name?: string; image?: string; id?: string; search?: string }>()
+    })
   })
 
   describe('infer output', () => {

@@ -1,6 +1,6 @@
 import type { HttpRouteName, ModuleInstance, Parser, ServerError, ServerErrorData } from '@unserved/server'
 import type { EventStream } from '@unserved/server/utils'
-import type { MaybeFunction, UnionMerge } from '@unshared/types'
+import type { Loose, MaybeFunction, UnionMerge } from '@unshared/types'
 
 /** Infer the path of the application. */
 export type RouteName<T> =
@@ -15,16 +15,16 @@ export type RouteByName<T, N extends RouteName<T> = RouteName<T>> =
     : never
 
 export type RouteRequestQuery<T, N extends RouteName<T>> =
-  RouteByName<T, N> extends { parseQuery: Parser<infer U> } ? U : never
+  RouteByName<T, N> extends { parseQuery: Parser<infer U> } ? Loose<U> : never
 
 export type RouteRequestParameters<T, N extends RouteName<T>> =
-  RouteByName<T, N> extends { parseParameters: Parser<infer U> } ? U : never
+  RouteByName<T, N> extends { parseParameters: Parser<infer U> } ? Loose<U> : never
 
 export type RouteRequestBody<T, N extends RouteName<T>> =
-  RouteByName<T, N> extends { parseBody: Parser<infer U> } ? U : never
+  RouteByName<T, N> extends { parseBody: Parser<infer U> } ? Loose<U> : never
 
 export type RouteRequestFormData<T, N extends RouteName<T>> =
-  RouteByName<T, N> extends { parseFormData: Parser<infer U> } ? U : never
+  RouteByName<T, N> extends { parseFormData: Parser<infer U> } ? Loose<U> : never
 
 export type RouteRequestData<T, N extends RouteName<T>> =
   UnionMerge<
