@@ -51,6 +51,11 @@
       "types": "./dist/types.d.ts",
       "import": "./dist/types.js"
     },
+    "./utils": {
+      "require": "./dist/utils.cjs",
+      "types": "./dist/utils.d.ts",
+      "import": "./dist/utils.js"
+    },
     ".": {
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts",
