@@ -1,12 +1,12 @@
-import type { ModuleInstance, Parser, ServerError, ServerErrorData } from '@unserved/server'
+import type { HttpRouteName, ModuleInstance, Parser, ServerError, ServerErrorData } from '@unserved/server'
 import type { EventStream } from '@unserved/server/utils'
 import type { MaybeFunction, UnionMerge } from '@unshared/types'
 
 /** Infer the path of the application. */
 export type RouteName<T> =
   ModuleInstance<T> extends { routes: Record<string, MaybeFunction<infer R>> }
-    ? R extends { name: infer U extends string } ? U : never
-    : string
+    ? R extends { name: infer N } ? HttpRouteName extends N ? never : N : never
+    : never
 
 /** Infer the routes of the application or module. */
 export type RouteByName<T, N extends RouteName<T> = RouteName<T>> =
