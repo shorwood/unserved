@@ -12,7 +12,7 @@ describe('types', () => {
       createArticle: createHttpRoute({ name: 'POST /articles', parseBody: () => ({ name: 'Hello' }) }, () => 'Hello'),
       updateArticle: createHttpRoute({ name: 'PUT /article/:id', parseBody: () => ({ name: 'Hello' }) }, () => {}),
       subscribeArticle: createWebSocketRoute({ name: 'WS /article/:id' }, { onMessage: () => {} }),
-      updateArticleImage: createHttpRoute({ name: 'PUT /article/:id/image', parseFormData: () => ({ image: 'Hello' }) }, () => {}),
+      updateArticleImage: () => createHttpRoute({ name: 'PUT /article/:id/image', parseFormData: () => ({ image: 'Hello' }) }, () => {}),
     }
   }
 
