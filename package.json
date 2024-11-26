@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@commitlint/config-pnpm-scopes": "19.5.0",
-    "@types/node": "22.9.4",
+    "@types/node": "22.10.0",
     "@unshared/eslint-config": "0.2.2",
     "@unshared/scripts": "0.2.2",
     "@vitest/coverage-v8": "2.1.5",

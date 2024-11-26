@@ -31,7 +31,7 @@
     "@unserved/server": "workspace:*",
     "@unshared/process": "0.2.2",
     "@unshared/string": "0.2.2",
-    "@unshared/validation": "0.2.1",
+    "@unshared/validation": "0.2.2",
     "h3": "1.13.0",
     "nbbcjs": "1.1.2"
   }
