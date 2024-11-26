@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Repository } from 'typeorm'
-import type { InferOptions, InferRepositories, ModuleConstructor, ModuleInstance } from './types'
+import type { ModuleConstructor, ModuleInstance, ModuleOptions, ModuleRepositories } from './types'
 import { BaseEntity } from './BaseEntity'
 import { Application } from './createApplication'
 import { ModuleBase } from './createModule'
@@ -55,34 +55,34 @@ describe('types', () => {
 
   describe('inferOptions', () => {
     it('should infer the options of a module constructor', () => {
-      type Result = InferOptions<typeof ModuleUser>
+      type Result = ModuleOptions<typeof ModuleUser>
       expectTypeOf<Result>().toEqualTypeOf<{ name?: string }>()
     })
 
     it('should infer the options of a module instance', () => {
-      type Result = InferOptions<typeof moduleUser>
+      type Result = ModuleOptions<typeof moduleUser>
       expectTypeOf<Result>().toEqualTypeOf<{}>()
     })
 
     it('should infer the options of an application instance', () => {
-      type Result = InferOptions<typeof application>
+      type Result = ModuleOptions<typeof application>
       expectTypeOf<Result>().toEqualTypeOf<{ name?: string }>()
     })
   })
 
   describe('inferRepositories', () => {
     it('should infer the repositories of a module constructor', () => {
-      type Result = InferRepositories<typeof ModuleUser>
+      type Result = ModuleRepositories<typeof ModuleUser>
       expectTypeOf<Result>().toEqualTypeOf<{ User: Repository<User> }>()
     })
 
     it('should infer the repositories of a module instance', () => {
-      type Result = InferRepositories<typeof moduleUser>
+      type Result = ModuleRepositories<typeof moduleUser>
       expectTypeOf<Result>().toEqualTypeOf<{ User: Repository<User> }>()
     })
 
     it('should infer the repositories of an application instance', () => {
-      type Result = InferRepositories<typeof application>
+      type Result = ModuleRepositories<typeof application>
       expectTypeOf<Result>().toEqualTypeOf<{ User: Repository<User> }>()
     })
   })

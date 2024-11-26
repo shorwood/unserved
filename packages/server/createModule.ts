@@ -2,7 +2,7 @@ import type { Constructor, MaybeFunction, MaybePromise } from '@unshared/types'
 import type { H3Event } from 'h3'
 import type { BaseEntity } from './BaseEntity'
 import type { Application } from './createApplication'
-import type { InferRepositories, Route } from './types'
+import type { ModuleRepositories, Route } from './types'
 import type { EventStreamFunction } from './utils'
 import { setHeader } from 'h3'
 import { createEventStream } from './utils'
@@ -79,7 +79,7 @@ export class ModuleBase {
    *
    * @returns A map of repositories for the entities in the module.
    */
-  getRepositories(): InferRepositories<this> {
+  getRepositories(): ModuleRepositories<this> {
     return new Proxy({}, {
       get: (_, name: string) => {
         const application = this.getApplication()
@@ -87,7 +87,7 @@ export class ModuleBase {
         if (!this.entities[name]) throw new Error(`Entity not found: ${name}`)
         return application.dataSource.getRepository(this.entities[name])
       },
-    }) as InferRepositories<this>
+    }) as ModuleRepositories<this>
   }
 
   /**

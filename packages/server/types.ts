@@ -45,7 +45,7 @@ export type ModuleConstructor<T> =
  *
  * @template T The module class or constructor.
  */
-export type InferOptions<T> =
+export type ModuleOptions<T> =
   ModuleConstructor<T> extends Constructor<ModuleBase, [infer U | undefined]>
     ? Partial<{ [K in Exclude<keyof U, keyof ModuleBase>]-?: Exclude<U[K], Function | undefined> }>
     : never
@@ -56,7 +56,7 @@ export type InferOptions<T> =
  * @template T The application or module to infer the repositories from.
  * @example InferRepositories<typeof ModuleUser | ModuleStorage> // => Repository<User> | Repository<UserRole> | ...
  */
-export type InferRepositories<T> =
+export type ModuleRepositories<T> =
   ModuleInstance<T> extends { entities: infer Entities }
     ? {
       [K in keyof Entities]:

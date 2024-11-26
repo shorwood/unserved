@@ -6,7 +6,7 @@ import { Constructor } from '@unshared/types'
 import { createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
 import { createServer } from 'node:http'
 import { DataSource, DataSourceOptions } from 'typeorm'
-import { InferOptions, ModuleInstance, ModuleLike } from './types'
+import { ModuleInstance, ModuleLike, ModuleOptions } from './types'
 import { isDataSource } from './utils'
 import { createEventHandler } from './utils'
 
@@ -39,7 +39,7 @@ export type ApplicationOptions<T extends ModuleLike = ModuleLike> = {
    * @default { type: 'sqlite', database: ':memory:', synchronize: true }
    */
   dataSource?: DataSource | DataSourceOptions
-} & InferOptions<T>
+} & ModuleOptions<T>
 
 export const DEFAULT_DATA_SOURCE_OPTIONS: DataSourceOptions = {
   type: 'sqlite',
