@@ -25,7 +25,7 @@ export class ModuleBase {
    * before the module can be used. This can include connecting to the database, setting up
    * HTTP clients, etc.
    */
-  public async initialize(): Promise<void> {}
+  public async initialize(): Promise<void> { /* empty */ }
 
   /**
    * The parent application of the module. This is used to access the application context

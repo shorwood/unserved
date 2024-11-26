@@ -14,7 +14,7 @@ import { defineWebSocketHandler } from 'h3'
 export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T): EventHandler {
   const peerContext = new Map<Peer, { parameters: Record<string, string> }>()
   return defineWebSocketHandler({
-    open(peer: Peer) {
+    async open(peer: Peer) {
       try {
 
         // --- If the route has parameters, parse them.
@@ -36,7 +36,6 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
           }
 
           // --- Parse and store the parameters in the context.
-          // peer.ctx.parameters = route.parameters(peerParameters) as Record<string, string>
           peerContext.set(peer, { parameters: route.parseParameters(peerParameters) as Record<string, string> })
         }
 
@@ -45,12 +44,12 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
         return route.onOpen({ peer, parameters: peerContext.get(peer)?.parameters })
       }
       catch (error) {
-        if (route.onError) void route.onError({ peer, error: error as Error })
+        if (route.onError) await route.onError({ peer, error: error as Error })
         throw error
       }
     },
 
-    message(peer: Peer, message: Message) {
+    async message(peer: Peer, message: Message) {
       try {
 
         // --- Parse the message.
@@ -70,7 +69,7 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
         })
       }
       catch (error) {
-        if (route.onError) void route.onError({ peer, error: error as Error })
+        if (route.onError) await route.onError({ peer, error: error as Error })
         throw error
       }
     },
