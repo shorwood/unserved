@@ -1,6 +1,0 @@
-export * from './icon'
-export * from './icon.Search'
-export * from './iconCollection'
-export * from './iconCollection.Delete'
-export * from './iconCollection.Import'
-export * from './iconCollection.Search'
