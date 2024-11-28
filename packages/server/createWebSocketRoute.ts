@@ -9,7 +9,7 @@ export const SYMBOL_WS_ROUTE = Symbol.for('WebSocketRoute')
 export type WebSocketRouteName = `WS /${string}`
 
 /** The context passed to the route handler. */
-export interface WebSocketRouteContext<T extends WebSocketRouteOptions> {
+interface Context<T extends WebSocketRouteOptions> {
   peer: Peer
   error: WSError
   details: { code?: number; reason?: string }
@@ -20,20 +20,20 @@ export interface WebSocketRouteContext<T extends WebSocketRouteOptions> {
 /** The WebSocket route options. */
 export interface WebSocketRouteOptions<
   Name extends WebSocketRouteName = WebSocketRouteName,
-  Message = unknown,
+  ClientData = unknown,
   Parameters = unknown,
 > {
   name: Name
-  parseMessage?: Parser<Message>
+  parseMessage?: Parser<ClientData>
   parseParameters?: Parser<Parameters>
 }
 
 /** The WebSocket route handlers. */
 export interface WebSocketRouteHandlers<T extends WebSocketRouteOptions> {
-  onOpen?: (context: Pick<WebSocketRouteContext<T>, 'parameters' | 'peer'>) => MaybePromise<void>
-  onMessage?: (context: Pick<WebSocketRouteContext<T>, 'message' | 'parameters' | 'peer'>) => MaybePromise<void>
-  onClose?: (context: Pick<WebSocketRouteContext<T>, 'details' | 'parameters' | 'peer'>) => MaybePromise<void>
-  onError?: (context: Pick<WebSocketRouteContext<T>, 'error' | 'peer'>) => MaybePromise<void>
+  onOpen?: (context: Pick<Context<T>, 'parameters' | 'peer'>) => MaybePromise<void>
+  onMessage?: (context: Pick<Context<T>, 'message' | 'parameters' | 'peer'>) => MaybePromise<void>
+  onClose?: (context: Pick<Context<T>, 'details' | 'parameters' | 'peer'>) => MaybePromise<void>
+  onError?: (context: Pick<Context<T>, 'error' | 'peer'>) => MaybePromise<void>
 }
 
 /** A WebSocket route object. */
