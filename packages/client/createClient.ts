@@ -1,109 +1,90 @@
-import type { ApplicationOrModule } from '@unserved/server'
-import type { Result } from '@unshared/functions'
-import type { ConnectOptions, WebSocketConnection } from './connect'
-import type { RequestOptions } from './request'
-import type { RouteName, RouteResponseData } from './types'
-import { attempt } from '@unshared/functions/attempt'
-import { connect } from './connect'
-import { request } from './request'
+import type { HttpRouteName, ModuleInstance, Parser, ServerError, ServerErrorData } from '@unserved/server'
+import type { WebSocketRouteName } from '@unserved/server'
+import type { EventStream } from '@unserved/server/utils'
+import type { Client } from '@unshared/client'
+import type { FetchMethod, RequestOptions } from '@unshared/client/utils'
+import type { ConnectOptions } from '@unshared/client/websocket'
+import type { Loose, MaybeFunction, ObjectLike } from '@unshared/types'
+import { createClient as createBaseClient } from '@unshared/client/createClient'
 
-export type ClientOptions<T extends ApplicationOrModule> = Partial<Pick<Client<T>, 'baseUrl' | 'headers'>>
+/**************************************************************/
+/* HTTP Routes                                                */
+/**************************************************************/
 
-export class Client<T extends ApplicationOrModule> extends EventTarget {
+export type RouteName<T> =
+  ModuleInstance<T> extends { routes: Record<string, MaybeFunction<infer R>> }
+    ? R extends { name: infer N extends HttpRouteName } ? HttpRouteName extends N ? never : N : never
+    : never
 
-  /**
-   * Create a new client for the application.
-   *
-   * @param options The options to pass to the client.
-   * @example new Client({ baseUrl: 'https://api.example.com' })
-   */
-  constructor(options: ClientOptions<T> = {}) {
-    super()
-    if (options.headers) this.headers = options.headers
-    if (options.baseUrl) this.baseUrl = options.baseUrl
-  }
+export type RouteByName<T, N extends RouteName<T> = RouteName<T>> =
+  ModuleInstance<T> extends { routes: Record<string, MaybeFunction<infer R>> }
+    ? R extends { name: N } ? R : never
+    : never
 
-  /**
-   * The headers to use in the request. By default, the content type is set to `application/json`.
-   * If you need to change the content type, you can do so by setting the `Content-Type` header.
-   *
-   * You can also set additional headers by adding them to the object and they will be sent with
-   * every request. For example, you can set the `Authorization` header to send an access token.
-   */
-  public headers: Record<string, Record<string, string>> = {}
+export type RouteRequestQuery<T, N extends RouteName<T>> =
+  RouteByName<T, N> extends { parseQuery: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
 
-  /**
-   * @returns The base URL to use in the request.
-   */
-  public baseUrl = 'location' in globalThis
-    ? globalThis.location.origin
-    : 'http://localhost:3000'
+export type RouteRequestParameters<T, N extends RouteName<T>> =
+  RouteByName<T, N> extends { parseParameters: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
 
-  /**
-   * Fetch a route from the API and return the data. If the client was instantiated with an
-   * application, the route name will be inferred from the application routes. Otherwise, you
-   * can pass the route name as a string.
-   *
-   * @param name The name of the route to fetch.
-   * @param options The options to pass to the request.
-   * @returns The data from the API.
-   * @example
-   * // Declare the application type.
-   * type App = Application<[ModuleProduct]>
-   *
-   * // Create a type-safe client for the application.
-   * const request = createClient<App>()
-   *
-   * // Fetch the data from the API.
-   * const data = request('GET /api/product/:id', { data: { id: '1' } })
-   */
-  public async request<P extends RouteName<T>>(name: P, options: RequestOptions<T, P> = {}): Promise<RouteResponseData<T, P>> {
-    return request(name, {
-      ...options,
-      baseUrl: this.baseUrl,
-      headers: {
-        ...this.headers['*'],
-        ...this.headers[this.baseUrl],
-        ...options.headers,
-      },
-    })
-  }
+export type RouteRequestBody<T, N extends RouteName<T>> =
+  RouteByName<T, N> extends { parseBody: Parser<infer U> } ? (U extends ObjectLike ? Loose<U> : U)
+    : RouteByName<T, N> extends { parseFormData: Parser<infer U extends ObjectLike> } ? U
+      : never
 
-  /**
-   * Attempt to fetch a route from the API and return the data. If the client was instantiated with an
-   * application, the route name will be inferred from the application routes. Otherwise, you
-   * can pass the route name as a string.
-   *
-   * @param name The name of the route to fetch.
-   * @param options The options to pass to the request.
-   * @returns A result object with either the data or an error.
-   * @example
-   * // Declare the application type.
-   * type App = Application<[ModuleProduct]>
-   *
-   * // Create a type-safe client for the application.
-   * const request = createClient<App>()
-   *
-   * // Fetch the data from the API.
-   * const { data, error } = requestAttempt('GET /api/product/:id', { data: { id: '1' } })
-   * if (error) console.error(error)
-   * else console.log(data)
-   */
-  public async requestAttempt<P extends RouteName<T>>(name: P, options?: RequestOptions<T, P>): Promise<Result<RouteResponseData<T, P>>> {
-    return await attempt(async() => await this.request(name, options))
-  }
+export type RouteResponseData<T, N extends RouteName<T>> =
+  RouteByName<T> extends infer Route
+    ? Route extends { name: N; handler: (...args: any[]) => Promise<infer U> | infer U }
+      ? U extends EventStream<infer V> ? AsyncIterable<V>
+        : U extends ServerError<infer N, infer T> ? ServerErrorData<N, T>
+          : U
+      : never
+    : never
 
-  /**
-   * Create a new WebSocket connection to the server with the given path. The connection will
-   * automatically reconnect if the connection is closed unexpectedly.
-   *
-   * @param name The path to connect to.
-   * @param options The options to pass to the connection.
-   * @returns The WebSocket connection.
-   */
-  public connect<P extends RouteName<T>>(name: P, options: Partial<ConnectOptions<T, P>> = {}): WebSocketConnection<T, P> {
-    return connect<T, P>(name, { baseUrl: this.baseUrl, ...options })
-  }
+export type Routes<T> = {
+  [P in RouteName<T>]:
+  RequestOptions<
+    FetchMethod,
+    string,
+    RouteRequestParameters<T, P>,
+    RouteRequestQuery<T, P>,
+    RouteRequestBody<T, P>,
+    ObjectLike,
+    RouteResponseData<T, P>
+  >
+}
+
+/**************************************************************/
+/* Web Sockets Channels                                       */
+/**************************************************************/
+
+export type ChannelName<T> =
+  ModuleInstance<T> extends { routes: Record<string, MaybeFunction<infer R>> }
+    ? R extends { name: infer N extends WebSocketRouteName } ? WebSocketRouteName extends N ? never : N : never
+    : never
+
+export type ChannelByName<T, N extends ChannelName<T> = ChannelName<T>> =
+  ModuleInstance<T> extends { routes: Record<string, MaybeFunction<infer R>> }
+    ? R extends { name: N } ? R : never
+    : never
+
+export type ChannelParameters<T, N extends ChannelName<T>> =
+  ChannelByName<T, N> extends { parseParameters: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
+
+export type ChannelQuery<T, N extends ChannelName<T>> =
+  ChannelByName<T, N> extends { parseQuery: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
+
+export type ChannelClientData<T, N extends ChannelName<T>> =
+  ChannelByName<T, N> extends { parseMessage: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
+
+export type Channels<T> = {
+  [P in ChannelName<T>]:
+  ConnectOptions<
+    string,
+    ChannelQuery<T, P>,
+    ChannelParameters<T, P>,
+    ChannelClientData<T, P>
+  >
 }
 
 /**
@@ -122,6 +103,6 @@ export class Client<T extends ApplicationOrModule> extends EventTarget {
  * // Use the data from the API.
  * console.log(data) // { id: '1', name: 'John Doe' }
  */
-export function createClient<T extends ApplicationOrModule>(options?: ClientOptions<T>) {
-  return new Client<T>(options)
+export function createClient<T>(options?: RequestOptions): Client<Routes<T>, Channels<T>> {
+  return createBaseClient(options)
 }
