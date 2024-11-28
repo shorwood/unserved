@@ -34,9 +34,9 @@
   ],
   "dependencies": {
     "@unserved/server": "workspace:*",
-    "@unshared/client": "../../../unshared/packages/client",
-    "@unshared/functions": "0.2.3",
-    "@unshared/types": "0.2.3"
+    "@unshared/client": "0.3.1",
+    "@unshared/functions": "0.3.1",
+    "@unshared/types": "0.3.1"
   },
   "devDependencies": {
     "h3": "1.13.0"

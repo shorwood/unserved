@@ -73,12 +73,12 @@
     "typeorm": ">=0.3.20"
   },
   "dependencies": {
-    "@unshared/decorators": "0.2.2",
-    "@unshared/functions": "0.2.2",
-    "@unshared/process": "0.2.2",
-    "@unshared/string": "0.2.2",
-    "@unshared/types": "0.2.2",
-    "@unshared/validation": "0.2.2",
+    "@unshared/decorators": "0.3.1",
+    "@unshared/functions": "0.3.1",
+    "@unshared/process": "0.3.1",
+    "@unshared/string": "0.3.1",
+    "@unshared/types": "0.3.1",
+    "@unshared/validation": "0.3.1",
     "reflect-metadata": "0.2.2"
   },
   "devDependencies": {
