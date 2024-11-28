@@ -1,4 +1,4 @@
-import type { RequestOptions, RouteName, RouteRequestData, RouteResponseData } from '@unserved/client'
+import type { RouteName, RouteResponseData, Routes } from '@unserved/client'
 import type { GlobalApplication } from '@unserved/nuxt/types'
 import type { ApplicationOrModule } from '@unserved/server'
 import type { AsyncDataOptions } from 'nuxt/app'
@@ -7,16 +7,9 @@ import { useAsyncData } from 'nuxt/app'
 import { unref } from 'vue'
 import { useClient } from './useClient'
 
-/** Extract the keys of an object but only if they are strings. */
-export type KeysOf<T> = Array<T extends T
-  ? keyof T extends string ? keyof T
-    : never : never
->
-
-/** Wrap an object as to allow for `Ref` values to be passed. */
-export type MaybeRefWrap<T extends object> = MaybeRef<{
-  [K in keyof T]: MaybeRef<T[K]>
-}>
+type KeysOf<T> = Array<T extends T ? keyof T extends string ? keyof T : never : never>
+type MaybeRefWrap<T extends object> = MaybeRef<{ [K in keyof T]: MaybeRef<T[K]> }>
+type Data<T, P extends RouteName<T>> = NonNullable<Routes<T>[P]['data']> & Record<string, unknown>
 
 /**
  * The options to pass to the `useRequest` function. It extends the `AsyncDataOptions` and `RequestOptions` types
@@ -39,10 +32,10 @@ export type UseRequestOptions<
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
 > =
-  { data?: MaybeRefWrap<RouteRequestData<T, P>> } &
+  { data?: MaybeRefWrap<Data<T, P>> } &
   { key?: string } &
   AsyncDataOptions<O, U, K, D> &
-  Omit<RequestOptions<T, P>, 'data'>
+  Omit<Routes<T>[P], 'data'>
 
 export type UseRequestReturn<
   T extends ApplicationOrModule,
@@ -78,14 +71,14 @@ export function useRequest<
   D = null,
 >(
   name: P,
-  options: UseRequestOptions<T, P, O, U, K, D> = {},
+  options: UseRequestOptions<T, P, O, U, K, D>,
 ): UseRequestReturn<T, P, O, U, K, D> {
   return useAsyncData(
     options.key ?? name as string,
     () => {
-      const data = unref({ ...options.data }) as RouteRequestData<T, P>
+      const data = unref({ ...options.data }) as Data<T, P>
       for (const key in data) data[key] = unref(data[key])
-      return useClient<T>().request(name, { ...options, data })
+      return useClient<T>().request(name, { ...options, data }) as unknown as O
     },
     options,
   )

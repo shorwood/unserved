@@ -1,6 +1,7 @@
-import type { Client } from '@unserved/client'
+import type { Channels, Routes } from '@unserved/client'
 import type { GlobalApplication } from '@unserved/nuxt/types'
 import type { ApplicationOrModule } from '@unserved/server'
+import type { Client } from '@unshared/client'
 import { createClient } from '@unserved/client'
 import { createGlobalState } from '@vueuse/core'
 import { useRequestURL } from 'nuxt/app'
@@ -35,4 +36,4 @@ export const useClient = createGlobalState(() => {
 
   // --- Create a new client instance with the base URL.
   return createClient({ baseUrl })
-}) as <T extends ApplicationOrModule = GlobalApplication>() => Client<T>
+}) as <T extends ApplicationOrModule = GlobalApplication>() => Client<Routes<T>, Channels<T>>
