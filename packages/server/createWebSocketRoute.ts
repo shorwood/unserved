@@ -13,19 +13,21 @@ interface Context<T extends WebSocketRouteOptions> {
   peer: Peer
   error: WSError
   details: { code?: number; reason?: string }
-  message: T extends WebSocketRouteOptions<any, infer U, any> ? U : never
-  parameters: T extends WebSocketRouteOptions<any, any, infer U> ? U : never
+  message: T extends WebSocketRouteOptions<any, infer U, any, any> ? U : never
+  parameters: T extends WebSocketRouteOptions<any, any, any, infer U> ? U : never
 }
 
 /** The WebSocket route options. */
 export interface WebSocketRouteOptions<
   Name extends WebSocketRouteName = WebSocketRouteName,
-  ClientData = unknown,
+  ClientMessage = unknown,
+  ServerMessage = unknown,
   Parameters = unknown,
 > {
   name: Name
-  parseMessage?: Parser<ClientData>
   parseParameters?: Parser<Parameters>
+  parseClientMessage?: Parser<ClientMessage>
+  parseServerMessage?: Parser<ServerMessage>
 }
 
 /** The WebSocket route handlers. */
@@ -40,7 +42,7 @@ export interface WebSocketRouteHandlers<T extends WebSocketRouteOptions> {
 export type WebSocketRoute<
   T extends WebSocketRouteOptions = WebSocketRouteOptions,
   U extends WebSocketRouteHandlers<T> = WebSocketRouteHandlers<T>,
-> = { [SYMBOL_WS_ROUTE]: true } & T & U
+> = T & U & { [SYMBOL_WS_ROUTE]: true }
 
 /**
  * Create a route that can be used to handle a WebSocket request. The route includes the path,

@@ -41,7 +41,7 @@ export type RouteRequestData<T, N extends RouteName<T>> =
 
 export type RouteResponseData<T, N extends RouteName<T>> =
   RouteByName<T> extends infer Route
-    ? Route extends { name: N; handler: (...args: any[]) => Promise<infer U> | infer U }
+    ? Route extends { name: N; handler: (...args: any[]) => infer U | Promise<infer U> }
       ? U extends EventStream<infer V> ? AsyncIterable<V>
         : U extends ServerError<infer N, infer T> ? ServerErrorData<N, T>
           : U
@@ -81,8 +81,11 @@ export type ChannelParameters<T, N extends ChannelName<T>> =
 export type ChannelQuery<T, N extends ChannelName<T>> =
   ChannelByName<T, N> extends { parseQuery: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
 
-export type ChannelClientData<T, N extends ChannelName<T>> =
-  ChannelByName<T, N> extends { parseMessage: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
+export type ChannelClientMessage<T, N extends ChannelName<T>> =
+  ChannelByName<T, N> extends { parseClientMessage: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
+
+export type ChannelServerMessage<T, N extends ChannelName<T>> =
+  ChannelByName<T, N> extends { parseServerMessage: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
 
 export type Channels<T> = {
   [P in ChannelName<T>]:
@@ -90,7 +93,8 @@ export type Channels<T> = {
     string,
     ChannelQuery<T, P>,
     ChannelParameters<T, P>,
-    ChannelClientData<T, P>
+    ChannelClientMessage<T, P>,
+    ChannelServerMessage<T, P>
   >
 }
 

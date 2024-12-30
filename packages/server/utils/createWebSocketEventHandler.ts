@@ -54,10 +54,10 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
 
         // --- Parse the message.
         let messageData: unknown
-        if (route.parseMessage) {
+        if (route.parseClientMessage) {
           const messageJson = message.toString()
           const messageObject: unknown = JSON.parse(messageJson)
-          messageData = route.parseMessage(messageObject)
+          messageData = route.parseClientMessage(messageObject)
         }
 
         // --- Call the handler with the context.
