@@ -1,4 +1,3 @@
-/* eslint-disable perfectionist/sort-intersection-types */
 import type { MaybePromise } from '@unshared/types'
 import type { H3Event, RouterMethod } from 'h3'
 import type { Parser } from './types'

@@ -16,7 +16,7 @@ export interface CreateErrorOptions<N extends ServerErrorName, T extends object>
 
 /** The data of an error object. */
 export type ServerErrorData<N extends ServerErrorName = ServerErrorName, T extends object = object> =
-  Pretty<{ name: N; message: string } & T>
+  Pretty<T & { name: N; message: string }>
 
 /** An extended `H3Error` with a name and message. */
 export type ServerError<N extends ServerErrorName = ServerErrorName, T extends object = object> =

@@ -32,10 +32,10 @@ export type UseRequestOptions<
   K extends KeysOf<U> = KeysOf<U>,
   D = null,
 > =
-  { data?: MaybeRefWrap<Data<T, P>> } &
-  { key?: string } &
   AsyncDataOptions<O, U, K, D> &
-  Omit<Routes<T>[P], 'data'>
+  Omit<Routes<T>[P], 'data'> &
+  { data?: MaybeRefWrap<Data<T, P>> } &
+  { key?: string }
 
 export type UseRequestReturn<
   T extends ApplicationOrModule,
