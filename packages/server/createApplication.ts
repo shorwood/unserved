@@ -10,7 +10,7 @@ import { ModuleInstance, ModuleLike, ModuleOptions } from './types'
 import { isDataSource } from './utils'
 import { createEventHandler } from './utils'
 
-export type ApplicationOptions<T extends ModuleLike = ModuleLike> = {
+export type ApplicationOptions<T extends ModuleLike = ModuleLike> = ModuleOptions<T> & {
 
   /**
    * The environment variable prefix used to parse the application options. When the application
@@ -39,7 +39,7 @@ export type ApplicationOptions<T extends ModuleLike = ModuleLike> = {
    * @default { type: 'sqlite', database: ':memory:', synchronize: true }
    */
   dataSource?: DataSource | DataSourceOptions
-} & ModuleOptions<T>
+}
 
 export const DEFAULT_DATA_SOURCE_OPTIONS: DataSourceOptions = {
   type: 'sqlite',
@@ -115,11 +115,13 @@ export class Application<T extends ModuleLike = ModuleLike> {
     this.options = {
       ...this.options,
       ...parseEnvironments(prefix),
-      dataSource: {
-        ...DEFAULT_DATA_SOURCE_OPTIONS,
-        ...parseEnvironments(`${prefix}_DATABASE`),
-        ...dataSource,
-      },
+      dataSource: dataSource instanceof DataSource
+        ? dataSource
+        : {
+          ...DEFAULT_DATA_SOURCE_OPTIONS,
+          ...parseEnvironments(`${prefix}_DATABASE`),
+          ...dataSource,
+        } as DataSourceOptions,
     }
 
     // --- Instantiate all the modules and store them in the application.
