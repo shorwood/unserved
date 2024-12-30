@@ -3,7 +3,8 @@ import { isConstructor } from '@unshared/functions'
 import { parseEnvironments } from '@unshared/process'
 import { dedent } from '@unshared/string'
 import { Constructor } from '@unshared/types'
-import { createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
+import wsAdapter from 'crossws/adapters/node'
+import { AppOptions, createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
 import { createServer } from 'node:http'
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { ModuleInstance, ModuleLike, ModuleOptions } from './types'
@@ -227,24 +228,30 @@ export class Application<T extends ModuleLike = ModuleLike> {
   /**
    * Instantiate the H3 application of the application with the router handler.
    *
+   * @param options The options to pass to the application.
    * @returns The H3 application of the application.
    */
   @Once()
-  createApp() {
+  createApp(options?: AppOptions) {
     const router = this.createRouter()
-    return createApp().use(router)
+    return createApp(options).use(router)
   }
 
   /**
    * Create a Node.js server with the application handler.
    *
+   * @param options The options to pass to the application.
    * @returns The Node.js server with the application handler.
    */
   @Once()
-  createServer() {
-    const app = this.createApp()
+  createServer(options?: AppOptions) {
+    const app = this.createApp(options)
     const listener = toNodeListener(app)
-    return createServer(listener)
+    const server = createServer(listener)
+    // eslint-disable-next-line @typescript-eslint/unbound-method
+    const { handleUpgrade } = wsAdapter(app.websocket)
+    server.on('upgrade', handleUpgrade)
+    return server
   }
 
   /**
