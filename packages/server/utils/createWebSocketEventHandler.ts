@@ -36,7 +36,7 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
           }
 
           // --- Parse and store the parameters in the context.
-          peerContext.set(peer, { parameters: route.parseParameters(peerParameters) as Record<string, string> })
+          peerContext.set(peer, { parameters: await route.parseParameters(peerParameters) as Record<string, string> })
         }
 
         // --- Call the handler with the context and return the data.
@@ -44,8 +44,8 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
         return route.onOpen({ peer, parameters: peerContext.get(peer)?.parameters })
       }
       catch (error) {
-        if (route.onError) await route.onError({ peer, error: error as Error })
-        throw error
+        if (!route.onError) throw error
+        await route.onError({ peer, error: error as Error })
       }
     },
 
@@ -57,33 +57,39 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
         if (route.parseClientMessage) {
           const messageJson = message.toString()
           const messageObject: unknown = JSON.parse(messageJson)
-          messageData = route.parseClientMessage(messageObject)
+          messageData = await route.parseClientMessage(messageObject)
         }
 
         // --- Call the handler with the context.
         if (!route.onMessage) return
-        return route.onMessage({
+        return await route.onMessage({
           peer,
           message: messageData,
           parameters: peerContext.get(peer)?.parameters,
         })
       }
       catch (error) {
-        if (route.onError) await route.onError({ peer, error: error as Error })
-        throw error
+        if (!route.onError) throw error
+        await route.onError({ peer, error: error as Error })
       }
     },
 
-    close(peer: Peer, details: { code?: number; reason?: string }) {
-      if (!route.onClose) return
-      const parameters = peerContext.get(peer)?.parameters
-      peerContext.delete(peer)
-      return route.onClose({ peer, details, parameters })
+    async close(peer: Peer, details: { code?: number; reason?: string }) {
+      try {
+        if (!route.onClose) return
+        const parameters = peerContext.get(peer)?.parameters
+        peerContext.delete(peer)
+        return route.onClose({ peer, details, parameters })
+      }
+      catch (error) {
+        if (!route.onError) throw error
+        await route.onError({ peer, error: error as Error })
+      }
     },
 
-    error(peer: Peer, error: Error) {
+    async error(peer: Peer, error: Error) {
       if (!route.onError) throw error
-      return route.onError({ peer, error })
+      await route.onError({ peer, error })
     },
   })
 }
