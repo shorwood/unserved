@@ -36,14 +36,14 @@ importers:
         specifier: 9.17.0
         version: 9.17.0(jiti@2.4.2)
       happy-dom:
-        specifier: 16.0.1
-        version: 16.0.1
+        specifier: 16.2.6
+        version: 16.2.6
       husky:
         specifier: 9.1.7
         version: 9.1.7
       memfs:
-        specifier: 4.15.1
-        version: 4.15.1
+        specifier: 4.15.2
+        version: 4.15.2
       sqlite3:
         specifier: 5.1.7
         version: 5.1.7
@@ -55,7 +55,7 @@ importers:
         version: 5.7.2
       vitest:
         specifier: 2.1.8
-        version: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.0.1)(terser@5.37.0)
+        version: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.2.6)(terser@5.37.0)
 
   packages/client:
     dependencies:
@@ -3541,8 +3541,8 @@ packages:
   h3@1.13.0:
     resolution: {integrity: sha512-vFEAu/yf8UMUcB4s43OaDaigcqpQd14yanmOsn+NcRX3/guSKncyE2rOYhq8RIchgJrPSs/QiIddnTTR1ddiAg==}
 
-  happy-dom@16.0.1:
-    resolution: {integrity: sha512-cqbqvutE6XAIMe4nM93TkbW5SDFtLkU/6nsQfJBJ2KSlaT+My2kmnYsCFXrvEzvmP7s1xGJ6Xt4D9LNJIJHMbA==}
+  happy-dom@16.2.6:
+    resolution: {integrity: sha512-pl9wpbvThd2BGptDW/DbeZgCVjjFJAe1+rGJ4SdXd1nLhGngaklpGohKlX6bSJwLH8vSi4VDhQsC2Mqa6eiyhg==}
     engines: {node: '>=18.0.0'}
 
   has-bigints@1.1.0:
@@ -4178,8 +4178,8 @@ packages:
   mdn-data@2.0.30:
     resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==}
 
-  memfs@4.15.1:
-    resolution: {integrity: sha512-ufCzgFwiVnR6R9cCYuvwznJdhdYXEvFl0hpnM4cCtVaVkHuqBR+6fo2sqt1SSMdp+uiHw9GyPZr3OMM5tqjSmQ==}
+  memfs@4.15.2:
+    resolution: {integrity: sha512-n8/qP8AT6CtY6kxCPYgYVusT5rS6axaT66dD3tYi2lm+l1iMH7YYpmW8H/qL5bfV4YvInCCgUDAWIRvrNS7kbQ==}
     engines: {node: '>= 4.0.0'}
 
   meow@12.1.1:
@@ -8455,7 +8455,7 @@ snapshots:
       std-env: 3.8.0
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.0.1)(terser@5.37.0)
+      vitest: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.2.6)(terser@5.37.0)
     transitivePeerDependencies:
       - supports-color
 
@@ -8465,7 +8465,7 @@ snapshots:
       eslint: 9.17.0(jiti@2.4.2)
     optionalDependencies:
       typescript: 5.7.2
-      vitest: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.0.1)(terser@5.37.0)
+      vitest: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.2.6)(terser@5.37.0)
 
   '@vitest/expect@2.1.8':
     dependencies:
@@ -8510,7 +8510,7 @@ snapshots:
       sirv: 3.0.0
       tinyglobby: 0.2.10
       tinyrainbow: 1.2.0
-      vitest: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.0.1)(terser@5.37.0)
+      vitest: 2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.2.6)(terser@5.37.0)
 
   '@vitest/utils@2.1.8':
     dependencies:
@@ -10297,7 +10297,7 @@ snapshots:
       uncrypto: 0.1.3
       unenv: 1.10.0
 
-  happy-dom@16.0.1:
+  happy-dom@16.2.6:
     dependencies:
       webidl-conversions: 7.0.0
       whatwg-mimetype: 3.0.0
@@ -10935,7 +10935,7 @@ snapshots:
 
   mdn-data@2.0.30: {}
 
-  memfs@4.15.1:
+  memfs@4.15.2:
     dependencies:
       '@jsonjoy.com/json-pack': 1.1.1(tslib@2.8.1)
       '@jsonjoy.com/util': 1.5.0(tslib@2.8.1)
@@ -12978,7 +12978,7 @@ snapshots:
       tsx: 4.19.2
       yaml: 2.6.1
 
-  vitest@2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.0.1)(terser@5.37.0):
+  vitest@2.1.8(@types/node@22.10.2)(@vitest/ui@2.1.8)(happy-dom@16.2.6)(terser@5.37.0):
     dependencies:
       '@vitest/expect': 2.1.8
       '@vitest/mocker': 2.1.8(vite@5.4.11(@types/node@22.10.2)(terser@5.37.0))
@@ -13003,7 +13003,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.10.2
       '@vitest/ui': 2.1.8(vitest@2.1.8)
-      happy-dom: 16.0.1
+      happy-dom: 16.2.6
     transitivePeerDependencies:
       - less
       - lightningcss
