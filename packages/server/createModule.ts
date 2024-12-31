@@ -46,7 +46,7 @@ export class ModuleBase {
    * The entities of the module. These are the entities that are used in the service to perform
    * operations on the database. Each entity is associated with a table in the database.
    */
-  public entities: Record<string, typeof BaseEntity>
+  public entities: Record<string, typeof BaseEntity> = {}
 
   /**
    * The routes associated with the module. These are the routes that are used to handle
