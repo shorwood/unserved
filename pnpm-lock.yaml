@@ -127,6 +127,9 @@ importers:
       reflect-metadata:
         specifier: 0.2.2
         version: 0.2.2
+      ws:
+        specifier: 8.18.0
+        version: 8.18.0
     devDependencies:
       '@types/ws':
         specifier: 8.5.13
@@ -140,9 +143,6 @@ importers:
       typeorm:
         specifier: 0.3.20
         version: 0.3.20(ioredis@5.4.2)(sqlite3@5.1.7)
-      ws:
-        specifier: 8.18.0
-        version: 8.18.0
 
 packages:
 
