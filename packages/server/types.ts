@@ -1,4 +1,4 @@
-import type { Constructor, Function } from '@unshared/types'
+import type { Constructor } from '@unshared/types'
 import type { EntityTarget, Repository } from 'typeorm'
 import type { Application } from './createApplication'
 import type { HttpRoute, HttpRouteOptions } from './createHttpRoute'
@@ -47,8 +47,8 @@ export type ModuleConstructor<T> =
  */
 export type ModuleOptions<T> =
   ModuleConstructor<T> extends Constructor<ModuleBase, [infer U | undefined]>
-    ? Partial<{ [K in Exclude<keyof U, keyof ModuleBase>]-?: Exclude<U[K], Function | undefined> }>
-    : never
+    ? { [K in keyof U]: U[K] }
+    : object
 
 /**
  * Given an application or module, infer the map of repositories in the module or application.

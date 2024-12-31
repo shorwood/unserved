@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { Repository } from 'typeorm'
 import type { ModuleConstructor, ModuleInstance, ModuleOptions, ModuleRepositories } from './types'
@@ -6,8 +7,6 @@ import { Application } from './createApplication'
 import { ModuleBase } from './createModule'
 
 describe('types', () => {
-/* eslint-disable @typescript-eslint/no-empty-object-type */
-
   class User extends BaseEntity { name = 'User' }
   class ModuleUser extends ModuleBase {
     constructor(options?: { name: string }) { super() }
@@ -56,7 +55,7 @@ describe('types', () => {
   describe('inferOptions', () => {
     it('should infer the options of a module constructor', () => {
       type Result = ModuleOptions<typeof ModuleUser>
-      expectTypeOf<Result>().toEqualTypeOf<{ name?: string }>()
+      expectTypeOf<Result>().toEqualTypeOf<{ name: string }>()
     })
 
     it('should infer the options of a module instance', () => {
@@ -66,7 +65,7 @@ describe('types', () => {
 
     it('should infer the options of an application instance', () => {
       type Result = ModuleOptions<typeof application>
-      expectTypeOf<Result>().toEqualTypeOf<{ name?: string }>()
+      expectTypeOf<Result>().toEqualTypeOf<{ name: string }>()
     })
   })
 

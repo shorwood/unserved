@@ -11,7 +11,7 @@ import { ModuleInstance, ModuleLike, ModuleOptions } from './types'
 import { isDataSource } from './utils'
 import { createEventHandler } from './utils'
 
-export type ApplicationOptions<T extends ModuleLike = ModuleLike> = ModuleOptions<T> & {
+export type ApplicationOptions<T extends ModuleLike = ModuleLike> = Partial<ModuleOptions<T>> & {
 
   /**
    * The environment variable prefix used to parse the application options. When the application
