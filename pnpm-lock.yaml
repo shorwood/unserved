@@ -128,6 +128,9 @@ importers:
         specifier: 0.2.2
         version: 0.2.2
     devDependencies:
+      '@types/ws':
+        specifier: 8.5.13
+        version: 8.5.13
       crossws:
         specifier: 0.3.1
         version: 0.3.1
@@ -137,6 +140,9 @@ importers:
       typeorm:
         specifier: 0.3.20
         version: 0.3.20(ioredis@5.4.2)(sqlite3@5.1.7)
+      ws:
+        specifier: 8.18.0
+        version: 8.18.0
 
 packages:
 
@@ -1903,6 +1909,9 @@ packages:
 
   '@types/web-bluetooth@0.0.20':
     resolution: {integrity: sha512-g9gZnnXVq7gM7v3tJCWV/qw7w+KeOlSHAhgF9RytFyifW6AF61hdT2ucrYhPq9hLs5JIryeupHV3qGk95dH9ow==}
+
+  '@types/ws@8.5.13':
+    resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
 
   '@typescript-eslint/eslint-plugin@8.18.2':
     resolution: {integrity: sha512-adig4SzPLjeQ0Tm+jvsozSGiCliI2ajeURDGHjZ2llnA+A67HihCQ+a3amtPhUakd1GlwHxSRvzOZktbEvhPPg==}
@@ -8145,6 +8154,10 @@ snapshots:
   '@types/unist@2.0.11': {}
 
   '@types/web-bluetooth@0.0.20': {}
+
+  '@types/ws@8.5.13':
+    dependencies:
+      '@types/node': 22.10.2
 
   '@typescript-eslint/eslint-plugin@8.18.2(@typescript-eslint/parser@8.18.2(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2))(eslint@9.17.0(jiti@2.4.2))(typescript@5.7.2)':
     dependencies:
