@@ -78,19 +78,19 @@
     "typeorm": ">=0.3.20"
   },
   "dependencies": {
-    "@unshared/decorators": "0.4.0",
-    "@unshared/functions": "0.4.0",
-    "@unshared/process": "0.4.0",
-    "@unshared/string": "0.4.0",
-    "@unshared/types": "0.4.0",
-    "@unshared/validation": "0.4.0",
+    "@unshared/decorators": "0.4.1",
+    "@unshared/functions": "0.4.1",
+    "@unshared/process": "0.4.1",
+    "@unshared/string": "0.4.1",
+    "@unshared/types": "0.4.1",
+    "@unshared/validation": "0.4.1",
     "reflect-metadata": "0.2.2",
     "ws": "8.18.0"
   },
   "devDependencies": {
-    "@types/ws": "8.5.13",
-    "crossws": "0.3.1",
-    "h3": "1.13.0",
+    "@types/ws": "8.5.14",
+    "crossws": "0.3.3",
+    "h3": "1.14.0",
     "typeorm": "0.3.20"
   }
 }
