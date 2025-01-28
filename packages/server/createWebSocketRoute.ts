@@ -13,8 +13,9 @@ interface Context<T extends WebSocketRouteOptions> {
   peer: Peer
   error: WSError
   details: { code?: number; reason?: string }
-  message: T extends WebSocketRouteOptions<any, infer U, any, any> ? U : never
-  parameters: T extends WebSocketRouteOptions<any, any, any, infer U> ? U : never
+  query: T extends WebSocketRouteOptions<any, any, any, any, infer U> ? U : never
+  message: T extends WebSocketRouteOptions<any, infer U, any, any, any> ? U : never
+  parameters: T extends WebSocketRouteOptions<any, any, any, infer U, any> ? U : never
 }
 
 /** The WebSocket route options. */
@@ -23,8 +24,10 @@ export interface WebSocketRouteOptions<
   ClientMessage = unknown,
   ServerMessage = unknown,
   Parameters = unknown,
+  Query = unknown,
 > {
   name: Name
+  parseQuery?: Parser<Query>
   parseParameters?: Parser<Parameters>
   parseClientMessage?: Parser<ClientMessage>
   parseServerMessage?: Parser<ServerMessage>
@@ -32,9 +35,9 @@ export interface WebSocketRouteOptions<
 
 /** The WebSocket route handlers. */
 export interface WebSocketRouteHandlers<T extends WebSocketRouteOptions> {
-  onOpen?: (context: Pick<Context<T>, 'parameters' | 'peer'>) => MaybePromise<void>
-  onMessage?: (context: Pick<Context<T>, 'message' | 'parameters' | 'peer'>) => MaybePromise<void>
-  onClose?: (context: Pick<Context<T>, 'details' | 'parameters' | 'peer'>) => MaybePromise<void>
+  onOpen?: (context: Pick<Context<T>, 'parameters' | 'peer' | 'query'>) => MaybePromise<void>
+  onMessage?: (context: Pick<Context<T>, 'message' | 'parameters' | 'peer' | 'query'>) => MaybePromise<void>
+  onClose?: (context: Pick<Context<T>, 'details' | 'parameters' | 'peer' | 'query'>) => MaybePromise<void>
   onError?: (context: Pick<Context<T>, 'error' | 'peer'>) => MaybePromise<void>
 }
 
