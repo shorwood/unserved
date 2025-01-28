@@ -19,7 +19,7 @@ export default defineConfig({
     globals: true,
     include,
     includeSource,
-    reporters: ['basic'],
+    reporters: [['default', { summary: false }]],
     setupFiles: './packages/setupTest.ts',
     testTimeout: process.env.DEBUGGER ? 100 : 0,
     maxConcurrency: 50,
