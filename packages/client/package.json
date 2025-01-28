@@ -21,6 +21,11 @@
       "types": "./dist/createClient.d.ts",
       "import": "./dist/createClient.js"
     },
+    "./types": {
+      "require": "./dist/types.cjs",
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
     ".": {
       "require": "./dist/index.cjs",
       "types": "./dist/index.d.ts",

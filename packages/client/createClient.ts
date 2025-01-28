@@ -11,7 +11,7 @@ import { createClient as createBaseClient } from '@unshared/client/createClient'
  * @returns The client object with the request method.
  * @example
  * // Create a type-safe client for the application.
- * const client = createClient<[ModuleUser]>()
+ * const client = createClient<ModuleUser>()
  *
  * // Fetch the data from the API.
  * const data = await client.request('GET /api/user/:id', { id: '1' })

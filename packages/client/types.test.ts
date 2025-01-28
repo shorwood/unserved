@@ -1,17 +1,27 @@
 import type { FetchMethod, RequestOptions } from '@unshared/client/utils'
+import type { ConnectOptions } from '@unshared/client/websocket'
 import type { ObjectLike } from '@unshared/types'
 import type {
+  ChannelByName,
+  ChannelClientMessage,
+  ChannelConnectOptions,
+  ChannelName,
+  ChannelParameters,
+  ChannelQuery,
+  Channels,
+  ChannelServerMessage,
   RouteByName,
   RouteName,
-  RouteOptions,
   RouteRequestBody,
   RouteRequestData,
+  RouteRequestOptions,
   RouteRequestParameters,
   RouteRequestQuery,
   RouteResponseData,
   Routes,
 } from './types'
 import { createHttpRoute, ModuleBase } from '@unserved/server'
+import { createWebSocketRoute } from '@unserved/server'
 
 describe('createClient', () => {
   class ModuleUser extends ModuleBase {
@@ -22,6 +32,13 @@ describe('createClient', () => {
         parseParameters: () => ({} as { id: string }),
         parseQuery: () => ({} as { q: string }),
       }, () => ({ id: '1', name: 'John Doe' })),
+
+      ws: createWebSocketRoute({
+        name: 'WS /users',
+        parseClientMessage: () => ({} as { name: string }),
+        parseServerMessage: () => ({} as { id: string; name: string }),
+        parseParameters: () => ({} as { id: string }),
+      }, {}),
     }
   }
 
@@ -63,7 +80,7 @@ describe('createClient', () => {
     })
 
     it('should infer the route options', () => {
-      type Result = RouteOptions<ModuleUser, 'PUT /user/:id'>
+      type Result = RouteRequestOptions<ModuleUser, 'PUT /user/:id'>
       expectTypeOf<Result>().toEqualTypeOf<
         RequestOptions<
           FetchMethod,
@@ -80,7 +97,61 @@ describe('createClient', () => {
     it('should infer the routes', () => {
       type Result = Routes<ModuleUser>
       expectTypeOf<Result>().toEqualTypeOf<{
-        'PUT /user/:id': RouteOptions<ModuleUser, 'PUT /user/:id'>
+        'PUT /user/:id': RouteRequestOptions<ModuleUser, 'PUT /user/:id'>
+      }>()
+    })
+  })
+
+  describe('channel', () => {
+    it('should infer a union of all channel names', () => {
+      type Result = ChannelName<ModuleUser>
+      expectTypeOf<Result>().toEqualTypeOf<'WS /users'>()
+    })
+
+    it('should infer the channel by name', () => {
+      type Result = ChannelByName<ModuleUser, 'WS /users'>
+      type Expected = ModuleUser['routes']['ws']
+      expectTypeOf<Result>().toEqualTypeOf<Expected>()
+    })
+
+    it('should infer the channel parameters', () => {
+      type Result = ChannelParameters<ModuleUser, 'WS /users'>
+      expectTypeOf<Result>().toEqualTypeOf<{ id: string }>()
+    })
+
+    it('should infer the channel query', () => {
+      type Result = ChannelQuery<ModuleUser, 'WS /users'>
+      // @ts-expect-error: not implemented yet
+      expectTypeOf<Result>().toEqualTypeOf<{ q: string }>()
+    })
+
+    it('should infer the channel client message', () => {
+      type Result = ChannelClientMessage<ModuleUser, 'WS /users'>
+      expectTypeOf<Result>().toEqualTypeOf<{ name: string }>()
+    })
+
+    it('should infer the channel server message', () => {
+      type Result = ChannelServerMessage<ModuleUser, 'WS /users'>
+      expectTypeOf<Result>().toEqualTypeOf<{ id: string; name: string }>()
+    })
+
+    it('should infer the channel connect options', () => {
+      type Result = ChannelConnectOptions<ModuleUser, 'WS /users'>
+      expectTypeOf<Result>().toEqualTypeOf<
+        ConnectOptions<
+          string,
+          ChannelQuery<ModuleUser, 'WS /users'>,
+          ChannelParameters<ModuleUser, 'WS /users'>,
+          ChannelClientMessage<ModuleUser, 'WS /users'>,
+          ChannelServerMessage<ModuleUser, 'WS /users'>
+        >
+      >()
+    })
+
+    it('should infer the channels', () => {
+      type Result = Channels<ModuleUser>
+      expectTypeOf<Result>().toEqualTypeOf<{
+        'WS /users': ChannelConnectOptions<ModuleUser, 'WS /users'>
       }>()
     })
   })

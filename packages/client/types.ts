@@ -45,7 +45,7 @@ export type RouteResponseData<T, N extends RouteName<T>> =
       : never
     : never
 
-export type RouteOptions<T, N extends RouteName<T>> =
+export type RouteRequestOptions<T, N extends RouteName<T>> =
   RequestOptions<
     FetchMethod,
     string,
@@ -57,7 +57,7 @@ export type RouteOptions<T, N extends RouteName<T>> =
   >
 
 export type Routes<T> = {
-  [P in RouteName<T>]: RouteOptions<T, P>
+  [P in RouteName<T>]: RouteRequestOptions<T, P>
 }
 
 /**************************************************************/
@@ -86,13 +86,15 @@ export type ChannelClientMessage<T, N extends ChannelName<T>> =
 export type ChannelServerMessage<T, N extends ChannelName<T>> =
   ChannelByName<T, N> extends { parseServerMessage: Parser<infer U extends ObjectLike> } ? Loose<U> : ObjectLike
 
-export type Channels<T> = {
-  [P in ChannelName<T>]:
+export type ChannelConnectOptions<T, N extends ChannelName<T>> =
   ConnectOptions<
     string,
-    ChannelQuery<T, P>,
-    ChannelParameters<T, P>,
-    ChannelClientMessage<T, P>,
-    ChannelServerMessage<T, P>
+    ChannelQuery<T, N>,
+    ChannelParameters<T, N>,
+    ChannelClientMessage<T, N>,
+    ChannelServerMessage<T, N>
   >
+
+export type Channels<T> = {
+  [N in ChannelName<T>]: ChannelConnectOptions<T, N>
 }
