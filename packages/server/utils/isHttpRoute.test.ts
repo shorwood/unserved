@@ -41,6 +41,6 @@ describe('isHttpRoute', () => {
   it('should predicate a `HttpRoute`', () => {
     const route = {} as unknown
     const result = isHttpRoute(route)
-    if (result) expectTypeOf(route).toMatchTypeOf<HttpRouteOptions>()
+    if (result) expectTypeOf(route).toEqualTypeOf<HttpRouteOptions>()
   })
 })

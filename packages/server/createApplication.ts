@@ -3,7 +3,7 @@ import { isConstructor } from '@unshared/functions'
 import { parseEnvironments } from '@unshared/process'
 import { dedent } from '@unshared/string'
 import { Constructor } from '@unshared/types'
-import wsAdapter from 'crossws/adapters/node'
+import wsAdapter, { NodeOptions } from 'crossws/adapters/node'
 import { AppOptions, createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
 import { createServer } from 'node:http'
 import { DataSource, DataSourceOptions } from 'typeorm'
@@ -249,8 +249,8 @@ export class Application<T extends ModuleLike = ModuleLike> {
     const listener = toNodeListener(app)
     const server = createServer(listener)
     // eslint-disable-next-line @typescript-eslint/unbound-method
-    const { handleUpgrade } = wsAdapter(app.websocket)
-    server.on('upgrade', handleUpgrade)
+    const { handleUpgrade } = wsAdapter(app.websocket as NodeOptions)
+    server.on('upgrade', (...args) => void handleUpgrade(...args))
     return server
   }
 

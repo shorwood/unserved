@@ -77,7 +77,7 @@ export function useRequest<
     options.key ?? name as string,
     () => {
       const data = unref({ ...options.data }) as Data<T, P>
-      for (const key in data) data[key] = unref(data[key])
+      for (const key of Object.keys(data)) data[key] = unref(data[key])
       return useClient<T>().request(name, { ...options, data }) as unknown as O
     },
     options,

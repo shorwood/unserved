@@ -43,6 +43,6 @@ describe('isWebSocketRoute', () => {
   it('should predicate a `WebSocketRoute`', () => {
     const route = {} as unknown
     const result = isWebSocketRoute(route)
-    if (result) expectTypeOf(route).toMatchTypeOf<WebSocketRouteOptions>()
+    if (result) expectTypeOf(route).toEqualTypeOf<WebSocketRouteOptions>()
   })
 })
