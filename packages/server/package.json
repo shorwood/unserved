@@ -78,19 +78,20 @@
     "typeorm": ">=0.3.20"
   },
   "dependencies": {
-    "@unshared/decorators": "0.4.1",
-    "@unshared/functions": "0.4.1",
-    "@unshared/process": "0.4.1",
-    "@unshared/string": "0.4.1",
-    "@unshared/types": "0.4.1",
-    "@unshared/validation": "0.4.1",
+    "@unshared/decorators": "0.6.2",
+    "@unshared/functions": "0.6.2",
+    "@unshared/process": "0.6.2",
+    "@unshared/string": "0.6.2",
+    "@unshared/types": "0.6.2",
+    "@unshared/validation": "0.6.2",
     "reflect-metadata": "0.2.2",
-    "ws": "8.18.0"
+    "ws": "8.18.2"
   },
   "devDependencies": {
-    "@types/ws": "8.5.14",
-    "crossws": "0.3.3",
-    "h3": "1.14.0",
-    "typeorm": "0.3.20"
+    "@types/ws": "8.18.1",
+    "crossws": "0.3.5",
+    "h3": "1.15.3",
+    "sqlite3": "5.1.7",
+    "typeorm": "0.3.25"
   }
 }

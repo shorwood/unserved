@@ -52,15 +52,15 @@
     "vue": ">=3.4.0"
   },
   "dependencies": {
-    "@nuxt/kit": "3.15.3",
-    "@nuxt/schema": "3.15.3",
+    "@nuxt/kit": "3.17.5",
+    "@nuxt/schema": "3.17.5",
     "@unserved/client": "workspace:*",
     "@unserved/server": "workspace:*",
-    "@unshared/client": "0.4.1",
-    "@vueuse/core": "12.5.0"
+    "@unshared/client": "0.6.2",
+    "@vueuse/core": "13.4.0"
   },
   "devDependencies": {
-    "nuxt": "3.15.3",
-    "vue": "3.5.13"
+    "nuxt": "3.17.5",
+    "vue": "3.5.17"
   }
 }
