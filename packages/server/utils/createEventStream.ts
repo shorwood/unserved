@@ -75,26 +75,26 @@ export class EventStream<T = unknown> {
    * @returns The stream of the task.
    */
   public static create<T>(event: H3Event, callback: EventStreamFunction<T>): { eventStream: EventStream<T>; promise: Promise<void> } {
-    const instance = new EventStream(event)
+    const eventStream = new EventStream<T>(event)
 
     // --- Run the function and send the result to the client if it is not `undefined`.
     // --- Then, close the stream to signal the end of the task. If an error occurs,
     // --- send the error to the client and close the stream.
-    const promise = callback(instance)
+    const promise = callback(eventStream)
 
       // --- Catch any errors that occur and send them to the client.
       .catch(async(error: Error) => {
-        await instance.sendError(error)
+        await eventStream.sendError(error)
         throw error
       })
 
       // --- Finally, close the stream to signal the end of the task.
       .finally(() => {
-        void instance.stream.close()
+        void eventStream.stream.close()
       })
 
     // --- Return the task and the promise of the task.
-    return { eventStream: instance, promise }
+    return { eventStream, promise }
   }
 }
 
