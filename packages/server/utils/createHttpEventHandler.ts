@@ -27,9 +27,9 @@ export function createHttpEventHandler<T extends HttpRoute<HttpRouteOptions, unk
       if (typeof route.parseFormData === 'function') formData = route.parseFormData(await readFormData(event))
       if (typeof route.parseParameters === 'function') parameters = await getValidatedRouterParams(event, route.parseParameters)
     }
-    catch {
+    catch (error) {
       setResponseStatus(event, 400, 'Bad Request')
-      return
+      throw error
     }
 
     // --- Call the handler with the context and return the data.
