@@ -1,6 +1,6 @@
 import type { EventHandler } from 'h3'
 import type { HttpRoute, HttpRouteOptions } from '../createHttpRoute'
-import { defineEventHandler, getValidatedQuery, getValidatedRouterParams, readMultipartFormData, readValidatedBody, setResponseStatus } from 'h3'
+import { defineEventHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody, setResponseStatus } from 'h3'
 
 /**
  * Given a route, create an event handler that can be used to handle a specific
@@ -24,7 +24,7 @@ export function createHttpEventHandler<T extends HttpRoute<HttpRouteOptions, unk
     try {
       if (typeof route.parseBody === 'function') body = await readValidatedBody(event, route.parseBody)
       if (typeof route.parseQuery === 'function') query = await getValidatedQuery(event, route.parseQuery)
-      if (typeof route.parseFormData === 'function') formData = route.parseFormData(await readMultipartFormData(event))
+      if (typeof route.parseFormData === 'function') formData = route.parseFormData(await readFormData(event))
       if (typeof route.parseParameters === 'function') parameters = await getValidatedRouterParams(event, route.parseParameters)
     }
     catch {
