@@ -19,19 +19,16 @@ export function createHttpEventHandler<T extends HttpRoute<HttpRouteOptions, unk
     let formData: unknown
     let parameters: unknown
 
-    // --- Validate and parse the body, query, and parameters.
-    if (typeof route.parseBody === 'function') body = await readValidatedBody(event, route.parseBody)
-    if (typeof route.parseQuery === 'function') query = await getValidatedQuery(event, route.parseQuery)
-    if (typeof route.parseFormData === 'function') formData = route.parseFormData(await readMultipartFormData(event))
-
     // --- If the route has parameters, validate and parse them. If the
     // --- parameters are invalid, skip to the next event handler.
     try {
-      if (typeof route.parseParameters === 'function')
-        parameters = await getValidatedRouterParams(event, route.parseParameters)
+      if (typeof route.parseBody === 'function') body = await readValidatedBody(event, route.parseBody)
+      if (typeof route.parseQuery === 'function') query = await getValidatedQuery(event, route.parseQuery)
+      if (typeof route.parseFormData === 'function') formData = route.parseFormData(await readMultipartFormData(event))
+      if (typeof route.parseParameters === 'function') parameters = await getValidatedRouterParams(event, route.parseParameters)
     }
     catch {
-      setResponseStatus(event, 400)
+      setResponseStatus(event, 400, 'Bad Request')
       return
     }
 
