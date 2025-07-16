@@ -12,14 +12,11 @@ import { defineWebSocketHandler } from 'h3'
  * @returns The event handler that can be used to handle the request.
  */
 export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T): EventHandler {
-  const peerContext = new Map<Peer, { parameters: unknown; query: unknown }>()
   return defineWebSocketHandler({
     async open(peer: Peer) {
       try {
-        let query: unknown
-        let parameters: unknown
         const wsUrl = peer.websocket.url
-        if (!wsUrl) return
+        if (!wsUrl) throw new Error('WebSocket URL is not defined.')
         const url = new URL(wsUrl)
 
         // --- If the route has parameters, parse them.
@@ -38,23 +35,29 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
           }
 
           // --- Parse the parameters using the user-defined parser.
-          parameters = await route.parseParameters(peerParameters)
+          peer.context.parameters = await route.parseParameters(peerParameters)
         }
 
         // --- If the route has query parameters, parse them.
         if (route.parseQuery) {
           const queryParameters = Object.fromEntries(url.searchParams)
-          query = await route.parseQuery(queryParameters)
+          peer.context.query = await route.parseQuery(queryParameters)
         }
 
         // --- Call the handler with the context and return the data.
-        peerContext.set(peer, { parameters, query })
         if (!route.onOpen) return
-        return route.onOpen({ peer, parameters, query })
+        return route.onOpen({
+          peer,
+          parameters: peer.context.parameters,
+          query: peer.context.query,
+        })
       }
       catch (error) {
         if (!route.onError) throw error
-        await route.onError({ peer, error: error as Error })
+        await route.onError({
+          peer,
+          error: error as Error,
+        })
       }
     },
 
@@ -74,8 +77,8 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
         return await route.onMessage({
           peer,
           message: messageData,
-          query: peerContext.get(peer)?.query,
-          parameters: peerContext.get(peer)?.parameters,
+          query: peer.context.query,
+          parameters: peer.context.parameters,
         })
       }
       catch (error) {
@@ -87,11 +90,12 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
     async close(peer: Peer, details: { code?: number; reason?: string }) {
       try {
         if (!route.onClose) return
-        const context = peerContext.get(peer)
-        const query = context?.query
-        const parameters = context?.parameters
-        peerContext.delete(peer)
-        return route.onClose({ peer, details, parameters, query })
+        return route.onClose({
+          peer,
+          details,
+          query: peer.context.query,
+          parameters: peer.context.parameters,
+        })
       }
       catch (error) {
         if (!route.onError) throw error
