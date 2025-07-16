@@ -1,11 +1,7 @@
 import type { Constructor, MaybeFunction, MaybePromise } from '@unshared/types'
-import type { H3Event } from 'h3'
 import type { BaseEntity } from './BaseEntity'
 import type { Application } from './createApplication'
 import type { ModuleRepositories, Route } from './types'
-import type { EventStreamFunction } from './utils'
-import { setHeader } from 'h3'
-import { createEventStream } from './utils'
 
 /**
  * A module is an isolated context that contains the entities, repositories as well as
@@ -112,34 +108,6 @@ export class ModuleBase {
     const application = this.getApplication()
     if (!application.dataSource) throw new Error('DataSource not found')
     return application.dataSource.transaction(fn)
-  }
-
-  /**
-   * Run a function with whithin a task and in the context of an `H3Event`. This
-   * will allow the function to send updates to the client and to be cancelled
-   * if needed. This will also set the headers of the event to allow the client
-   * to identify the response as a task and handle it accordingly.
-   *
-   * @param event The event that triggered the task.
-   * @param fn The function that will run the task.
-   * @returns The task that was created.
-   */
-  withEventStream<T extends object>(event: H3Event, fn: EventStreamFunction<T>) {
-    const { eventStream, promise } = createEventStream<T>(event, fn)
-
-    // --- If an error occurs, send the error to the client and remove the task from the map.
-    promise.catch((error: Error) => {
-      this.logger.error(error)
-      throw error
-    })
-
-    // --- Set the task specific headers on the event to allow the client to identify
-    // --- the response is a task and handle it accordingly.
-    setHeader(event, 'X-EventStream-ID', eventStream.id)
-    setHeader(event, 'Content-Type', 'application/stream+json')
-
-    // --- Add the task to the map of tasks.
-    return eventStream
   }
 
   /**

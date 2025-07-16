@@ -37,7 +37,7 @@ export function createHttpEventHandler<T extends HttpRoute<HttpRouteOptions, unk
     const response = await route.handler({ event, body, parameters, query, formData })
     // eslint-disable-next-line unicorn/no-null
     if (response === undefined) return null
-    if (response instanceof EventStream) return response.stream.send()
+    if (response instanceof EventStream) return response.h3EventStream.send()
     return response
   })
 }
