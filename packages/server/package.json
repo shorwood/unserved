@@ -73,12 +73,12 @@
     "typeorm": ">=0.3.20"
   },
   "dependencies": {
-    "@unshared/decorators": "0.6.5",
-    "@unshared/functions": "0.6.5",
-    "@unshared/process": "0.6.5",
-    "@unshared/string": "0.6.5",
-    "@unshared/types": "0.6.5",
-    "@unshared/validation": "0.6.5",
+    "@unshared/decorators": "0.6.6",
+    "@unshared/functions": "0.6.6",
+    "@unshared/process": "0.6.6",
+    "@unshared/string": "0.6.6",
+    "@unshared/types": "0.6.6",
+    "@unshared/validation": "0.6.6",
     "reflect-metadata": "0.2.2",
     "ws": "8.18.2"
   },
