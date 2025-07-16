@@ -1,4 +1,4 @@
-import type { HttpRouteName, ModuleInstance, Parser, ServerError, ServerErrorData } from '@unserved/server'
+import type { HttpRouteName, ModuleInstance, Parser } from '@unserved/server'
 import type { WebSocketRouteName } from '@unserved/server'
 import type { EventStream } from '@unserved/server/utils'
 import type { FetchMethod, RequestOptions, SseEvent } from '@unshared/client/utils'
@@ -40,9 +40,8 @@ export type RouteRequestData<T, N extends RouteName<T>> =
 export type RouteResponseData<T, N extends RouteName<T>> =
   RouteByName<T> extends infer Route
     ? Route extends { name: N; handler: (...args: any[]) => infer U | Promise<infer U> }
-      ? U extends EventStream<infer U> ? Awaitable<AsyncIterable<SseEvent<U>>>
-        : U extends ServerError<infer N, infer T> ? ServerErrorData<N, T>
-          : U
+      ? U extends EventStream<infer U> ? Awaitable<AsyncGenerator<SseEvent<U>>>
+        : U
       : never
     : never
 
