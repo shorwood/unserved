@@ -1,6 +1,7 @@
 import type { EventHandler } from 'h3'
 import type { HttpRoute, HttpRouteOptions } from '../createHttpRoute'
 import { defineEventHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody, setResponseStatus } from 'h3'
+import { EventStream } from './createEventStream'
 
 /**
  * Given a route, create an event handler that can be used to handle a specific
@@ -36,6 +37,7 @@ export function createHttpEventHandler<T extends HttpRoute<HttpRouteOptions, unk
     const response = await route.handler({ event, body, parameters, query, formData })
     // eslint-disable-next-line unicorn/no-null
     if (response === undefined) return null
+    if (response instanceof EventStream) return response.stream.send()
     return response
   })
 }
