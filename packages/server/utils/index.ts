@@ -1,3 +1,4 @@
+export * from './createEventBus'
 export * from './createEventHandler'
 export * from './createEventStream'
 export * from './createHttpEventHandler'
