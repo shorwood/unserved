@@ -69,8 +69,8 @@ export class EventBus<T> extends Emitter<EventBusEventMap<T>> {
     // --- we will dispatch the unmount event and remove the event stream from the peers.
     eventStream.h3EventStream.onClosed(() => {
       this.dispatch('unsubscribe', event, eventStream)
-      if (this.peers.size === 0) this.dispatch('unmount', event, eventStream)
       this.peers.delete(event)
+      if (this.peers.size === 0) this.dispatch('unmount', event, eventStream)
     })
 
     // --- Return the new event stream.
