@@ -17,5 +17,5 @@ import { isWebSocketRoute } from './isWebSocketRoute'
 export function createEventHandler<T extends Route>(route: T): EventHandler {
   if (isHttpRoute(route)) return createHttpEventHandler(route)
   if (isWebSocketRoute(route)) return createWebSocketEventHandler(route)
-  throw new Error('Invalid route')
+  throw new Error('The provided route is neither an HTTP route nor a WebSocket route.')
 }
