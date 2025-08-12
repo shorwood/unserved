@@ -1,6 +1,14 @@
 import type { EventHandler } from 'h3'
 import type { HttpRoute, HttpRouteOptions } from '../createHttpRoute'
-import { defineEventHandler, getValidatedQuery, getValidatedRouterParams, readFormData, readValidatedBody, setResponseStatus } from 'h3'
+import {
+  defineEventHandler,
+  getValidatedQuery,
+  getValidatedRouterParams,
+  readFormData,
+  readValidatedBody,
+  removeResponseHeader,
+  setResponseStatus,
+} from 'h3'
 import { EventStream } from './createEventStream'
 
 /**
@@ -35,8 +43,16 @@ export function createHttpEventHandler<T extends HttpRoute<HttpRouteOptions, unk
 
     // --- Call the handler with the context and return the data.
     const response = await route.handler({ event, body, parameters, query, formData })
-    // eslint-disable-next-line unicorn/no-null
-    if (response === undefined) return null
+
+    // --- If the response is undefined, return null with a 204 status code
+    // --- so client does not attempt to parse it.
+    if (response === undefined) {
+      setResponseStatus(event, 204)
+      removeResponseHeader(event, 'Content-Type')
+      // eslint-disable-next-line unicorn/no-null
+      return null
+    }
+
     if (response instanceof EventStream) return response.h3EventStream.send()
     return response
   })
