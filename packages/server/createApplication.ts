@@ -4,7 +4,7 @@ import { parseEnvironments } from '@unshared/process'
 import { dedent } from '@unshared/string'
 import { Constructor } from '@unshared/types'
 import wsAdapter, { NodeOptions } from 'crossws/adapters/node'
-import { AppOptions, createApp, createRouter, EventHandler, RouterMethod, toNodeListener } from 'h3'
+import { AppOptions, createApp, createRouter, RouterMethod, toNodeListener } from 'h3'
 import { createServer } from 'node:http'
 import { DataSource, DataSourceOptions } from 'typeorm'
 import { ModuleInstance, ModuleLike, ModuleOptions } from './types'
@@ -193,11 +193,10 @@ export class Application<T extends ModuleLike = ModuleLike> {
   @Once()
   createRouter() {
     const router = createRouter()
-    const eventHandlers = [] as Array<[string, string, EventHandler]>
 
     // --- 1. Traverse all registered modules and collect all the routes.
     // --- 2. If the route is a factory function, bind it to the module instance and call it.
-    // --- 3. Generate the event handler for each route.
+    // --- 3. Generate and register the event handler for each route.
     for (const module of this.modules) {
       if (!module.routes) continue
       for (let route of Object.values(module.routes)) {
@@ -206,22 +205,23 @@ export class Application<T extends ModuleLike = ModuleLike> {
           route = typeof route === 'function' ? route.call(module) : route
           const [method, path] = route.name.split(' ')
           const eventHandler = createEventHandler(route)
-          eventHandlers.push([method, path, eventHandler])
+          if (method === 'WS') {
+            router.use(path, eventHandler)
+          }
+          else {
+            const routeMethod = method.toLowerCase() as RouterMethod
+            router[routeMethod](path, eventHandler, routeMethod)
+          }
         }
         catch (error) {
-          this.logger.error('Error creating route:', route)
+          const message = error instanceof Error ? error.message : String(error)
+          this.logger.error(`Could not register route "${route.name}" in module "${module.constructor.name}": ${message}`)
           this.logger.error(error)
         }
       }
     }
 
     // --- Sort by path as to avoid conflicts with overlapping paths.
-    eventHandlers.sort(([,a], [,b]) => b.length - a.length)
-    for (const [method, path, eventHandler] of eventHandlers) {
-      // this.logger.debug('Registering route:', method, path)
-      const routeMethod = method === 'WS' ? undefined : method.toLowerCase() as RouterMethod
-      router.use(path, eventHandler, routeMethod)
-    }
     return router
   }
 
