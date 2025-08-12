@@ -124,15 +124,14 @@ export class EventStream<T = unknown> {
  *
  * @example
  * // Create an eventStream and run a function within it.
+ * // The stream will be closed once the function completes.
  * const eventStream = createEventStream<MyTaskData>(event, async (stream) => {
- *   // Send some data to the client.
  *   await stream.send({ progress: 50, message: 'Task is halfway done' })
- *
- *   // Simulate a long-running task.
  *   await new Promise(resolve => setTimeout(resolve, 5000))
  * })
  *
  * // Create an eventStream without a function.
+ * // Note that we have to close the stream manually.
  * const eventStream = createEventStream<MyTaskData>(event)
  * eventStream.send({ progress: 50, message: 'Task is halfway done' })
  * eventStream.close()
