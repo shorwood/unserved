@@ -1,6 +1,4 @@
-import type { Awaitable } from '@unshared/functions/awaitable'
 import type { H3Event, EventStream as H3EventStream } from 'h3'
-import { awaitable } from '@unshared/functions/awaitable'
 import { createEventStream as createH3EventStream } from 'h3'
 
 /** The function that will run the eventStream. */
@@ -85,13 +83,13 @@ export class EventStream<T = unknown> {
    * @param callback The function that will run the eventStream.
    * @returns The stream of the eventStream.
    */
-  public static wrap<T>(event: H3Event, callback: EventStreamFunction<T>): Awaitable<EventStream<T>> {
+  public static wrap<T>(event: H3Event, callback: EventStreamFunction<T>): EventStream<T> {
     const eventStream = new EventStream<T>(event)
 
     // --- Run the function and send the result to the client if it is not `undefined`.
     // --- Then, close the stream to signal the end of the eventStream. If an error occurs,
     // --- send the error to the client and close the stream.
-    const promise = callback(eventStream)
+    void callback(eventStream)
 
       // --- Catch any errors that occur and send them to the client.
       .catch(async(error: Error) => {
@@ -106,7 +104,7 @@ export class EventStream<T = unknown> {
 
     // --- Return the eventStream and the promise of the eventStream.
     // return { eventStream, promise }
-    return awaitable(eventStream, promise)
+    return eventStream
   }
 }
 
@@ -136,7 +134,7 @@ export class EventStream<T = unknown> {
  * eventStream.send({ progress: 50, message: 'Task is halfway done' })
  * eventStream.close()
  */
-export function createEventStream<T>(event: H3Event, fn?: EventStreamFunction<T>) {
+export function createEventStream<T>(event: H3Event, fn?: EventStreamFunction<T>): EventStream<T> {
   return fn
     ? EventStream.wrap<T>(event, fn)
     : new EventStream<T>(event)
