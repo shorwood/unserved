@@ -1,6 +1,5 @@
 import { Once } from '@unshared/decorators'
 import { isConstructor } from '@unshared/functions'
-import { parseEnvironments } from '@unshared/process'
 import { dedent } from '@unshared/string'
 import { Constructor } from '@unshared/types'
 import wsAdapter, { NodeOptions } from 'crossws/adapters/node'
@@ -12,16 +11,6 @@ import { isDataSource } from './utils'
 import { createEventHandler } from './utils'
 
 export type ApplicationOptions<T extends ModuleLike = ModuleLike> = Partial<ModuleOptions<T>> & {
-
-  /**
-   * The environment variable prefix used to parse the application options. When the application
-   * is initialized, it will parse the environment variables with the given prefix and merge them
-   * with the options of the application. This allows you to configure the application using
-   * environment variables.
-   *
-   * @default 'APP'
-   */
-  prefix?: string
 
   /**
    * The logger instance of the application. It is used to log messages and errors in the
@@ -109,21 +98,6 @@ export class Application<T extends ModuleLike = ModuleLike> {
 
     // --- Set the logger of the application.
     if (options.logger) this.logger = options.logger
-    const { prefix = 'APP', dataSource } = options
-
-    // --- Merge the options of the application with the options from
-    // --- the environment variables.
-    this.options = {
-      ...this.options,
-      ...parseEnvironments(prefix),
-      dataSource: dataSource instanceof DataSource
-        ? dataSource
-        : {
-          ...DEFAULT_DATA_SOURCE_OPTIONS,
-          ...parseEnvironments(`${prefix}_DATABASE`),
-          ...dataSource,
-        } as DataSourceOptions,
-    }
 
     // --- Instantiate all the modules and store them in the application.
     this.modules = modules.map((module) => {
