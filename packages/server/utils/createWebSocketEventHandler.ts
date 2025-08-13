@@ -46,7 +46,7 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
 
         // --- Call the handler with the context and return the data.
         if (!route.onOpen) return
-        return route.onOpen({
+        return await route.onOpen({
           peer,
           parameters: peer.context.parameters,
           query: peer.context.query,
@@ -90,7 +90,7 @@ export function createWebSocketEventHandler<T extends WebSocketRoute>(route: T):
     async close(peer: Peer, details: { code?: number; reason?: string }) {
       try {
         if (!route.onClose) return
-        return route.onClose({
+        return await route.onClose({
           peer,
           details,
           query: peer.context.query,
