@@ -1,43 +1,73 @@
 import type { Awaitable } from '@unshared/functions'
 import type { Server } from 'node:http'
 import type { ClientOptions } from 'ws'
-import type { ApplicationOptions } from '../createApplication'
+import type { Application } from '../createApplication'
 import type { ModuleLike } from '../types'
 import { awaitable, createResolvable } from '@unshared/functions'
 import { randomUUID } from 'node:crypto'
 import { rm } from 'node:fs/promises'
 import { request } from 'node:http'
-import { DataSource } from 'typeorm'
 import { WebSocket } from 'ws'
-import { Application } from '../createApplication'
 
-export interface TestApplicationContext {
+/** The test context methods and properties. */
+interface TestContext {
   server: Server | undefined
   socketPath: string
   createTestServer(): Promise<void>
   fetch(path: string, options?: RequestInit): Promise<Response>
-  connect(path: string): Awaitable<WebSocket, WebSocket>
+  ws(path: string): Awaitable<WebSocket, WebSocket>
   destroy(): Promise<void>
   [Symbol.dispose](): Promise<void>
 }
 
-export type TestApplication<T extends ModuleLike> = Application<T> & TestApplicationContext
+/** An application that has been augmented with the test context methods and properties. */
+export type ApplicationWithTestContext<T extends ModuleLike> = Application<T> & TestContext
 
-export async function createTestApplication<T extends ModuleLike>(modules: T[] = [], options?: ApplicationOptions<T>): Promise<TestApplication<T>> {
+/**
+ * Create a test context for the given application. This will create an in-memory
+ * database and a test server that listens on a Unix socket. The context provides
+ * methods to create the test server, make HTTP requests, and create WebSocket
+ * connections. The context also provides a destroy method to clean up resources.
+ *
+ * The application will be initialized automatically when the context is created.
+ *
+ * @param application The application to create the test context for.
+ * @returns An awaitable that resolves to the application with the test context.
+ * @example
+ *
+ * const application = new Application([MyModule])
+ * using context = createTestContext(application)
+ * await context.createTestServer()
+ *
+ * // Make HTTP requests to the test server.
+ * const response = await context.fetch('/api/endpoint')
+ * const data = await response.json()
+ */
+export function createTestContext<T extends ModuleLike>(application: Application<T>): Awaitable<
+  ApplicationWithTestContext<T>,
+  ApplicationWithTestContext<T>
+> {
   const id = randomUUID()
   const socketPath = `/tmp/${id}.sock`
-  const dataSource = new DataSource({ name: id, type: 'sqlite', synchronize: true, database: ':memory:' })
-  const application = await Application.initialize(modules, { ...options, dataSource } as ApplicationOptions<T>)
   let server: Server | undefined
 
-  const context: TestApplicationContext = {
+  // --- Assert that the application has not been initialized.
+  if (application.isInitialized)
+    throw new Error('The application has already been initialized. Please create the test context before initializing the application.')
+
+  // --- Override the data source to use an in-memory database.
+  application.options.dataSource = {
+    type: 'sqlite',
+    database: ':memory:',
+    synchronize: true,
+  }
+
+  // --- Implement the context methods and properties.
+  const context: TestContext = {
     get server() { return server },
     get socketPath() { return socketPath },
 
-    /************************************************/
-    /* Module instances.                            */
-    /************************************************/
-
+    // --- Create and start the test server.
     async createTestServer(): Promise<void> {
       server = application.createServer({
         onRequest(event) { event.context.clientAddress = '127.0.0.1' },
@@ -49,6 +79,9 @@ export async function createTestApplication<T extends ModuleLike>(modules: T[] =
       })
     },
 
+    // --- Make an HTTP request to the test server. This is a minimal fetch implementation
+    // --- that will point to the internal Unix socket used by the test server. Allowing us
+    // --- to avoid using a local port and avoid potential conflicts.
     async fetch(path: string, options: RequestInit = {}): Promise<Response> {
       const { method = 'GET', headers = {}, body } = options
       const resolvable = createResolvable<Response>()
@@ -108,7 +141,9 @@ export async function createTestApplication<T extends ModuleLike>(modules: T[] =
       return resolvable.promise
     },
 
-    connect(path: string, options?: ClientOptions): Awaitable<WebSocket, WebSocket> {
+    // --- Create a WebSocket connection to the test server. Like fetch, this uses the
+    // --- internal Unix socket to avoid using a local port.
+    ws(path: string, options?: ClientOptions): Awaitable<WebSocket, WebSocket> {
       const ws = new WebSocket(`ws+unix:${socketPath}:${path}`, options)
       const ready = () => new Promise<WebSocket>((resolve, reject) => {
         const callbackOpen = () => {
@@ -122,6 +157,7 @@ export async function createTestApplication<T extends ModuleLike>(modules: T[] =
       return awaitable(ws, ready)
     },
 
+    // --- Destroy the test server and database connection.
     async destroy() {
       if (server) {
         server.closeAllConnections()
@@ -133,15 +169,23 @@ export async function createTestApplication<T extends ModuleLike>(modules: T[] =
         await application.dataSource.destroy()
     },
 
+    // --- Support using the context in a `using` statement.
     [Symbol.dispose]() {
       return this.destroy()
     },
   }
 
-  return new Proxy(application, {
+  // --- Return a proxy that merges the application and context.
+  const applicationWithContext = new Proxy(application, {
     get: (_, name: string) => {
       if (name in context) return context[name as keyof typeof context]
       if (name in application) return application[name as keyof typeof application]
     },
-  }) as TestApplication<T>
+  }) as ApplicationWithTestContext<T>
+
+  // --- Return an awaitable that initializes the application.
+  return awaitable(applicationWithContext, async() => {
+    if (!application.isInitialized) await application.initialize()
+    return applicationWithContext
+  })
 }
